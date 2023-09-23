@@ -11,6 +11,7 @@ import {
     isValidPassword,
     isValidTerm,
 } from "../../utils/formValidator";
+import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
     const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -18,9 +19,9 @@ const Register: React.FC = () => {
     const nameElement = useRef<HTMLInputElement>(null);
     const mailElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
-
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -54,6 +55,7 @@ const Register: React.FC = () => {
             setFormSubmitted(true);
 
             // TODO: User Login Logic
+            setTimeout(() => navigate("/login"), 1000);
         } else {
             console.log("Form is not valid, cannot proceed.");
             setFormSubmitted(true);
