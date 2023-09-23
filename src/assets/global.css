@@ -3,19 +3,26 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "IRANYekan"; /* a name to be used later */
-  src: url("./fonts/Iranyekan.ttf") format("ttf");
-  src: url("./fonts/Iranyekan.woff2") format("woff2");
+    font-family: "IRANYekan"; /* a name to be used later */
+    src: url("./fonts/Iranyekan.ttf") format("ttf");
+    src: url("./fonts/Iranyekan.woff2") format("woff2");
 }
 
 * {
-  font-family: "IRANYekan" !important;
+    font-family: "IRANYekan" !important;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 body {
-  background-image: url("images/background.svg");
-  background-repeat: no-repeat;
-  background-position: center 40vh;
-  background-attachment: fixed;
-  background-size: 100% auto;
+    background-image: url("images/background.svg");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-attachment: fixed;
+    background-size: 100% 60%;
 }
