@@ -33,7 +33,7 @@ const ResetPassword: React.FC = (): ReactElement => {
     };
 
     return (
-        <FormContainer title=" بازيابي رمز  عبور">
+        <FormContainer title=" بازيابی رمز  عبور">
             {formStatus.message ? (
                 <MessageDisplay
                     messages={[formStatus.message]}

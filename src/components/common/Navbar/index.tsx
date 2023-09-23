@@ -1,27 +1,30 @@
+import { Link } from "react-router-dom";
 import logo from "../../../assets/images/logo.svg";
 
 interface INavbarProps {
-  text?: string;
-  btnText?: string;
+    statusText?: string;
+    buttonText?: string;
 }
 
-const Navbar: React.FC<INavbarProps> = ({ text, btnText }) => {
-  return (
-    <div className="z-[1000] top-0 left-0 ">
-      <nav className="flex items-center mt-[60px] mx-[80px]">
-        <button
-          className="bg-brand-primary text-white rounded-[6px] hover:cursor-pointer px-[30px] py-[6px]"
-          value={btnText}
-          aria-label={btnText}
-        >
-          {btnText}
-        </button>
-        <span className="mr-auto ml-2">{text}</span>
+const Navbar: React.FC<INavbarProps> = ({ statusText, buttonText }) => {
+    return (
+        <div className="z-[1000] fixed w-full">
+            <nav className="flex items-center justify-between mt-[60px] mx-[80px]">
+                <div className="flex items-center gap-xs">
+                    <Link
+                        to={buttonText === "ورود" ? "/login" : "/register"}
+                        className="flex justify-center items-center w-[95px] h-[40px] bg-brand-primary text-white rounded-[6px] hover:cursor-pointer font-semibold text-bold-s"
+                        aria-label={buttonText}
+                    >
+                        {buttonText}
+                    </Link>
 
-        <img src={logo} alt="logo" />
-      </nav>
-    </div>
-  );
+                    <span className="text-body-m">{statusText}</span>
+                </div>
+                <img src={logo} alt="logo" />
+            </nav>
+        </div>
+    );
 };
 
 export default Navbar;
