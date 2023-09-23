@@ -1,39 +1,44 @@
-import { ReactElement, useRef } from "react";
-import { Link } from "react-router-dom";
+import { ReactElement, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import FormContainer from "../../components/common/FormContainer";
 import Input from "../../components/common/Input";
 import MessageDisplay from "../../components/common/MessageDisplay";
 import SubmitBtn from "../../components/common/SubmitBtn";
 import useFormValidation from "../../hooks/useValidation";
-import { isValidEmail, isValidPassword } from "../../utils/formValidator";
+import { isValidLogin } from "../../utils/formValidator";
 
 const Login: React.FC = (): ReactElement => {
+    const [formSubmitted, setFormSubmitted] = useState(false);
     const mailElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
 
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const emailValue = mailElement.current?.value || "";
         const passValue = passElement.current?.value || "";
+        const creds = { email: emailValue, password: passValue };
 
-        await handleFieldValidation(emailValue, isValidEmail, "emailError");
-        await handleFieldValidation(passValue, isValidPassword, "passError");
+        const validationResult = await handleFieldValidation(
+            creds,
+            isValidLogin,
+            "loginError"
+        );
 
-        if (
-            formStatus.emailError?.isValid &&
-            formStatus.passError?.isValid &&
-            emailValue !== "" &&
-            passValue !== ""
-        ) {
+        // TODO: change the functionality of the login
+        if (validationResult && validationResult.isValid) {
             console.log("Form is valid, proceeding with submission.");
-            setMessage("با موفقیت وارد شدید.");
-            // TODO: User Login Logic
+            setMessage("با موفقیت وارد شدید. در حال انتقال به داشبورد...");
+            setFormSubmitted(true);
+            setTimeout(() => navigate("/dashboard"), 1000); //TODO: change to the correct dashboard url
         } else {
             console.log("Form is not valid, cannot proceed.");
+            setFormSubmitted(true);
         }
     };
 
@@ -45,7 +50,6 @@ const Login: React.FC = (): ReactElement => {
                     type="success"
                 />
             ) : null}
-
             <form
                 className="flex flex-col items-center gap-l self-stretch"
                 onSubmit={handleSubmit}
@@ -55,13 +59,6 @@ const Login: React.FC = (): ReactElement => {
                         ref={mailElement}
                         id="email"
                         type="email"
-                        onChange={(e) =>
-                            handleFieldValidation(
-                                e.target.value,
-                                isValidEmail,
-                                "emailError"
-                            )
-                        }
                         labelText="ایمیل"
                     />
                     <div className="flex flex-col self-stretch items-end gap-xs">
@@ -69,13 +66,6 @@ const Login: React.FC = (): ReactElement => {
                             ref={passElement}
                             id="password"
                             type="password"
-                            onChange={(e) =>
-                                handleFieldValidation(
-                                    e.target.value,
-                                    isValidPassword,
-                                    "passError"
-                                )
-                            }
                             labelText="رمز عبور"
                         />
                         <Link
@@ -86,13 +76,9 @@ const Login: React.FC = (): ReactElement => {
                         </Link>
                     </div>
                 </div>
-                {!formStatus.emailError?.isValid ||
-                !formStatus.passError?.isValid ? (
+                {!formStatus.loginError?.isValid && formSubmitted ? (
                     <MessageDisplay
-                        messages={[
-                            formStatus.emailError?.message || "",
-                            formStatus.passError?.message || "",
-                        ]}
+                        messages={[formStatus.loginError?.message || ""]}
                         type="error"
                     />
                 ) : null}
