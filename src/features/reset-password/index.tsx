@@ -58,7 +58,7 @@ const ResetPassword: React.FC = (): ReactElement => {
                                     "passError"
                                 )
                             }
-                            labelText="رمز عبور"
+                            labelText="رمز عبور جدید را وارد کنید"
                         />
                     </div>
                 </div>
