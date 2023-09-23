@@ -11,6 +11,7 @@ import {
     isValidPassword,
     isValidTerm,
 } from "../../utils/formValidator";
+import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
     const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -18,6 +19,8 @@ const Register: React.FC = () => {
     const nameElement = useRef<HTMLInputElement>(null);
     const mailElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
+
+    const navigate = useNavigate();
 
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
@@ -48,9 +51,13 @@ const Register: React.FC = () => {
             nameValue !== ""
         ) {
             console.log("Form is valid, proceeding with submission.");
-            setMessage("ثبت نام با موفقیت انجام شد");
+            setMessage(
+                "ثبت نام با موفقیت انجام شد. درحال انتقال به صفحه ورود..."
+            );
             setFormSubmitted(true);
+
             // TODO: User Login Logic
+            setTimeout(() => navigate("/login"), 1000);
         } else {
             console.log("Form is not valid, cannot proceed.");
             setFormSubmitted(true);
@@ -117,7 +124,14 @@ const Register: React.FC = () => {
                         id="acceptedTerms"
                         className="w-[18px] h-[18px]"
                         checked={acceptedTerms}
-                        onChange={(e) => setAcceptedTerms(e.target.checked)}
+                        onChange={async (e) => {
+                            setAcceptedTerms(e.target.checked);
+                            await handleFieldValidation(
+                                String(e.target.checked),
+                                isValidTerm,
+                                "termError"
+                            );
+                        }}
                     />
                 </div>
                 {!formStatus.emailError?.isValid ||
