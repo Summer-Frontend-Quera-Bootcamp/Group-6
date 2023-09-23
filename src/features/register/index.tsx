@@ -19,8 +19,6 @@ const Register: React.FC = () => {
     const mailElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
 
-    const navigate = useNavigate();
-
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
 
