@@ -19,7 +19,7 @@ html {
     height: 100%;
 }
 
-body {
+.authentication-layout {
     background-image: url("images/background.svg");
     background-repeat: no-repeat;
     background-position: center bottom;
