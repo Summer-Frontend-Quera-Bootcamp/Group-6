@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../assets/global.css";
-import FormContainer from "../../components/common/FormContainer";
-import Input from "../../components/common/Input";
-import MessageDisplay from "../../components/common/MessageDisplay";
-import SubmitBtn from "../../components/common/SubmitBtn";
+import {
+    FormContainer,
+    Input,
+    MessageDisplay,
+    SubmitBtn,
+} from "../../components/common";
 import useFormValidation from "../../hooks/useValidation";
 import {
     isValidEmail,
@@ -11,14 +14,15 @@ import {
     isValidPassword,
     isValidTerm,
 } from "../../utils/formValidator";
-import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
+
     const nameElement = useRef<HTMLInputElement>(null);
     const mailElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
+
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
     const navigate = useNavigate();

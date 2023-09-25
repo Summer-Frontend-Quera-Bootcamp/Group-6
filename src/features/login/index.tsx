@@ -1,9 +1,11 @@
 import { ReactElement, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import FormContainer from "../../components/common/FormContainer";
-import Input from "../../components/common/Input";
-import MessageDisplay from "../../components/common/MessageDisplay";
-import SubmitBtn from "../../components/common/SubmitBtn";
+import {
+    FormContainer,
+    Input,
+    MessageDisplay,
+    SubmitBtn,
+} from "../../components/common/";
 import useFormValidation from "../../hooks/useValidation";
 import { isValidLogin } from "../../utils/formValidator";
 

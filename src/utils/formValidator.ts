@@ -111,11 +111,10 @@ const isValid = (
 };
 
 export {
-    isValidPassword,
-    isValidEmail,
-    isValidName,
     isValid,
-    isValidTerm,
+    isValidEmail,
     isValidLogin,
+    isValidName,
+    isValidPassword,
+    isValidTerm,
 };
-export type { IValidationProps };

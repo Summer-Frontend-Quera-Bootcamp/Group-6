@@ -1,10 +1,10 @@
 import { useState } from "react";
 import {
     isValidEmail,
-    isValidPassword,
-    isValidName,
-    isValidTerm,
     isValidLogin,
+    isValidName,
+    isValidPassword,
+    isValidTerm,
 } from "../utils/formValidator";
 
 interface IFormState {
