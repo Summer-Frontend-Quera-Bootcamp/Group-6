@@ -4,6 +4,7 @@ interface IFormContainerProps {
     title?: string;
     children?: ReactNode;
 }
+
 const FormContainer: React.FC<IFormContainerProps> = ({ title, children }) => {
     return (
         <div className="flex flex-col items-center gap-l w-[640px] p-m shadow-card rounded-[20px] bg-white direction-rtl">

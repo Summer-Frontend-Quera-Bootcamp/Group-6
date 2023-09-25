@@ -1,11 +1,13 @@
 import { ReactElement, useRef } from "react";
-import FormContainer from "../../components/common/FormContainer";
-import Input from "../../components/common/Input";
-import MessageDisplay from "../../components/common/MessageDisplay";
-import SubmitBtn from "../../components/common/SubmitBtn";
+import { useNavigate } from "react-router-dom";
+import {
+    FormContainer,
+    Input,
+    MessageDisplay,
+    SubmitBtn,
+} from "../../components/common";
 import useFormValidation from "../../hooks/useValidation";
 import { isValidPassword } from "../../utils/formValidator";
-import { useNavigate } from "react-router-dom";
 
 const ResetPassword: React.FC = (): ReactElement => {
     const passElement = useRef<HTMLInputElement>(null);

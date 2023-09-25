@@ -1,8 +1,10 @@
 import { ReactElement, useRef, useState } from "react";
-import FormContainer from "../../components/common/FormContainer";
-import Input from "../../components/common/Input";
-import MessageDisplay from "../../components/common/MessageDisplay";
-import SubmitBtn from "../../components/common/SubmitBtn";
+import {
+    FormContainer,
+    Input,
+    MessageDisplay,
+    SubmitBtn,
+} from "../../components/common";
 import useFormValidation from "../../hooks/useValidation";
 import { isValidEmail } from "../../utils/formValidator";
 
