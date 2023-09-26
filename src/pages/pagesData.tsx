@@ -1,14 +1,16 @@
+import { Navigate } from "react-router-dom";
 import {
     Forgot,
     Login,
+    ProfileAccount,
+    ProfileDetails,
+    ProfileSettings,
     Register,
     ResetPassword,
-    ProfileSettings,
 } from "../features";
 import AuthLayout from "../layouts/authentication";
 import ProfileLayout from "../layouts/profile";
 import { routerType } from "../types/router.types";
-import { Navigate } from "react-router-dom";
 
 const AuthPagesData: routerType[] = [
     {
@@ -52,12 +54,12 @@ const ProfilePagesData: routerType[] = [
     {
         path: "/profile/details",
         title: "details",
-        element: <ProfileLayout children={<h1>details</h1>} />,
+        element: <ProfileLayout children={<ProfileDetails />} />,
     },
     {
         path: "/profile/account",
         title: "account",
-        element: <ProfileLayout children={<h1>account</h1>} />,
+        element: <ProfileLayout children={<ProfileAccount />} />,
     },
 ];
 
