@@ -44,3 +44,13 @@ html {
     background-attachment: fixed;
     background-size: 100% 60%;
 }
+
+.dark {
+    background-color: #24292e !important;
+    color: white !important;
+}
+
+.light {
+    background-color: #ffffff !important;
+    color: black !important;
+}
