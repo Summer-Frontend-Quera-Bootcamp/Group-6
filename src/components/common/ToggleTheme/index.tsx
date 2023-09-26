@@ -1,9 +1,9 @@
-import LightIcon from "./assets/sun.svg";
+import { useTheme } from "../../../context/ThemeContext";
 import DarkIcon from "./assets/moon.svg";
-import { useState } from "react";
+import LightIcon from "./assets/sun.svg";
 
 const ToggleTheme = () => {
-    const [theme, setTheme] = useState<"dark" | "light">("light");
+    const { theme, toggleTheme }: any = useTheme();
 
     const togglePosition =
         theme === "dark" ? "translate-x-0" : "translate-x-full";
@@ -16,7 +16,7 @@ const ToggleTheme = () => {
     return (
         <div
             className={`flex w-[64px] h-[36px] p-[3px] rounded-[8px] items-center cursor-pointer ${containerBg}`}
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={() => toggleTheme()}
         >
             <div
                 className={`flex h-[30px] p-[3px]  rounded-[5px] items-start gap-[4px] shadow-themeSwitch ${togglePosition} ${transitionStyles} ${iconBg} `}
