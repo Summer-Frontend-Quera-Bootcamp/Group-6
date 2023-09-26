@@ -5,15 +5,14 @@ import {
     Input,
     MessageDisplay,
     SubmitBtn,
-} from "../../components/common/";
-import useFormValidation from "../../hooks/useValidation";
-import { isValidLogin } from "../../utils/formValidator";
+} from "../../../components/common";
+import useFormValidation from "../../../hooks/useValidation";
+import { isValidLogin } from "../../../utils/formValidator";
 
 const Login: React.FC = (): ReactElement => {
     const [formSubmitted, setFormSubmitted] = useState(false);
     const mailElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
-
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
 
@@ -85,7 +84,12 @@ const Login: React.FC = (): ReactElement => {
                     />
                 ) : null}
 
-                <SubmitBtn value="ورود" ariaLabel="ورود" />
+                <SubmitBtn
+                    value="ورود"
+                    ariaLabel="ورود"
+                    className="self-stretch"
+                    enablePalette={false}
+                />
 
                 <p className="text-body-m">
                     <span className="font-[500]">ثبت‌نام نکرده‌ای؟ </span>

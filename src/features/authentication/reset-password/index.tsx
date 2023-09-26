@@ -5,9 +5,9 @@ import {
     Input,
     MessageDisplay,
     SubmitBtn,
-} from "../../components/common";
-import useFormValidation from "../../hooks/useValidation";
-import { isValidPassword } from "../../utils/formValidator";
+} from "../../../components/common";
+import useFormValidation from "../../../hooks/useValidation";
+import { isValidPassword } from "../../../utils/formValidator";
 
 const ResetPassword: React.FC = (): ReactElement => {
     const passElement = useRef<HTMLInputElement>(null);
@@ -71,7 +71,12 @@ const ResetPassword: React.FC = (): ReactElement => {
                     />
                 ) : null}
 
-                <SubmitBtn value="تغيير رمز عبور" ariaLabel="تغيير رمز عبور" />
+                <SubmitBtn
+                    value="تغيير رمز عبور"
+                    ariaLabel="تغيير رمز عبور"
+                    className="self-stretch"
+                    enablePalette={false}
+                />
             </form>
         </FormContainer>
     );

@@ -1,6 +1,6 @@
-import Login from "./login";
-import Register from "./register";
-import Forgot from "./forgot";
-import ResetPassword from "./reset-password";
-
-export { Login, Register, Forgot, ResetPassword };
+import Login from "./authentication/login";
+import Register from "./authentication/register";
+import Forgot from "./authentication/forgot";
+import ResetPassword from "./authentication/reset-password";
+import ProfileSettings from "./profile/settings";
+export { Login, Register, Forgot, ResetPassword, ProfileSettings };

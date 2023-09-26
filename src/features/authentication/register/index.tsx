@@ -1,19 +1,18 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../assets/global.css";
 import {
     FormContainer,
     Input,
     MessageDisplay,
     SubmitBtn,
-} from "../../components/common";
-import useFormValidation from "../../hooks/useValidation";
+} from "../../../components/common";
+import useFormValidation from "../../../hooks/useValidation";
 import {
     isValidEmail,
     isValidName,
     isValidPassword,
     isValidTerm,
-} from "../../utils/formValidator";
+} from "../../../utils/formValidator";
 
 const Register: React.FC = () => {
     const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -150,7 +149,12 @@ const Register: React.FC = () => {
                         type="error"
                     />
                 ) : null}
-                <SubmitBtn value="ثبت نام" ariaLabel="ثبت نام"></SubmitBtn>
+                <SubmitBtn
+                    value="ثبت نام"
+                    ariaLabel="ثبت نام"
+                    className="self-stretch"
+                    enablePalette={false}
+                />
             </form>
         </FormContainer>
     );

@@ -4,9 +4,9 @@ import {
     Input,
     MessageDisplay,
     SubmitBtn,
-} from "../../components/common";
-import useFormValidation from "../../hooks/useValidation";
-import { isValidEmail } from "../../utils/formValidator";
+} from "../../../components/common";
+import useFormValidation from "../../../hooks/useValidation";
+import { isValidEmail } from "../../../utils/formValidator";
 
 const Forgot: React.FC = (): ReactElement => {
     const mailElement = useRef<HTMLInputElement>(null);
@@ -67,6 +67,8 @@ const Forgot: React.FC = (): ReactElement => {
                     <SubmitBtn
                         value="دريافت ايميل بازيابی رمز عبور"
                         ariaLabel="بازيابی رمز عبور"
+                        className="self-stretch"
+                        enablePalette={false}
                     />
                 </form>
             ) : (
