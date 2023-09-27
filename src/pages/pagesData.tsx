@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import {
     Forgot,
     Login,
@@ -7,9 +6,10 @@ import {
     ProfileSettings,
     Register,
     ResetPassword,
-} from "../features";
-import AuthLayout from "../layouts/authentication";
-import ProfileLayout from "../layouts/profile";
+} from "@features/index";
+import AuthLayout from "@layouts/authentication";
+import ProfileLayout from "@layouts/profile";
+import { Navigate } from "react-router-dom";
 import { routerType } from "../types/router.types";
 
 const AuthPagesData: routerType[] = [

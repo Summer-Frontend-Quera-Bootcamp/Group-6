@@ -1,4 +1,4 @@
-import { useTheme } from "../../../context/ThemeContext";
+import { useTheme } from "@context/ThemeContext";
 import DarkIcon from "./assets/moon.svg";
 import LightIcon from "./assets/sun.svg";
 

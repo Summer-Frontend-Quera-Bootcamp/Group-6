@@ -1,5 +1,5 @@
 import React from "react";
-import { usePalette } from "../../../context/PaletteContext";
+import { usePalette } from "@context/PaletteContext";
 interface ISubmitBtnProps {
     value?: string;
     ariaLabel?: string;
