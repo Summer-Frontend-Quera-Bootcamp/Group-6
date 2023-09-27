@@ -37,6 +37,10 @@ html {
     height: 100%;
 }
 
+.rtl {
+    direction: rtl;
+}
+
 .authentication-layout {
     background-image: url("images/background.svg");
     background-repeat: no-repeat;
