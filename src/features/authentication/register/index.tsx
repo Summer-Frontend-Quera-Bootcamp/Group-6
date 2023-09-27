@@ -1,144 +1,108 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-    FormContainer,
-    Input,
-    MessageDisplay,
-    SubmitBtn,
-} from "../../../components/common";
-import useFormValidation from "../../../hooks/useValidation";
+import { FormContainer, MessageDisplay, SubmitBtn } from "@components/common";
+import useFormValidation from "@hooks/useValidation";
 import {
     isValidEmail,
     isValidName,
     isValidPassword,
     isValidTerm,
-} from "../../../utils/formValidator";
+} from "@utils/formValidator";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { InputField } from "./components/InputField";
+import TermCheckbox from "./components/TermCheckbox";
 
 const Register: React.FC = () => {
-    const [acceptedTerms, setAcceptedTerms] = useState(false);
-    const [formSubmitted, setFormSubmitted] = useState(false);
+    const [acceptedTerms, setAcceptedTerms] = useState(false),
+        [formSubmitted, setFormSubmitted] = useState(false);
 
-    const nameElement = useRef<HTMLInputElement>(null);
-    const mailElement = useRef<HTMLInputElement>(null);
-    const passElement = useRef<HTMLInputElement>(null);
-
+    const navigate = useNavigate();
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
-    const navigate = useNavigate();
+    const { emailError, passError, nameError, termError, message } = formStatus;
+
+    const nameElement = useRef<HTMLInputElement>(null),
+        mailElement = useRef<HTMLInputElement>(null),
+        passElement = useRef<HTMLInputElement>(null);
+
+    const isFormValid = () =>
+        emailError?.isValid &&
+        passError?.isValid &&
+        nameError?.isValid &&
+        termError?.isValid;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const nameValue = nameElement.current?.value || "";
-        const emailValue = mailElement.current?.value || "";
-        const passValue = passElement.current?.value || "";
+        await Promise.all([
+            handleFieldValidation(
+                nameElement.current?.value || "",
+                isValidName,
+                "nameError"
+            ),
+            handleFieldValidation(
+                mailElement.current?.value || "",
+                isValidEmail,
+                "emailError"
+            ),
+            handleFieldValidation(
+                passElement.current?.value || "",
+                isValidPassword,
+                "passError"
+            ),
+            handleFieldValidation(
+                String(acceptedTerms),
+                isValidTerm,
+                "termError"
+            ),
+        ]);
 
-        await handleFieldValidation(emailValue, isValidEmail, "emailError");
-        await handleFieldValidation(passValue, isValidPassword, "passError");
-        await handleFieldValidation(nameValue, isValidName, "nameError");
-        await handleFieldValidation(
-            String(acceptedTerms),
-            isValidTerm,
-            "termError"
-        );
-
-        if (
-            formStatus.emailError?.isValid &&
-            formStatus.passError?.isValid &&
-            formStatus.nameError?.isValid &&
-            formStatus.termError?.isValid &&
-            emailValue !== "" &&
-            passValue !== "" &&
-            nameValue !== ""
-        ) {
-            console.log("Form is valid, proceeding with submission.");
+        if (isFormValid()) {
+            // TODO: handle register logic
             setMessage(
                 "ثبت نام با موفقیت انجام شد. درحال انتقال به صفحه ورود..."
             );
             setFormSubmitted(true);
-
-            // TODO: User Login Logic
             setTimeout(() => navigate("/login"), 1000);
-        } else {
-            console.log("Form is not valid, cannot proceed.");
-            setFormSubmitted(true);
-        }
+        } else setFormSubmitted(true);
     };
 
     return (
         <FormContainer title="ثبت‌نام در کوئرا تسک منیجر">
-            {formStatus.message ? (
-                <MessageDisplay
-                    messages={[formStatus.message]}
-                    type="success"
-                />
-            ) : null}
+            {message && <MessageDisplay messages={[message]} type="success" />}
             <form
                 onSubmit={handleSubmit}
                 className="flex flex-col items-center gap-m self-stretch"
             >
-                <Input
-                    type="text"
-                    id="name"
+                <InputField
                     ref={nameElement}
-                    onChange={(e) =>
-                        handleFieldValidation(
-                            e.target.value,
-                            isValidName,
-                            "nameError"
-                        )
-                    }
                     labelText="نام کامل"
+                    type="text"
+                    validator={isValidName}
+                    handler={handleFieldValidation}
+                    field="nameError"
                 />
-                <Input
-                    type="email"
-                    id="email"
+                <InputField
                     ref={mailElement}
-                    onChange={(e) =>
-                        handleFieldValidation(
-                            e.target.value,
-                            isValidEmail,
-                            "emailError"
-                        )
-                    }
                     labelText="ایمیل"
+                    type="email"
+                    validator={isValidEmail}
+                    handler={handleFieldValidation}
+                    field="emailError"
                 />
-                <Input
-                    type="password"
-                    id="password"
+                <InputField
                     ref={passElement}
-                    onChange={(e) =>
-                        handleFieldValidation(
-                            e.target.value,
-                            isValidPassword,
-                            "passError"
-                        )
-                    }
                     labelText="رمز عبور"
+                    type="password"
+                    validator={isValidPassword}
+                    handler={handleFieldValidation}
+                    field="passError"
                 />
-                <div className="flex gap-2 ml-auto">
-                    <label htmlFor="acceptedTerms">
-                        .قوانین و مقررات را می‌پذیرم
-                    </label>
-                    <input
-                        type="checkbox"
-                        id="acceptedTerms"
-                        className="w-[18px] h-[18px]"
-                        checked={acceptedTerms}
-                        onChange={async (e) => {
-                            setAcceptedTerms(e.target.checked);
-                            await handleFieldValidation(
-                                String(e.target.checked),
-                                isValidTerm,
-                                "termError"
-                            );
-                        }}
-                    />
-                </div>
-                {!formStatus.emailError?.isValid ||
-                !formStatus.passError?.isValid ||
-                !formStatus.nameError?.isValid ||
-                (!formStatus.termError?.isValid && formSubmitted) ? (
+                <TermCheckbox
+                    acceptedTerms={acceptedTerms}
+                    setAcceptedTerms={setAcceptedTerms}
+                    handler={handleFieldValidation}
+                />
+                {!isFormValid() && formSubmitted && (
                     <MessageDisplay
                         messages={[
                             formStatus.nameError?.message || "",
@@ -148,7 +112,7 @@ const Register: React.FC = () => {
                         ]}
                         type="error"
                     />
-                ) : null}
+                )}
                 <SubmitBtn
                     value="ثبت نام"
                     ariaLabel="ثبت نام"
@@ -159,5 +123,4 @@ const Register: React.FC = () => {
         </FormContainer>
     );
 };
-
 export default Register;

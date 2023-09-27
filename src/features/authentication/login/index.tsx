@@ -1,13 +1,13 @@
-import { ReactElement, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
     FormContainer,
     Input,
     MessageDisplay,
     SubmitBtn,
-} from "../../../components/common";
-import useFormValidation from "../../../hooks/useValidation";
-import { isValidLogin } from "../../../utils/formValidator";
+} from "@components/common";
+import useFormValidation from "@hooks/useValidation";
+import { isValidLogin } from "@utils/formValidator";
+import { ReactElement, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login: React.FC = (): ReactElement => {
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -15,6 +15,7 @@ const Login: React.FC = (): ReactElement => {
     const passElement = useRef<HTMLInputElement>(null);
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
+    const { message, loginError } = formStatus;
 
     const navigate = useNavigate();
 
@@ -33,24 +34,17 @@ const Login: React.FC = (): ReactElement => {
 
         // TODO: change the functionality of the login
         if (validationResult && validationResult.isValid) {
-            console.log("Form is valid, proceeding with submission.");
             setMessage("با موفقیت وارد شدید. در حال انتقال به داشبورد...");
             setFormSubmitted(true);
             setTimeout(() => navigate("/dashboard"), 1000); //TODO: change to the correct dashboard url
         } else {
-            console.log("Form is not valid, cannot proceed.");
             setFormSubmitted(true);
         }
     };
 
     return (
         <FormContainer title="(: به کوئرا تسک منیجر خوش برگشتی">
-            {formStatus.message ? (
-                <MessageDisplay
-                    messages={[formStatus.message]}
-                    type="success"
-                />
-            ) : null}
+            {message && <MessageDisplay messages={[message]} type="success" />}
             <form
                 className="flex flex-col items-center gap-l self-stretch"
                 onSubmit={handleSubmit}
@@ -77,20 +71,18 @@ const Login: React.FC = (): ReactElement => {
                         </Link>
                     </div>
                 </div>
-                {!formStatus.loginError?.isValid && formSubmitted ? (
+                {formSubmitted && !loginError?.isValid && (
                     <MessageDisplay
-                        messages={[formStatus.loginError?.message || ""]}
+                        messages={[loginError?.message || ""]}
                         type="error"
                     />
-                ) : null}
-
+                )}
                 <SubmitBtn
                     value="ورود"
                     ariaLabel="ورود"
                     className="self-stretch"
                     enablePalette={false}
                 />
-
                 <p className="text-body-m">
                     <span className="font-[500]">ثبت‌نام نکرده‌ای؟ </span>
                     <Link

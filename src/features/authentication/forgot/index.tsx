@@ -1,26 +1,27 @@
-import { ReactElement, useRef, useState } from "react";
 import {
     FormContainer,
     Input,
     MessageDisplay,
     SubmitBtn,
-} from "../../../components/common";
-import useFormValidation from "../../../hooks/useValidation";
-import { isValidEmail } from "../../../utils/formValidator";
+} from "@components/common";
+import useFormValidation from "@hooks/useValidation";
+import { isValidEmail } from "@utils/formValidator";
+import { ReactElement, useRef, useState } from "react";
 
 const Forgot: React.FC = (): ReactElement => {
     const mailElement = useRef<HTMLInputElement>(null);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
+
     const { formStatus, handleFieldValidation } = useFormValidation();
+    const { emailError, message } = formStatus;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const emailValue = mailElement.current?.value || "";
-
         await handleFieldValidation(emailValue, isValidEmail, "emailError");
 
-        if (formStatus.emailError?.isValid && emailValue !== "") {
+        if (emailError?.isValid && emailValue !== "") {
             console.log("Form is valid, proceeding with submission.");
             setIsFormValid(true);
             //TODO handle forgot logic
@@ -31,11 +32,8 @@ const Forgot: React.FC = (): ReactElement => {
 
     return (
         <FormContainer title="فراموشی رمز عبور">
-            {formStatus.message ? (
-                <MessageDisplay
-                    messages={[formStatus.message]}
-                    type="success"
-                />
+            {message ? (
+                <MessageDisplay messages={[message]} type="success" />
             ) : null}
             {!isFormValid ? (
                 <form
@@ -57,9 +55,9 @@ const Forgot: React.FC = (): ReactElement => {
                             labelText="ايميل خود را وارد كنيد"
                         />
                     </div>
-                    {!formStatus.emailError?.isValid ? (
+                    {!emailError?.isValid ? (
                         <MessageDisplay
-                            messages={[formStatus.emailError?.message || ""]}
+                            messages={[emailError?.message || ""]}
                             type="error"
                         />
                     ) : null}

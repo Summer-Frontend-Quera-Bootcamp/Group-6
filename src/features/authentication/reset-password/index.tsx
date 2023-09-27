@@ -5,15 +5,17 @@ import {
     Input,
     MessageDisplay,
     SubmitBtn,
-} from "../../../components/common";
-import useFormValidation from "../../../hooks/useValidation";
-import { isValidPassword } from "../../../utils/formValidator";
+} from "@components/common";
+import useFormValidation from "@hooks/useValidation";
+import { isValidPassword } from "@utils/formValidator";
 
 const ResetPassword: React.FC = (): ReactElement => {
     const passElement = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
+
     const { formStatus, handleFieldValidation, setMessage } =
         useFormValidation();
-    const navigate = useNavigate();
+    const { passError, message } = formStatus;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,25 +24,19 @@ const ResetPassword: React.FC = (): ReactElement => {
 
         await handleFieldValidation(passValue, isValidPassword, "passError");
 
-        if (formStatus.passError?.isValid && passValue !== "") {
-            console.log("Form is valid, proceeding with submission.");
+        if (passError?.isValid && passValue !== "") {
             setMessage(
                 "رمز عبور با موفقيت تغيير يافت. در حال انتقال به صفحه ورود..."
             );
             //TODO handle reset password logic
             setTimeout(() => navigate("/login"), 1000);
-        } else {
-            console.log("Form is not valid, cannot proceed.");
         }
     };
 
     return (
         <FormContainer title=" بازيابی رمز  عبور">
-            {formStatus.message ? (
-                <MessageDisplay
-                    messages={[formStatus.message]}
-                    type="success"
-                />
+            {message ? (
+                <MessageDisplay messages={[message]} type="success" />
             ) : null}
 
             <form
@@ -64,9 +60,9 @@ const ResetPassword: React.FC = (): ReactElement => {
                         />
                     </div>
                 </div>
-                {!formStatus.passError?.isValid ? (
+                {!passError?.isValid ? (
                     <MessageDisplay
-                        messages={[formStatus.passError?.message || ""]}
+                        messages={[passError?.message || ""]}
                         type="error"
                     />
                 ) : null}

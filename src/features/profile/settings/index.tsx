@@ -1,7 +1,8 @@
-import { SubmitBtn, ToggleTheme } from "../../../components/common";
-import ColorSelector from "./components/ColorSelector";
-import { usePalette } from "../../../context/PaletteContext";
+import { SubmitBtn, ToggleTheme } from "@components/common";
+import { usePalette } from "@context/PaletteContext";
 import { FormEvent, useState } from "react";
+import ColorSelector from "./components/ColorSelector";
+
 const ProfileSettings = () => {
     const { palette, updatePalette }: any = usePalette();
     const [tempColor, setTempColor] = useState(palette);

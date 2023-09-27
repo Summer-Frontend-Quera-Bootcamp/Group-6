@@ -1,4 +1,4 @@
-import { Input, SubmitBtn } from "../../../components/common";
+import { Input, SubmitBtn } from "@components/common";
 import { FormEvent, useRef, useState } from "react";
 import ProfileImg from "./assets/profile.png";
 import FileInput from "./components/FileInput";
@@ -7,25 +7,27 @@ const ProfileDetails = () => {
     const [imageSrc, setImageSrc] = useState<string>(ProfileImg);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const onChange = () => {
-        if (!fileInputRef.current?.files) return;
+    const inputFields = [
+        { type: "text", labelText: "نام" },
+        { type: "text", labelText: "نام خانوادگی" },
+        { type: "tel", labelText: "شماره موبایل" },
+    ];
 
-        const file = fileInputRef.current.files[0];
-        if (!file || !file.type.startsWith("image/")) {
+    const handleChangeImage = () => {
+        const file = fileInputRef.current?.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                if (typeof reader.result === "string") {
+                    setImageSrc(reader.result);
+                }
+            };
+        } else {
             setImageSrc(ProfileImg);
-            return;
         }
-
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            if (typeof reader.result === "string") {
-                setImageSrc(reader.result);
-            }
-        };
     };
 
-    // TODO: Handle Details Edit Logic
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => e.preventDefault();
 
     return (
@@ -35,13 +37,13 @@ const ProfileDetails = () => {
                 className="flex flex-col items-end gap-xl"
                 onSubmit={handleSubmit}
             >
-                <div className="flex flex-col items-end gap-l  w-full">
+                <div className="flex flex-col items-end gap-l w-full">
                     <div className="flex justify-end items-center gap-s">
                         <div className="flex flex-col justify-center items-center gap-s">
                             <FileInput
                                 ref={fileInputRef}
                                 labelText="ویرایش تصویر پروفایل"
-                                onChange={onChange}
+                                onChange={handleChangeImage}
                             />
                             <p className="text-body-xs font-[400]">
                                 .این تصویر برای عموم قابل نمایش است
@@ -54,21 +56,14 @@ const ProfileDetails = () => {
                         />
                     </div>
                     <div className="flex flex-col items-start gap-s self-stretch text-body-s">
-                        <Input
-                            type="text"
-                            labelText="نام"
-                            classNames={"text-black text-right"}
-                        />
-                        <Input
-                            type="text"
-                            labelText="نام خانوادگی"
-                            classNames={"text-black text-right"}
-                        />
-                        <Input
-                            type="tel"
-                            labelText="شماره موبایل"
-                            classNames={"text-black"}
-                        />
+                        {inputFields.map(({ type, labelText }) => (
+                            <Input
+                                key={labelText}
+                                type={type}
+                                labelText={labelText}
+                                classNames="text-black text-right"
+                            />
+                        ))}
                     </div>
                 </div>
                 <SubmitBtn
