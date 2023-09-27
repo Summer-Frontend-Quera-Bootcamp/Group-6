@@ -5,7 +5,7 @@ import {
     isValidName,
     isValidPassword,
     isValidTerm,
-} from "../utils/formValidator";
+} from "@utils/formValidator";
 
 interface IFormState {
     emailError?: { isValid: boolean; message?: string };
@@ -16,19 +16,26 @@ interface IFormState {
     message?: string;
 }
 
-type ValidatorFunction =
+export type ValidatorFunctionType =
     | typeof isValidEmail
     | typeof isValidPassword
     | typeof isValidName
     | typeof isValidTerm
     | typeof isValidLogin;
 
-type Field =
+export type FieldType =
     | "emailError"
     | "passError"
     | "nameError"
     | "termError"
     | "loginError";
+
+export type ValueType =
+    | string
+    | {
+          email: string;
+          password: string;
+      };
 
 const useFormValidation = () => {
     const [formStatus, setFormStatus] = useState<IFormState>({
@@ -40,14 +47,9 @@ const useFormValidation = () => {
     });
 
     const handleFieldValidation = async (
-        value:
-            | string
-            | {
-                  email: string;
-                  password: string;
-              },
-        validator: ValidatorFunction,
-        field: Field
+        value: ValueType,
+        validator: ValidatorFunctionType,
+        field: FieldType
     ) => {
         const validationResult = await validator(value as any);
 

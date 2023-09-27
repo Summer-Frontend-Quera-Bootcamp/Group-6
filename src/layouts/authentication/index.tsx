@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
-import { Navbar } from "../../components/common";
+import { Navbar } from "@components/common";
 
 interface IAuthLayoutProps {
     children: ReactNode;

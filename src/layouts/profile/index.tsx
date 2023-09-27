@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "@context/ThemeContext";
 import Navbar from "./components/Navbar";
 import Panel from "./components/Panel";
 
