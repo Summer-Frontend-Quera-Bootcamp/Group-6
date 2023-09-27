@@ -4,7 +4,7 @@ interface IInputProps {
     id?: string;
     type?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    classNames?: string[];
+    classNames?: string;
     labelText?: string;
 }
 
@@ -21,9 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
                     id={id}
                     type={type}
                     onChange={onChange}
-                    className={`p-xs self-stretch rounded-[6px] border border-gray-400 h-xl ${
-                        classNames?.join(" ") || ""
-                    }`}
+                    className={`p-xs self-stretch rounded-[6px] border border-gray-400 h-xl ${classNames}`}
                 />
             </div>
         );
