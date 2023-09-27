@@ -1,3 +1,4 @@
+import { usePalette } from "@context/PaletteContext";
 import React from "react";
 
 interface IFileInputProps {
@@ -8,6 +9,7 @@ interface IFileInputProps {
 
 const FileInput = React.forwardRef<HTMLInputElement, IFileInputProps>(
     ({ onChange, classNames, labelText }, ref) => {
+        const { palette }: any = usePalette();
         return (
             <div className="w-full">
                 <input
@@ -19,10 +21,14 @@ const FileInput = React.forwardRef<HTMLInputElement, IFileInputProps>(
                 />
                 <div
                     className={`flex p-[10px] items-center gap-[10px] rounded-[8px] border-[1px] border-brand-primary ${classNames}`}
+                    style={{
+                        borderColor: palette ? palette : undefined,
+                        color: palette ? palette : undefined,
+                    }}
                 >
                     <label
                         htmlFor="hidden-file-input"
-                        className="cursor-pointer bg-transparent text-brand-primary text-body-l"
+                        className="cursor-pointer bg-transparent text-body-l"
                     >
                         {labelText}
                     </label>

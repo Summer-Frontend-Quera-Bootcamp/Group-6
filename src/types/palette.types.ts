@@ -1,4 +1,4 @@
-export type PaletteColorType =
+type PaletteColorType =
     | "#228BE6"
     | "#208D8E"
     | "#15AABF"
@@ -12,3 +12,5 @@ export type PaletteColorType =
     | "#12B886"
     | "#7950F2"
     | "#FAB005";
+
+export type { PaletteColorType };
