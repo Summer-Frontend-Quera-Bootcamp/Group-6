@@ -10,7 +10,7 @@ const Register: React.FC = () => {
     const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
     const { messages, updateMessage } = useMessages();
 
-    const nameElement = useRef<HTMLInputElement>(null),
+    const usernameElement = useRef<HTMLInputElement>(null),
         mailElement = useRef<HTMLInputElement>(null),
         passElement = useRef<HTMLInputElement>(null);
 
@@ -18,11 +18,11 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const FullName = nameElement.current?.value || "";
+        const username = usernameElement.current?.value || "";
         const mail = mailElement.current?.value || "";
         const pass = passElement.current?.value || "";
         const creds = {
-            name: FullName,
+            username: username,
             email: mail,
             password: pass,
             term: acceptedTerms,
@@ -50,8 +50,8 @@ const Register: React.FC = () => {
                 className="flex flex-col items-center gap-m self-stretch"
             >
                 <InputField
-                    ref={nameElement}
-                    labelText="نام کامل"
+                    ref={usernameElement}
+                    labelText="نام کاربری"
                     type="text"
                 />
                 <InputField ref={mailElement} labelText="ایمیل" type="email" />

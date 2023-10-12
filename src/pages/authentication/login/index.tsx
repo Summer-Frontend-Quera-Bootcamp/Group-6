@@ -12,20 +12,19 @@ import { useAuth } from "@/context/AuthContext";
 
 const Login: React.FC = (): ReactElement => {
     const { messages, updateMessage } = useMessages();
-    const mailElement = useRef<HTMLInputElement>(null);
+    const usernameElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
-
     const navigate = useNavigate();
     const { authenticateUser } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const emailValue = mailElement.current?.value || "";
+        const usernameValue = usernameElement.current?.value || "";
         const passValue = passElement.current?.value || "";
 
         const creds = {
-            username: emailValue,
+            username: usernameValue,
             password: passValue,
         };
 
@@ -53,10 +52,10 @@ const Login: React.FC = (): ReactElement => {
             >
                 <div className="flex flex-col items-end gap-m self-stretch text-body-s font-[400]">
                     <Input
-                        ref={mailElement}
-                        id="email"
-                        type="email"
-                        labelText="ایمیل"
+                        ref={usernameElement}
+                        id="usernmae"
+                        type="text"
+                        labelText="نام کاربری"
                     />
                     <div className="flex flex-col self-stretch items-end gap-xs">
                         <Input
