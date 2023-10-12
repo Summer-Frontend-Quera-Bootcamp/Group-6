@@ -11,7 +11,6 @@ const FormContainer: React.FC<IFormContainerProps> = ({ title, children }) => {
             <h1 className="text-black text-right text-heading-l font-[800]">
                 {title}
             </h1>
-
             {children}
         </div>
     );

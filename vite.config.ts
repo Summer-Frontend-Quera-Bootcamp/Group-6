@@ -16,6 +16,8 @@ export default defineConfig({
             "@types": path.resolve(__dirname, "./src/types"),
             "@utils": path.resolve(__dirname, "./src/utils"),
             "@features": path.resolve(__dirname, "./src/features"),
+            "@services": path.resolve(__dirname, "./src/services"),
+            "@constants": path.resolve(__dirname, "./src/constants"),
         },
     },
     plugins: [react()],

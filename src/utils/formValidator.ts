@@ -1,17 +1,30 @@
+import { loginAccount, registerAccount } from "@/services/Authentication";
+import UserData from "@/types/userData.types";
 import * as yup from "yup";
 
 interface IValidationProps {
+    data?: UserData;
     error?: yup.ValidationError;
     isValid: boolean;
 }
 
+interface ILoginCreds {
+    username: string;
+    password: string;
+}
+
+const emailPattern = new RegExp(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+);
+
+//* Password Validation
 const passwordSchema = yup
     .string()
+    .required("رمز عبور اجباری است.")
     .min(8, "رمز عبور باید 8 کاراکتر یا بیشتر باشد.")
-    .matches(/\d/, "رمز عبور باید شامل اعداد باشد")
-    .required("رمز عبور اجباری است.");
+    .matches(/\d/, "رمز عبور باید شامل اعداد باشد");
 
-const isValidPassword = (password: string): Promise<IValidationProps> => {
+const isPasswordValid = (password: string): Promise<IValidationProps> => {
     return passwordSchema
         .validate(password)
         .then(() => ({
@@ -20,16 +33,13 @@ const isValidPassword = (password: string): Promise<IValidationProps> => {
         .catch((err: yup.ValidationError) => ({ error: err, isValid: false }));
 };
 
-const emailPattern = new RegExp(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-);
-
+//* Email Validation
 const emailSchema = yup
     .string()
-    .matches(emailPattern, "ایمیل وارد شده صحیح نمیباشد")
-    .required("ایمیل اجباری است.");
+    .required("ایمیل اجباری است.")
+    .matches(emailPattern, "ایمیل وارد شده صحیح نمیباشد");
 
-const isValidEmail = (mail: string): Promise<IValidationProps> => {
+const isEmailValid = (mail: string): Promise<IValidationProps> => {
     return emailSchema
         .validate(mail)
         .then(() => ({
@@ -38,83 +48,117 @@ const isValidEmail = (mail: string): Promise<IValidationProps> => {
         .catch((err: yup.ValidationError) => ({ error: err, isValid: false }));
 };
 
-const isValidName = (name: string): IValidationProps => {
-    if (name.length > 3) return { isValid: true };
-    else
-        return {
-            error: new yup.ValidationError("لطفا نام خود را وارد کنید."),
-            isValid: false,
-        };
-};
-
-const termSchema = yup
-    .string()
-    .is(["true"], "لطفاً برای ادامه قوانین و مقررات را بپذیرید")
-    .required("فیلد قوانین و مقررات اجباری است.");
-
-const isValidTerm = (term: string): Promise<IValidationProps> => {
-    return termSchema
-        .validate(term)
-        .then(() => ({
-            isValid: true,
-        }))
-        .catch((err: yup.ValidationError) => ({ error: err, isValid: false }));
-};
-
+//* Login Validation
 const loginSchema = yup.object().shape({
-    email: yup.string().required("ایمیل اجباری است"),
+    username: yup.string().required("ایمیل اجباری است"),
     password: yup.string().required("رمز عبور اجباری است"),
 });
 
-const isValidLogin = (credentials: {
-    email: string;
-    password: string;
-}): Promise<IValidationProps> => {
+const isLoginValid = (credentials: ILoginCreds): Promise<IValidationProps> => {
     return loginSchema
         .validate(credentials, { abortEarly: false })
-        .then((validatedCreds) => {
-            if (
-                validatedCreds.email !== "admin@gmail.com" ||
-                validatedCreds.password !== "admin1234"
-            ) {
+        .then(async (validatedCreds) => {
+            try {
+                const UserData = {
+                    username: validatedCreds.username,
+                    password: validatedCreds.password,
+                };
+                const userData = await loginAccount(UserData);
+                return {
+                    data: userData,
+                    isValid: true,
+                };
+            } catch (error) {
+                console.log(error);
                 return {
                     isValid: false,
                     error: new yup.ValidationError(
-                        "اطلاعات وارد شده صحیح نمی باشد.",
+                        "رمز عبور و یا نام کاربری اشتباه است.",
                         validatedCreds,
                         "credentials"
                     ),
                 };
             }
-            return {
-                isValid: true,
-            };
         })
-        .catch(() => ({
-            isValid: false,
-            error: new yup.ValidationError(
-                "لطفا تمامی اطلاعات خواسته شده را وارد کنید."
-            ),
-        }));
+        .catch((error) => {
+            console.log(error);
+            return {
+                isValid: false,
+                error: new yup.ValidationError(
+                    "لطفا تمامی اطلاعات خواسته شده را وارد کنید."
+                ),
+            };
+        });
 };
 
-const isValid = (
-    name: string,
-    schema: yup.StringSchema
+//* Register Validation
+const registerSchema = yup.object().shape({
+    name: yup.string().required("نام اجباری است"),
+    email: yup
+        .string()
+        .required("ایمیل اجباری است")
+        .test(
+            "is-email",
+            "ایمیل وارد شده صحیح نمیباشد",
+            (value) => !value || emailPattern.test(value)
+        ),
+    password: yup
+        .string()
+        .required("رمز عبور اجباری است.")
+        .test(
+            "is-long-enough",
+            "رمز عبور باید 8 کاراکتر یا بیشتر باشد.",
+            (value) => !value || value.length >= 8
+        )
+        .test(
+            "has-number",
+            "رمز عبور باید شامل اعداد باشد",
+            (value) => !value || /\d/.test(value)
+        ),
+    term: yup
+        .string()
+        .required("فیلد قوانین و مقررات اجباری است.")
+        .is(["true"], "لطفاً برای ادامه قوانین و مقررات را بپذیرید"),
+});
+
+interface IRegisterCreds {
+    name: string;
+    email: string;
+    password: string;
+    term: boolean;
+}
+
+const isRegisterValid = (
+    credentials: IRegisterCreds
 ): Promise<IValidationProps> => {
-    return schema
-        .validate(name)
-        .then(() => ({
-            isValid: true,
-        }))
-        .catch((err: yup.ValidationError) => ({ error: err, isValid: false }));
+    return registerSchema
+        .validate(credentials, { abortEarly: false })
+        .then(async (validatedCreds) => {
+            try {
+                const UserData = {
+                    username: validatedCreds.email,
+                    email: validatedCreds.email,
+                    password: validatedCreds.password,
+                };
+
+                await registerAccount(UserData);
+                return { isValid: true };
+            } catch (err: any) {
+                return {
+                    isValid: false,
+                    error: new yup.ValidationError(
+                        "کاربری با این ایمیل وجود دارد، لطفا وارد شوید."
+                    ),
+                };
+            }
+        })
+        .catch((error: yup.ValidationError) => {
+            console.log(error);
+            return {
+                isValid: false,
+                error: error,
+            };
+        });
 };
 
-export {
-    isValid,
-    isValidEmail,
-    isValidLogin,
-    isValidName,
-    isValidPassword,
-    isValidTerm,
-};
+export { isEmailValid, isLoginValid, isPasswordValid, isRegisterValid };
