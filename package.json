@@ -10,12 +10,23 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@headlessui/react": "^1.7.17",
+        "@types/uuid": "^9.0.4",
+        "axios": "^1.5.1",
+        "headlessui": "^0.0.0",
+        "jalali-moment": "^3.3.11",
+        "js-cookie": "^3.0.5",
+        "jwt-decode": "^3.1.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-icons": "^4.11.0",
+        "react-multi-date-picker": "^4.3.1",
         "react-router-dom": "^6.16.0",
+        "uuid": "^9.0.1",
         "yup": "^1.2.0"
     },
     "devDependencies": {
+        "@types/js-cookie": "^3.0.4",
         "@types/node": "^20.7.0",
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",

@@ -30,7 +30,9 @@
             "@utils/*": ["src/utils/*"],
             "@layouts/*": ["src/layouts/*"],
             "@pages/*": ["src/pages/*"],
-            "@features/*": ["src/features/*"]
+            "@features/*": ["src/features/*"],
+            "@services/*": ["src/services/*"],
+            "@constants/*": ["src/constants/*"]
         }
     },
     "include": ["src", "./src/types/declarations.d.ts"],

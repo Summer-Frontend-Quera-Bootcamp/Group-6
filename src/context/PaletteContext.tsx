@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import useLocalStorage from "@hooks/useLocalStorage.ts";
-import { PaletteColorType } from "../types/palette.types";
 
 const PaletteContext = React.createContext({});
 
-export const usePalette = () => {
+export const usePalette = (): IPaletteContext => {
     return useContext(PaletteContext);
 };
 
-export const PaletteProvider = ({ children }: any) => {
+export const PaletteProvider = ({ children }: IPaletteContextProps) => {
     const [palette, setPalette] = useLocalStorage("PALETTE", "#208D8E");
 
     const setDefault = () => {

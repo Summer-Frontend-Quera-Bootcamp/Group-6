@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "کار",
+        "bgColor": "#D0EBFF",
+        "fgColor": "#228BE6"
+    },
+    {
+        "id": 2,
+        "name": "پروژه",
+        "bgColor": "#F3D9FA",
+        "fgColor": "#BE4BDB"
+    },
+    {
+        "id": 3,
+        "name": "درس",
+        "bgColor": "#D0EBFF",
+        "fgColor": "#228BE6"
+    }
+]

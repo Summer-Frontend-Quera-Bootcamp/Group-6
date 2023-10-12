@@ -3,11 +3,11 @@ import useLocalStorage from "@hooks/useLocalStorage.ts";
 
 const ThemeContext = React.createContext({});
 
-export const useTheme = () => {
+export const useTheme = (): IThemeContext => {
     return useContext(ThemeContext);
 };
 
-export const ThemeProvider = ({ children }: any) => {
+export const ThemeProvider = ({ children }: IThemeContextProps) => {
     const [theme, setTheme] = useLocalStorage("THEME", "light");
 
     const setDefault = () => {

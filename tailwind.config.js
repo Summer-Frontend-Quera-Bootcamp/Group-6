@@ -94,6 +94,9 @@ export default {
                 card: "0px 50px 100px -20px rgba(50, 50, 93, 0.25), 0px 30px 60px -30px rgba(0, 0, 0, 0.30)",
                 themeSwitch:
                     "0px 1px 1px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+                newTask: "0px 12px 32px 0px rgba(0, 0, 0, 0.25);",
+                newTag: "0px 4px 16px 0px rgba(0, 0, 0, 0.16);",
+                colorSelector: "0px 4px 8px 0px rgba(0, 0, 0, 0.18);",
             },
             keyframes: {
                 fadeIn: {

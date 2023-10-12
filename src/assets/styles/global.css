@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* For the regular font */
+@font-face {
+    font-family: "IRANYekan";
+    src: url("../fonts/iranyekan-medium.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* For the bold font */
+@font-face {
+    font-family: "IRANYekan";
+    src: url("../fonts/iranyekan-extra-bold.ttf") format("truetype");
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* For the bold font */
+@font-face {
+    font-family: "IRANYekan";
+    src: url("../fonts/irankyekan-bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+* {
+    font-family: "IRANYekan" !important;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.rtl {
+    direction: rtl;
+}
+
+.authentication-layout {
+    background-image: url("../images/background.svg");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-attachment: fixed;
+    background-size: 100% 60%;
+}
+
+.dark {
+    background-color: #24292e !important;
+    color: white !important;
+}
+
+.light {
+    background-color: #ffffff !important;
+    color: black !important;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+    animation-delay: 5s; /* Adjust the delay as needed */
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

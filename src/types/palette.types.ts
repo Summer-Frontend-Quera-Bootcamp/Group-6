@@ -13,4 +13,12 @@ type PaletteColorType =
     | "#7950F2"
     | "#FAB005";
 
-export type { PaletteColorType };
+interface IPaletteContext {
+    palette?: string;
+    setDefault?: () => void;
+    updatePalette?: () => void;
+}
+
+interface IPaletteContextProps {
+    children: React.ReactNode;
+}
