@@ -50,7 +50,7 @@ const isEmailValid = (mail: string): Promise<IValidationProps> => {
 
 //* Login Validation
 const loginSchema = yup.object().shape({
-    username: yup.string().required("ایمیل اجباری است"),
+    username: yup.string().required("نام کاربری اجباری است"),
     password: yup.string().required("رمز عبور اجباری است"),
 });
 
@@ -93,7 +93,7 @@ const isLoginValid = (credentials: ILoginCreds): Promise<IValidationProps> => {
 
 //* Register Validation
 const registerSchema = yup.object().shape({
-    name: yup.string().required("نام اجباری است"),
+    username: yup.string().required("نام کاربری اجباری است"),
     email: yup
         .string()
         .required("ایمیل اجباری است")
@@ -122,7 +122,7 @@ const registerSchema = yup.object().shape({
 });
 
 interface IRegisterCreds {
-    name: string;
+    username: string;
     email: string;
     password: string;
     term: boolean;
@@ -136,7 +136,7 @@ const isRegisterValid = (
         .then(async (validatedCreds) => {
             try {
                 const UserData = {
-                    username: validatedCreds.email,
+                    username: validatedCreds.username,
                     email: validatedCreds.email,
                     password: validatedCreds.password,
                 };
