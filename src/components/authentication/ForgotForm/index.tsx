@@ -2,11 +2,29 @@ import { Input, MessageDisplay, SubmitBtn } from "@/components/common";
 import { useMessages } from "@/context/MessagesContext";
 import { isEmailValid } from "@/utils/formValidator";
 import React, { useRef, useState } from "react";
+import axios from "axios";
 
 const ForgotForm = () => {
     const mailElement = useRef<HTMLInputElement>(null);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
     const { messages, updateMessage } = useMessages();
+
+    const handleForgotPassword = async (email:string)  => {
+        try {
+          const {data}  =await axios.post(
+          "https://quera.iran.liara.run/accounts/reset-password/",{email}
+        )
+           console.log(data)
+           setIsFormValid(true);
+        } 
+        catch (error:any) {
+            if(error.response?.data.detail == 'There is no user with provided email'){
+              const errorMsg = "کاربری با این ایمیل ثبت نشده است";
+              updateMessage("error", errorMsg ,3000);  
+              console.log(errorMsg)
+            }
+        }
+      }; 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -15,8 +33,8 @@ const ForgotForm = () => {
         const validationResult = await isEmailValid(emailValue);
 
         if (validationResult.isValid) {
-            //TODO handle forgot logic
-            setIsFormValid(true);
+            try{ await handleForgotPassword(emailValue);}
+            catch{}
         } else {
             const errorMsg = validationResult.error
                 ? validationResult.error?.errors
