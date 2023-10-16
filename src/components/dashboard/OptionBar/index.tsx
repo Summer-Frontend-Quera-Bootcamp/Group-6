@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import List from "@assets/icons/List.svg";
@@ -11,6 +11,7 @@ import Share from "@assets/icons/Share.svg";
 import Search from "@assets/icons/search-loupe.svg";
 import Filter from "@assets/icons/Filter.svg";
 import FilterModal from "@/components/filters/Filter";
+import useClickOutside from "@/hooks/useClickOutside";
 
 interface IOptionProps {
     openModals: () => void;
@@ -26,7 +27,10 @@ const OptionBar: React.FC<IOptionProps> = ({ openModals }) => {
         setActive(idx);
     };
     const [showFilters, setShowFilters] = useState(false);
+    const filterModal = useRef(null);
+    const filterText = useRef(null);
 
+    useClickOutside([filterModal, filterText], () => setShowFilters(false));
     return (
         <div>
             <div
@@ -127,10 +131,13 @@ const OptionBar: React.FC<IOptionProps> = ({ openModals }) => {
                 </div>
                 <div
                     className="pr-xl flex items-center gap-1"
-                    onClick={() => setShowFilters(true)}
+                    onClick={() => setShowFilters((pervState) => !pervState)}
+                    ref={filterText}
                 >
                     <img src={Filter} alt="filter icon" />
-                    <span className="font-bold text-[12px] ">فیلترها</span>
+                    <span className="font-bold text-[12px] cursor-pointer">
+                        فیلترها
+                    </span>
                 </div>
                 <div className="mx-6 bg-blue-100 px-2 py-0.5 rounded">
                     <span className="font-bold text-[12px] text-blue-primary">
@@ -140,8 +147,9 @@ const OptionBar: React.FC<IOptionProps> = ({ openModals }) => {
             </div>
             {showFilters && (
                 <div
-                    className="flex justify-center items-center  text-[#1E1E1E] "
+                    className="flex justify-center items-center  text-[#1E1E1E]"
                     dir="rtl"
+                    ref={filterModal}
                 >
                     <FilterModal closeModal={() => setShowFilters(false)} />
                 </div>

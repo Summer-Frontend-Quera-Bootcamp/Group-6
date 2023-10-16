@@ -18,29 +18,28 @@ import { Navigate } from "react-router-dom";
 
 const AuthPagesData: routerType[] = [
     {
-        path: "/",
-        title: "login",
-        element: <Navigate to="/login" />,
-    },
-    {
         path: "/login",
         title: "login",
         element: <AuthLayout children={<Login />} />,
+        isAuth: true,
     },
     {
         path: "/register",
         title: "register",
         element: <AuthLayout children={<Register />} />,
+        isAuth: true,
     },
     {
         path: "/forgot",
         title: "forgot",
         element: <AuthLayout children={<Forgot />} />,
+        isAuth: true,
     },
     {
         path: "/reset-password",
         title: "reset-password",
         element: <AuthLayout children={<ResetPassword />} />,
+        isAuth: true,
     },
 ];
 
@@ -73,24 +72,34 @@ const ProfilePagesData: routerType[] = [
 
 const DashboardPagesData: routerType[] = [
     {
+        path: "/",
+        title: "dashboard",
+        element: <DashBoardLayout children={<ColView />} />,
+        isProtected: true,
+    },
+    {
         path: "/dashboard",
         title: "dashboard",
         element: <DashBoardLayout children={<ColView />} />,
+        isProtected: true,
     },
     {
         path: "/dashboard/col",
         title: "dashboard column view",
         element: <DashBoardLayout children={<ColView />} />,
+        isProtected: true,
     },
     {
         path: "/dashboard/cal",
         title: "dashboard calender view",
         element: <DashBoardLayout children={<FullCalendar />} />,
+        isProtected: true,
     },
     {
         path: "/dashboard/list",
         title: "dashboard list view",
         element: <DashBoardLayout children={<List />} />,
+        isProtected: true,
     },
 ];
 

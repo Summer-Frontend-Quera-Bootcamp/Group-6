@@ -9,22 +9,23 @@ const ForgotForm = () => {
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
     const { messages, updateMessage } = useMessages();
 
-    const handleForgotPassword = async (email:string)  => {
+    const handleForgotPassword = async (email: string) => {
         try {
-          const {data}  =await axios.post(
-          "https://quera.iran.liara.run/accounts/reset-password/",{email}
-        )
-           console.log(data)
-           setIsFormValid(true);
-        } 
-        catch (error:any) {
-            if(error.response?.data.detail == 'There is no user with provided email'){
-              const errorMsg = "کاربری با این ایمیل ثبت نشده است";
-              updateMessage("error", errorMsg ,3000);  
-              console.log(errorMsg)
+            await axios.post(
+                "https://quera.iran.liara.run/accounts/reset-password/",
+                { email }
+            );
+            setIsFormValid(true);
+        } catch (error: any) {
+            if (
+                error.response?.data.detail ==
+                "There is no user with provided email"
+            ) {
+                const errorMsg = "کاربری با این ایمیل ثبت نشده است";
+                updateMessage("error", errorMsg, 3000);
             }
         }
-      }; 
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,8 +34,9 @@ const ForgotForm = () => {
         const validationResult = await isEmailValid(emailValue);
 
         if (validationResult.isValid) {
-            try{ await handleForgotPassword(emailValue);}
-            catch{}
+            try {
+                await handleForgotPassword(emailValue);
+            } catch {}
         } else {
             const errorMsg = validationResult.error
                 ? validationResult.error?.errors

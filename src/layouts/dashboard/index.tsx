@@ -64,8 +64,9 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
             <button
                 className="bg-brand-primary text-white text-[14px] px-[12px] py-[8px] rounded-[6px] absolute bottom-10 left-12 flex items-center"
                 onClick={() => {
-                    setShowTaskModal(true);
+                    setShowTaskModal((pervState) => !pervState);
                 }}
+                ref={modal}
             >
                 <img src={Plus} alt="add" />
                 ساختن تسک

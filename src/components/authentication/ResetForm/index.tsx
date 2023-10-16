@@ -13,26 +13,23 @@ const ResetForm = () => {
 
     const navigate = useNavigate();
 
-    const handleResetPassword = async (password:string) => {
-        console.log(password)
-        const x=window.location.href
-        const token:string | undefined=x.split("token=").pop()
-        console.log(token)
+    const handleResetPassword = async (password: string) => {
+        const x = window.location.href;
+        const token: string | undefined = x.split("token=").pop();
         try {
-          const {data}  =await axios.patch(
-          `https://quera.iran.liara.run/accounts/reset-password/set-password/`,{token,password,password1:password}
-          )
-          console.log(data)
-          setMessage({
-            msg: "رمز عبور با موفقيت تغيير يافت. در حال انتقال به صفحه ورود...",
-            type: "success",
-        });
-          setTimeout(() => navigate("/login"), 1000);
-        } 
-        catch (error) {
-            console.log(error)
+            await axios.patch(
+                `https://quera.iran.liara.run/accounts/reset-password/set-password/`,
+                { token, password, password1: password }
+            );
+            setMessage({
+                msg: "رمز عبور با موفقيت تغيير يافت. در حال انتقال به صفحه ورود...",
+                type: "success",
+            });
+            setTimeout(() => navigate("/login"), 1000);
+        } catch (error) {
+            console.error(error);
         }
-      }; 
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -42,8 +39,9 @@ const ResetForm = () => {
         const validationResult = await isPasswordValid(passValue);
 
         if (validationResult.isValid) {
-            try{ await handleResetPassword(passValue);;}
-            catch{}
+            try {
+                await handleResetPassword(passValue);
+            } catch {}
         } else {
             const errorMsg = validationResult.error
                 ? validationResult.error?.errors

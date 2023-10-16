@@ -3,6 +3,7 @@ interface routerType {
     path: string;
     element: JSX.Element;
     isProtected?: boolean;
+    isAuth?: boolean;
 }
 
 export type { routerType };

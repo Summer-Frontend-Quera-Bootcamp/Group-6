@@ -1,4 +1,3 @@
-import { loginAccount, registerAccount } from "@/services/Authentication";
 import UserData from "@/types/userData.types";
 import * as yup from "yup";
 
@@ -59,17 +58,10 @@ const isLoginValid = (credentials: ILoginCreds): Promise<IValidationProps> => {
         .validate(credentials, { abortEarly: false })
         .then(async (validatedCreds) => {
             try {
-                const UserData = {
-                    username: validatedCreds.username,
-                    password: validatedCreds.password,
-                };
-                const userData = await loginAccount(UserData);
                 return {
-                    data: userData,
                     isValid: true,
                 };
             } catch (error) {
-                console.log(error);
                 return {
                     isValid: false,
                     error: new yup.ValidationError(
@@ -80,8 +72,7 @@ const isLoginValid = (credentials: ILoginCreds): Promise<IValidationProps> => {
                 };
             }
         })
-        .catch((error) => {
-            console.log(error);
+        .catch(() => {
             return {
                 isValid: false,
                 error: new yup.ValidationError(
@@ -93,10 +84,10 @@ const isLoginValid = (credentials: ILoginCreds): Promise<IValidationProps> => {
 
 //* Register Validation
 const registerSchema = yup.object().shape({
-    username: yup.string().required("نام کاربری اجباری است"),
+    username: yup.string().required("لطفا تمامی فیلد ها را وارد کنید"),
     email: yup
         .string()
-        .required("ایمیل اجباری است")
+        .required("لطفا تمامی فیلد ها را وارد کنید")
         .test(
             "is-email",
             "ایمیل وارد شده صحیح نمیباشد",
@@ -104,7 +95,7 @@ const registerSchema = yup.object().shape({
         ),
     password: yup
         .string()
-        .required("رمز عبور اجباری است.")
+        .required("لطفا تمامی فیلد ها را وارد کنید")
         .test(
             "is-long-enough",
             "رمز عبور باید 8 کاراکتر یا بیشتر باشد.",
@@ -117,7 +108,6 @@ const registerSchema = yup.object().shape({
         ),
     term: yup
         .string()
-        .required("فیلد قوانین و مقررات اجباری است.")
         .is(["true"], "لطفاً برای ادامه قوانین و مقررات را بپذیرید"),
 });
 
@@ -133,27 +123,10 @@ const isRegisterValid = (
 ): Promise<IValidationProps> => {
     return registerSchema
         .validate(credentials, { abortEarly: false })
-        .then(async (validatedCreds) => {
-            try {
-                const UserData = {
-                    username: validatedCreds.username,
-                    email: validatedCreds.email,
-                    password: validatedCreds.password,
-                };
-
-                await registerAccount(UserData);
-                return { isValid: true };
-            } catch (err: any) {
-                return {
-                    isValid: false,
-                    error: new yup.ValidationError(
-                        "کاربری با این ایمیل وجود دارد، لطفا وارد شوید."
-                    ),
-                };
-            }
+        .then(() => {
+            return { isValid: true };
         })
         .catch((error: yup.ValidationError) => {
-            console.log(error);
             return {
                 isValid: false,
                 error: error,

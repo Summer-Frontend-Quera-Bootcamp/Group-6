@@ -2,16 +2,18 @@ import React from "react";
 
 interface IColorSelectorProps {
     colorPalette: string;
-    setColorPalette: React.Dispatch<string>;
+    setColorPalette: React.Dispatch<PaletteColorType>;
     classNames?: string;
+    handleChange?: (arg1: any) => any;
 }
 
 const ColorSelector: React.FC<IColorSelectorProps> = ({
     colorPalette,
     setColorPalette,
     classNames,
+    handleChange,
 }) => {
-    let colors = [
+    let colors: PaletteColorType[] = [
         "#228BE6",
         "#208D8E",
         "#15AABF",
@@ -27,8 +29,9 @@ const ColorSelector: React.FC<IColorSelectorProps> = ({
         "#FAB005",
     ];
 
-    const handleColorClick = (colorHex: string) => {
+    const handleColorClick = (colorHex: PaletteColorType) => {
         setColorPalette(colorHex);
+        handleChange && handleChange(colorHex);
     };
 
     return (

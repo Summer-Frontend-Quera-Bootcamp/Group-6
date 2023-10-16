@@ -2,9 +2,11 @@ import { MessageDisplay, SubmitBtn } from "@/components/common";
 import { InputField } from "@/components/register/InputField";
 import TermCheckbox from "@/components/register/TermCheckbox";
 import { useMessages } from "@/context/MessagesContext";
+import { UseRegisterMutation } from "@/services/Authentication/mutations/useRegisterMutation";
 import { isRegisterValid } from "@/utils/formValidator";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RegisterForm = () => {
     const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
@@ -16,6 +18,7 @@ const RegisterForm = () => {
 
     const navigate = useNavigate();
 
+    const registerMutation = UseRegisterMutation();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const username = usernameElement.current?.value || "";
@@ -28,18 +31,26 @@ const RegisterForm = () => {
             term: acceptedTerms,
         };
 
-        updateMessage("info", "درحال بررسی اطلاعات...");
         const validationResult = await isRegisterValid(creds);
 
-        if (validationResult.isValid) {
-            updateMessage(
-                "success",
-                "ثبت نام با موفقیت انجام شد. درحال انتقال به صفحه ورود...",
-                1000
-            );
-            setTimeout(() => navigate("/login"), 1000);
+        if (validationResult && validationResult.isValid) {
+            toast.loading("در حال بررسی اطلاعات...");
+            registerMutation.mutate(creds, {
+                onSuccess: () => {
+                    navigate("/login");
+                    toast.dismiss();
+                    toast.success("اکانت شما با موفقیت ساخته شد.");
+                },
+                onError: (error) => {
+                    console.error(error);
+
+                    toast.dismiss();
+                    toast.error(error);
+                },
+            });
         } else {
-            updateMessage("error", validationResult.error!.errors, 2000);
+            if (validationResult.error?.errors)
+                updateMessage("error", validationResult.error?.errors, 2000);
         }
     };
 
