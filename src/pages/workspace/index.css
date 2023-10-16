@@ -1,0 +1,13 @@
+.new {
+  --border-widht: 4px;
+  background: linear-gradient(to left, #fa5252, #ffe3e3);
+}
+
+.new::before {
+  content: "";
+  display: block;
+  background: white;
+  position: absolute;
+  top: var(--border-widht);
+  left: var(--border-widht);
+}
