@@ -39,7 +39,7 @@ const FilterModal: React.FC<IFilterModalProps> = ({ closeModal }) => {
     };
 
     return (
-        <div className="bg-white py-4 px-5 border border-red-50 rounded-lg min-h-[206px] shadow-newTask w-fit min-w-[720px] absolute top-36 right-[550px]">
+        <div className="bg-white py-4 px-5 border border-red-50 rounded-lg min-h-[206px] shadow-newTask w-fit min-w-[720px] absolute top-36 right-[550px] z-50">
             <div className="flex justify-between items-center mb-3.5">
                 <h3 className="text-2xl font-black">فیلتر‌ها</h3>
                 <button onClick={closeModal}>

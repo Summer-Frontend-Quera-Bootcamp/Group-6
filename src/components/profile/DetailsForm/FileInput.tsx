@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react";
-import { usePalette } from "@context/PaletteContext";
+import React, { ChangeEvent, useContext } from "react";
+import { AppContext } from "@/context/store";
 
 // Define the props for the FileInput component
 interface IFileInputProps {
@@ -10,13 +10,12 @@ interface IFileInputProps {
 
 const FileInput = React.forwardRef<HTMLInputElement, IFileInputProps>(
     ({ onChange, classNames, labelText }, ref) => {
-        // Use palette from PaletteContext
-        const { palette } = usePalette();
+        const { state } = useContext(AppContext);
 
         // Style object for dynamic palette colors
         const dynamicStyles = {
-            borderColor: palette || undefined,
-            color: palette || undefined,
+            borderColor: state.theme || undefined,
+            color: state.theme || undefined,
         };
 
         return (
@@ -27,6 +26,7 @@ const FileInput = React.forwardRef<HTMLInputElement, IFileInputProps>(
                     className="hidden"
                     id="hidden-file-input"
                     onChange={onChange}
+                    name="thumbnail"
                     ref={ref} // Forwarded ref is applied here
                 />
                 {/* Visible label and container for file input */}

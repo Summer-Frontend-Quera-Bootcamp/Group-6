@@ -1,5 +1,5 @@
-import React from "react";
-import { usePalette } from "@context/PaletteContext";
+import React, { useContext } from "react";
+import { AppContext } from "@/context/store";
 
 interface IButtonProps {
     className?: string;
@@ -8,8 +8,7 @@ interface IButtonProps {
 }
 
 const Button: React.FC<IButtonProps> = ({ className, icon, text }) => {
-    // Retrieve the current palette from the context
-    const { palette }: IPaletteContext = usePalette();
+    const { state } = useContext(AppContext);
 
     return (
         <button
@@ -18,11 +17,10 @@ const Button: React.FC<IButtonProps> = ({ className, icon, text }) => {
                 "flex py-[4px] px-xs rounded-[8px] text-white gap-xs items-center " +
                 className
             }
-            style={{ backgroundColor: palette }}
+            style={{ backgroundColor: state.theme }}
         >
             {text && <p className="text-body-l">{text}</p>}
 
-            {/* Conditionally render the icon if it exists */}
             {icon && (
                 <img src={icon} title="arrow" className="w-[24px] h-[24px]" />
             )}

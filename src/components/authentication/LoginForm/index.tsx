@@ -1,17 +1,19 @@
-import { Input, MessageDisplay, SubmitBtn } from "@/components/common";
-import { useAuth } from "@/context/AuthContext";
-import { useMessages } from "@/context/MessagesContext";
+import { Input, SubmitBtn } from "@/components/common";
+import { AppContext } from "@/context/store";
+import { AuthenticateUser } from "@/context/user/user.action";
+import { UseLoginMutation } from "@/services/Authentication/mutations/useLoginMutation";
 import { isLoginValid } from "@/utils/formValidator";
-import React, { useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useContext, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
-    const { messages, updateMessage } = useMessages();
     const usernameElement = useRef<HTMLInputElement>(null);
     const passElement = useRef<HTMLInputElement>(null);
-
     const navigate = useNavigate();
-    const { authenticateUser } = useAuth();
+    const location = useLocation();
+    const loginMutation = UseLoginMutation();
+    const { dispatch } = useContext(AppContext);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,19 +26,28 @@ const LoginForm = () => {
             password: passValue,
         };
 
-        updateMessage("info", "درحال بررسی اطلاعات...");
         const validationResult = await isLoginValid(creds);
 
         if (validationResult && validationResult.isValid) {
-            authenticateUser();
-            updateMessage(
-                "success",
-                "با موفقیت وارد شدید. در حال انتقال به داشبورد...",
-                1000
-            );
-            setTimeout(() => navigate("/dashboard"), 1000);
+            const { from } = location.state || { from: "/" };
+            toast.loading("در حال بررسی اطلاعات...");
+            loginMutation.mutate(creds, {
+                onSuccess: (payload) => {
+                    dispatch(AuthenticateUser(payload));
+                    toast.dismiss();
+                    toast.success("با موفقیت وارد شدید.");
+
+                    navigate(from);
+                },
+                onError: (error) => {
+                    console.error(error);
+
+                    toast.dismiss();
+                    toast.error("نام کاربری و یا رمز عبور صحیح نمی باشد.");
+                },
+            });
         } else {
-            updateMessage("error", validationResult.error!.errors, 2000);
+            toast.error(String(validationResult.error?.errors));
         }
     };
 
@@ -67,9 +78,7 @@ const LoginForm = () => {
                     </Link>
                 </div>
             </div>
-            {messages && (
-                <MessageDisplay messages={messages.msg} type={messages.type} />
-            )}
+
             <SubmitBtn
                 value="ورود"
                 ariaLabel="ورود"
