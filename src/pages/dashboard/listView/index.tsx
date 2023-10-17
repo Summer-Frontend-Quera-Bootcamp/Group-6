@@ -44,7 +44,7 @@ const List: React.FC = (): ReactElement => {
     const doneTask = data.filter((item) => item.status.title === "done");
     return (
         <div className="flex flex-col mx-[50px]" dir="ltr">
-            <h2 className="text-bold-xl text-right mt-[198px]">پرو‍‍ژه اول</h2>
+            <h2 className="text-bold-xl text-right mt-[198px]">پروژه اول</h2>
             <Task task={pendingTask} />
             <Task task={inProgressTask} />
             <Task task={doneTask} />

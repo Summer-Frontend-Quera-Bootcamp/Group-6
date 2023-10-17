@@ -19,7 +19,10 @@ import Search from "./search-loupe.svg";
 import Share from "./Share.svg";
 import Tick from "./Tick.svg";
 import Description from "./Description.svg";
-
+import WhiteShare from "./WhiteShare.svg";
+import LinkCopy from "./LinkCopy.svg"
+import RedBin from "./RedBin.svg"
+import EditColor from "./EditColor.svg"
 export {
   Add,
   Archive,
@@ -42,6 +45,10 @@ export {
   Share,
   Tick,
   Description,
+  WhiteShare,
+  LinkCopy,
+  RedBin,
+  EditColor,
 };
 
 // how to use:

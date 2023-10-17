@@ -1,14 +1,18 @@
 import React from "react";
-import { useState } from "react";
+import { useState , useRef} from "react";
 import logo from "@assets/images/logo.svg";
 import { ToggleTheme } from "@components/common";
 import * as Icon from "../../../assets/icons/icons";
+import useClickOutside from "@/hooks/useClickOutside";
+import ModalSm from "@/components/common/ModalSm/index.tsx";
+import ProjectModal from "@/components/projectModal/ProjectModal";
 
 const spaces = [
   {
     name: "درس مدیریت پروژه",
     color: "#40C057",
     subs: [],
+    id:1
   },
   {
     name: "کارهای شخصی",
@@ -17,17 +21,21 @@ const spaces = [
       { id: 1, name: "پروژه اول" },
       { id: 2, name: "پروژه دوم" },
       { id: 3, name: "پروژه سوم" },
+      
     ],
+    id:2
   },
   {
     name: "درس کامپایلر",
     color: "#FA5252",
     subs: [],
+    id:3
   },
   {
     name: "درس طراحی الگوریتم",
     color: "#228BE6",
     subs: [],
+    id:4
   },
 ];
 
@@ -43,9 +51,10 @@ interface IProjectItem {
 interface ISpaceItem {
   isActive?: boolean;
   name?: string;
-  id?: number;
+  id: number;
   color?: string;
-  setSelectedItem?: React.Dispatch<React.SetStateAction<number>>;
+  selected?: number;
+  setSelected: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 const SpaceProject: React.FC<IProjectItem> = ({
@@ -54,32 +63,100 @@ const SpaceProject: React.FC<IProjectItem> = ({
   name,
   id,
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = (state: boolean) => {
+    setShowModal(state);
+  }
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside([modalRef], () => {
+    handleShowModal(false);
+  });
+  const rows = [
+    { icon: Icon.Plus, text: "ساختن تسک جدید" },
+    { icon: Icon.Edit, text: "ویرایش نام پروژه" },
+    { icon: Icon.LinkCopy, text: "کپی لینک" },
+    { icon: Icon.RedBin, text: "حذف", color: 'red' },
+  ];
   return (
-    <li
-      className={`mr-[28px] mb-4  cursor-pointer p-[6px] ${
+    <>
+    <div className={`flex justify-between mr-[28px] mb-4  cursor-pointer p-[6px] ${
         selectedItem === id ? " rounded-[4px] bg-cyan-100" : ""
-      }`}
+      }`}>
+    <li
       onClick={() => setSelectedItem(id)}
     >
       {name}
     </li>
+    {selectedItem === id ? <img
+    src={Icon.More}
+    alt="menu icon"
+    className="cursor-pointer"
+    onClick={() => {
+      handleShowModal(true);
+    }}
+     />: ""}
+    
+  </div>
+   {showModal && (
+    <ModalSm rows={rows} ref={modalRef} className="bottom-20 right-20" />
+  )}
+  </>
   );
 };
 
-const SpaceItem: React.FC<ISpaceItem> = ({ isActive, name, id, color }) => {
+const SpaceItem: React.FC<ISpaceItem> = ({ isActive, name, id, color, selected ,setSelected}) => {
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = (state: boolean) => {
+    setShowModal(state);
+  }
+  const modalRef = useRef<HTMLDivElement>(null);
+  const rows = [
+    { icon: Icon.Plus, text: "ساختن پروژه جدید" },
+    { icon: Icon.Edit, text: "ویرایش نام ورک‌اسپیس" },
+    { icon: Icon.EditColor, text: "ویرایش رنگ" },
+    { icon: Icon.LinkCopy, text: "کپی لینک" },
+    { icon: Icon.RedBin, text: "حذف", color: 'red' },
+  ];
+
+  useClickOutside([modalRef], () => {
+    handleShowModal(false);
+  });
   return (
-    <div className="flex items-center gap-2 cursor-pointer">
+    <>
+    <div className="flex justify-between gap-2 " >
+      <div className="flex items-center cursor-pointer">
       <span
-        className="w-[20px] h-[20px] inline-block rounded-[4px]"
+        className="w-[20px]  h-[20px] inline-block rounded-[4px]"
         style={{ backgroundColor: color }}
       ></span>
-      <span>{name}</span>
+      <span 
+       onClick={() =>{
+        setSelected(id) 
+       } }
+       >{name}</span>
+       </div>
+       
+    {selected === id ? <img
+    src={Icon.More}
+    alt="menu icon"
+    className="cursor-pointer"
+    onClick={() => {
+      handleShowModal(true);
+    }}
+     />: " "}
     </div>
+    {showModal && (
+    <ModalSm rows={rows} ref={modalRef} className="bottom-20 right-20" />
+  )}
+    </>
   );
 };
 
 const SideBar: React.FC = () => {
+  const [selected, setSelected] = useState<number | undefined>(1);
   const [selectedItem, setSelectedItem] = useState<number | undefined>(1);
+ 
   return (
     <div className="flex flex-col items-start justify-between pr-[50px] pl-4 pt-[40px] border-l-2 w-[340px] min-w-[300px] h-[100vh] bg-inherit">
       <div className="flex flex-col gap-s">
@@ -120,8 +197,8 @@ const SideBar: React.FC = () => {
 
         {spaces.map((space) => (
           <>
-            <SpaceItem name={space.name} color={space.color} />
-            <ul className="self-stretch">
+            <SpaceItem name={space.name} color={space.color}  id={space.id} selected={selected} setSelected={setSelected} />
+            <ul className="self-stretch ">
               {space.subs.map((sub) => (
                 <SpaceProject
                   name={sub.name}
