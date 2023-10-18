@@ -1,4 +1,6 @@
 import DashBoardLayout from "@/layouts/dashboard";
+import WorkspaceLayout from "@/layouts/space";
+import WorkSpace from "@/pages/workspace";
 import FullCalendar from "@/pages/dashboard/calView/Calendar";
 import ColView from "@/pages/dashboard/colView";
 import List from "@/pages/dashboard/listView";
@@ -103,6 +105,15 @@ const DashboardPagesData: routerType[] = [
     },
 ];
 
-const pagesData = [AuthPagesData, ProfilePagesData, DashboardPagesData];
+const WorkSpaceData: routerType[] = [
+  {
+    path: "/workspace",
+    title: "workspace",
+    element: <WorkspaceLayout children={<WorkSpace />} />,
+     isProtected: true,
+  },
+];
+
+const pagesData = [AuthPagesData, ProfilePagesData, DashboardPagesData, WorkSpaceData];
 
 export default pagesData;
