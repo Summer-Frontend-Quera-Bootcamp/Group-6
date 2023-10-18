@@ -114,6 +114,6 @@ const WorkSpaceData: routerType[] = [
   },
 ];
 
-const pagesData = [AuthPagesData, ProfilePagesData, DashboardPagesData];
+const pagesData = [AuthPagesData, ProfilePagesData, DashboardPagesData, WorkSpaceData];
 
 export default pagesData;
