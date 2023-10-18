@@ -1,57 +1,51 @@
-import { Input, MessageDisplay, SubmitBtn } from "@/components/common";
+import { Input, SubmitBtn } from "@/components/common";
+import { UseResetPassMutation } from "@/services/Authentication/mutations/useResetPassMutation";
 import { isPasswordValid } from "@/utils/formValidator";
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ResetForm = () => {
-    const [message, setMessage] = useState<{
-        msg: string[] | string;
-        type: "info" | "success" | "error";
-    }>();
     const passElement = useRef<HTMLInputElement>(null);
-
     const navigate = useNavigate();
-
-    const handleResetPassword = async (password: string) => {
-        const x = window.location.href;
-        const token: string | undefined = x.split("token=").pop();
-        try {
-            await axios.patch(
-                `https://quera.iran.liara.run/accounts/reset-password/set-password/`,
-                { token, password, password1: password }
-            );
-            setMessage({
-                msg: "رمز عبور با موفقيت تغيير يافت. در حال انتقال به صفحه ورود...",
-                type: "success",
-            });
-            setTimeout(() => navigate("/login"), 1000);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    const location = useLocation();
+    const ResetPassMutation = UseResetPassMutation();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const passValue = passElement.current?.value || "";
+        const x = window.location.href;
+        const tokenValue: string | undefined = x.split("token=").pop();
+        
+        const creds = {
+            token: tokenValue,
+            password: passValue, 
+            password1: passValue,
+        };
 
         const validationResult = await isPasswordValid(passValue);
 
-        if (validationResult.isValid) {
-            try {
-                await handleResetPassword(passValue);
-            } catch {}
-        } else {
-            const errorMsg = validationResult.error
-                ? validationResult.error?.errors
-                : "هنگام ثبت نام مشکلی پیش آمده";
-            setMessage({
-                msg: errorMsg,
-                type: "error",
+        if (validationResult && validationResult.isValid) {
+            const { from } = location.state || { from: "/login" };
+            toast.loading("در حال بررسی اطلاعات...");
+            ResetPassMutation.mutate(creds, {
+                onSuccess: () => {
+                    toast.dismiss();
+                    toast.success("رمز عبور با موفقیت تغییر یافت.");
+                    navigate(from);
+                },
+                onError: (error) => {
+                    console.error(error);
+                    toast.dismiss();
+                    toast.error("مشکلی در ارسال اطلاعات");
+                },
             });
+        } else {
+            toast.error(String(validationResult.error?.errors));
         }
     };
+
     return (
         <form
             className="flex flex-col items-center gap-l self-stretch"
@@ -67,9 +61,6 @@ const ResetForm = () => {
                     />
                 </div>
             </div>
-            {message && (
-                <MessageDisplay messages={message.msg} type={message.type} />
-            )}
 
             <SubmitBtn
                 value="تغيير رمز عبور"

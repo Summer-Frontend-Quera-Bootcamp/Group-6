@@ -3,4 +3,6 @@ export const ReactQueryKeys = {
     Register: "register",
     Update: "Update",
     ChangePassword: "ChangePassword",
+    ForgotPassword: "ForgotPassword",
+    ResetPassword: "ResetPassword"
 };
