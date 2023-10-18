@@ -63,3 +63,12 @@ export interface IUpdatePassword {
 export interface IThemeData {
     theme: PaletteColorType;
 }
+
+export interface IForgotPassword {
+    email: string;
+}
+export interface IResetPassword {
+    token?: string;
+    password?: string;
+    password1?: string;
+}
