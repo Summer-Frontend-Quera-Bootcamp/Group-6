@@ -1,4 +1,5 @@
 
+
 import { useState , useRef} from "react";
 import logo from "@assets/images/logo.svg";
 import { ToggleTheme } from "@components/common";
@@ -11,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LogoutUser } from "@/context/user/user.action";
 
 const spaces = [
+
   {
     name: "درس مدیریت پروژه",
     color: "#40C057",
@@ -40,32 +42,36 @@ const spaces = [
     subs: [],
     id:4
   },
+
 ];
 
 interface IProjectItem {
-  isActive?: boolean;
-  name?: string;
-  id?: number;
-  selectedItem?: number;
-  setSelectedItem: React.Dispatch<React.SetStateAction<number | undefined>>;
+    isActive?: boolean;
+    name?: string;
+    id?: number;
+    selectedItem?: number;
+    setSelectedItem: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 // isAcrivw is for when I want to
 interface ISpaceItem {
+
   isActive?: boolean;
   name?: string;
   id: number;
   color?: string;
   selected?: number;
   setSelected: React.Dispatch<React.SetStateAction<number | undefined>>;
+
 }
 
 const SpaceProject: React.FC<IProjectItem> = ({
-  selectedItem,
-  setSelectedItem,
-  name,
-  id,
+    selectedItem,
+    setSelectedItem,
+    name,
+    id,
 }) => {
+
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = (state: boolean) => {
     setShowModal(state);
@@ -154,12 +160,15 @@ const SpaceItem: React.FC<ISpaceItem> = ({ isActive, name, id, color, selected ,
   )}
     </>
   );
+
 };
 
 const SideBar: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
     const [selectedItem, setSelectedItem] = useState<number | undefined>(1);
+
     const [selected, setSelected] = useState<number | undefined>(1);
+
     const firstname = state.user.first_name || "";
     const lastname = state.user.last_name || "";
     const thumbnail = state.user.thumbnail || "";
@@ -200,6 +209,7 @@ const SideBar: React.FC = () => {
         </button>
         {/* spaces names */}
         {/* <div className="flex items-center gap-2 cursor-pointer">
+
           <span className="w-[20px] h-[20px] inline-block rounded-[4px] bg-green-500"></span>
           <span>درس مدیریت پروژه</span>
         </div>
@@ -207,7 +217,8 @@ const SideBar: React.FC = () => {
           <span className="w-[20px] h-[20px] inline-block rounded-[4px] bg-orange-500"></span>
           <span>کارهای شخص</span>
         </div> */}
-        {/* project names */}
+                {/* project names */}
+
 
         {spaces.map((space) => (
           <>
@@ -230,6 +241,7 @@ const SideBar: React.FC = () => {
       </div>
       {/* bottom container */}
       <div className="pb-[40px] self-stretch">
+
                 <Link
                     to="/profile"
                     className="flex gap-3 items-center mb-6 cursor-pointer"
@@ -252,15 +264,15 @@ const SideBar: React.FC = () => {
                         onClick={handleLogOut}
                     >
 
-            <img src={Icon.Exit} alt="exit icon" />
-            <span className="text-gray-400">خروج</span>
-          </span>
-          <span style={{ direction: "ltr" }}>
-            <ToggleTheme />
-          </span>
+                        <img src={Icon.Exit} alt="exit icon" />
+                        <span className="text-gray-400">خروج</span>
+                    </span>
+                    <span style={{ direction: "ltr" }}>
+                        <ToggleTheme />
+                    </span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 export default SideBar;

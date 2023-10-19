@@ -1,45 +1,43 @@
-import { Input, MessageDisplay, SubmitBtn } from "@/components/common";
-import { useMessages } from "@/context/MessagesContext";
+import { Input, SubmitBtn } from "@/components/common";
+import { UseForgotMutation } from "@/services/Authentication/mutations/useForgotMutation";
 import { isEmailValid } from "@/utils/formValidator";
 import React, { useRef, useState } from "react";
-import axios from "axios";
+import { toast } from "react-toastify";
 
 const ForgotForm = () => {
-    const mailElement = useRef<HTMLInputElement>(null);
+    const emailElement = useRef<HTMLInputElement>(null);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
-    const { messages, updateMessage } = useMessages();
-
-    const handleForgotPassword = async (email:string)  => {
-        try {
-          const {data}  =await axios.post(
-          "https://quera.iran.liara.run/accounts/reset-password/",{email}
-        )
-           console.log(data)
-           setIsFormValid(true);
-        } 
-        catch (error:any) {
-            if(error.response?.data.detail == 'There is no user with provided email'){
-              const errorMsg = "کاربری با این ایمیل ثبت نشده است";
-              updateMessage("error", errorMsg ,3000);  
-              console.log(errorMsg)
-            }
-        }
-      }; 
-
+    
+    const forgotMutation = UseForgotMutation();    
+  
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const emailValue = mailElement.current?.value || "";
+        const emailValue = emailElement.current?.value || "";
+        
+        const creds = {
+            email: emailValue,
+        };
+
         const validationResult = await isEmailValid(emailValue);
 
-        if (validationResult.isValid) {
-            try{ await handleForgotPassword(emailValue);}
-            catch{}
+        if (validationResult && validationResult.isValid) {
+            toast.loading("در حال بررسی اطلاعات...");
+            forgotMutation.mutate(creds, {
+                onSuccess: () => {
+                    toast.dismiss();
+                    toast.success("لینک بازیابی رمز عبور ارسال شد.");
+                    setIsFormValid(true);
+                },
+                onError: (error) => {
+                    console.error(error);
+
+                    toast.dismiss();
+                    toast.error("کاربری با این ایمیل ثبت نشده است.");
+                },
+            });
         } else {
-            const errorMsg = validationResult.error
-                ? validationResult.error?.errors
-                : "هنگام ثبت نام مشکلی پیش آمده";
-            updateMessage("error", errorMsg);
+            toast.error(String(validationResult.error?.errors));
         }
     };
 
@@ -52,18 +50,12 @@ const ForgotForm = () => {
                 >
                     <div className="flex flex-col items-end gap-m self-stretch text-body-s font-[400]">
                         <Input
-                            ref={mailElement}
+                            ref={emailElement}
                             id="email"
                             type="email"
                             labelText="ايميل خود را وارد كنيد"
                         />
                     </div>
-                    {messages && messages?.type !== "success" && (
-                        <MessageDisplay
-                            messages={messages.msg}
-                            type={messages.type}
-                        />
-                    )}
                     <SubmitBtn
                         value="دريافت ايميل بازيابی رمز عبور"
                         ariaLabel="بازيابی رمز عبور"

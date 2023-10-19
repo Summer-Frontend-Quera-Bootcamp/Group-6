@@ -1,4 +1,6 @@
 import DashBoardLayout from "@/layouts/dashboard";
+import WorkspaceLayout from "@/layouts/space";
+import WorkSpace from "@/pages/workspace";
 import FullCalendar from "@/pages/dashboard/calView/Calendar";
 import ColView from "@/pages/dashboard/colView";
 import List from "@/pages/dashboard/listView";
@@ -18,29 +20,28 @@ import { Navigate } from "react-router-dom";
 
 const AuthPagesData: routerType[] = [
     {
-        path: "/",
-        title: "login",
-        element: <Navigate to="/login" />,
-    },
-    {
         path: "/login",
         title: "login",
         element: <AuthLayout children={<Login />} />,
+        isAuth: true,
     },
     {
         path: "/register",
         title: "register",
         element: <AuthLayout children={<Register />} />,
+        isAuth: true,
     },
     {
         path: "/forgot",
         title: "forgot",
         element: <AuthLayout children={<Forgot />} />,
+        isAuth: true,
     },
     {
         path: "/reset-password",
         title: "reset-password",
         element: <AuthLayout children={<ResetPassword />} />,
+        isAuth: true,
     },
 ];
 
@@ -73,27 +74,46 @@ const ProfilePagesData: routerType[] = [
 
 const DashboardPagesData: routerType[] = [
     {
+        path: "/",
+        title: "dashboard",
+        element: <DashBoardLayout children={<ColView />} />,
+        isProtected: true,
+    },
+    {
         path: "/dashboard",
         title: "dashboard",
         element: <DashBoardLayout children={<ColView />} />,
+        isProtected: true,
     },
     {
         path: "/dashboard/col",
         title: "dashboard column view",
         element: <DashBoardLayout children={<ColView />} />,
+        isProtected: true,
     },
     {
         path: "/dashboard/cal",
         title: "dashboard calender view",
         element: <DashBoardLayout children={<FullCalendar />} />,
+        isProtected: true,
     },
     {
         path: "/dashboard/list",
         title: "dashboard list view",
         element: <DashBoardLayout children={<List />} />,
+        isProtected: true,
     },
 ];
 
-const pagesData = [AuthPagesData, ProfilePagesData, DashboardPagesData];
+const WorkSpaceData: routerType[] = [
+  {
+    path: "/workspace",
+    title: "workspace",
+    element: <WorkspaceLayout children={<WorkSpace />} />,
+     isProtected: true,
+  },
+];
+
+const pagesData = [AuthPagesData, ProfilePagesData, DashboardPagesData, WorkSpaceData];
 
 export default pagesData;

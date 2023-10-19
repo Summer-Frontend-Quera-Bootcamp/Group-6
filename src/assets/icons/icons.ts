@@ -49,6 +49,7 @@ export {
   LinkCopy,
   RedBin,
   EditColor,
+
 };
 
 // how to use:
