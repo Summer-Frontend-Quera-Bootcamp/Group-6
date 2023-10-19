@@ -1,11 +1,14 @@
-import React from "react";
+
 import { useState , useRef} from "react";
 import logo from "@assets/images/logo.svg";
 import { ToggleTheme } from "@components/common";
 import * as Icon from "../../../assets/icons/icons";
 import useClickOutside from "@/hooks/useClickOutside";
 import ModalSm from "@/components/common/ModalSm/index.tsx";
-import ProjectModal from "@/components/projectModal/ProjectModal";
+import React, { useContext } from "react";
+import { AppContext } from "@/context/store";
+import { Link, useNavigate } from "react-router-dom";
+import { LogoutUser } from "@/context/user/user.action";
 
 const spaces = [
   {
@@ -154,8 +157,19 @@ const SpaceItem: React.FC<ISpaceItem> = ({ isActive, name, id, color, selected ,
 };
 
 const SideBar: React.FC = () => {
-  const [selected, setSelected] = useState<number | undefined>(1);
-  const [selectedItem, setSelectedItem] = useState<number | undefined>(1);
+    const { state, dispatch } = useContext(AppContext);
+    const [selectedItem, setSelectedItem] = useState<number | undefined>(1);
+    const [selected, setSelected] = useState<number | undefined>(1);
+    const firstname = state.user.first_name || "";
+    const lastname = state.user.last_name || "";
+    const thumbnail = state.user.thumbnail || "";
+    const navigate = useNavigate();
+    const handleLogOut = () => {
+        dispatch(LogoutUser());
+        navigate("/login");
+    };  
+ 
+  
  
   return (
     <div className="flex flex-col items-start justify-between pr-[50px] pl-4 pt-[40px] border-l-2 w-[340px] min-w-[300px] h-[100vh] bg-inherit">
@@ -216,14 +230,28 @@ const SideBar: React.FC = () => {
       </div>
       {/* bottom container */}
       <div className="pb-[40px] self-stretch">
-        <div className="flex gap-3 items-center mb-6">
-          <div className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-blue-300 text-blue-700">
-            NM
-          </div>
-          <span>نیلوفر موجودی</span>
-        </div>
-        <div className="flex items-center justify-between pl-[20px]">
-          <span className="flex items-center gap-1 cursor-pointer">
+                <Link
+                    to="/profile"
+                    className="flex gap-3 items-center mb-6 cursor-pointer"
+                >
+                    <div className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-blue-300 text-blue-700">
+                        {thumbnail ? (
+                            <img
+                                src={thumbnail}
+                                className=" w-[36px] h-[36px] rounded-full"
+                            />
+                        ) : (
+                            "کاربر"
+                        )}
+                    </div>
+                    <span>{`${firstname} ${lastname}`}</span>
+                </Link>
+                <div className="flex items-center justify-between pl-[20px]">
+                    <span
+                        className="flex items-center gap-1 cursor-pointer"
+                        onClick={handleLogOut}
+                    >
+
             <img src={Icon.Exit} alt="exit icon" />
             <span className="text-gray-400">خروج</span>
           </span>
