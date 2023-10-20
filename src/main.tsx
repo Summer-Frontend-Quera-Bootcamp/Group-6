@@ -11,20 +11,23 @@ import { QueryClientStore } from "./services/queryClient.ts";
 import { QueryClientProvider } from "react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FilterProvider } from "./context/FilterContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <AppContextProvider>
             <QueryClientProvider client={QueryClientStore}>
                 <MessagesProvider>
-                    <ThemeProvider>
-                        <TagsProvider>
-                            <BrowserRouter>
-                                <ToastContainer rtl />
-                                <App />
-                            </BrowserRouter>
-                        </TagsProvider>
-                    </ThemeProvider>
+                    <FilterProvider>
+                        <ThemeProvider>
+                            <TagsProvider>
+                                <BrowserRouter>
+                                    <ToastContainer rtl />
+                                    <App />
+                                </BrowserRouter>
+                            </TagsProvider>
+                        </ThemeProvider>
+                    </FilterProvider>
                 </MessagesProvider>
             </QueryClientProvider>
         </AppContextProvider>
