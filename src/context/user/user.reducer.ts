@@ -20,6 +20,7 @@ export const UserReducer = (
                 user_id: action?.payload?.user_id || action?.payload?.id || 0,
                 username: action?.payload?.username || "",
                 phone_number: action?.payload?.phone_number || "",
+                workspaces: action?.payload?.workspaces || [],
             };
         case UserActionTypes.UPDATED_USER:
             return {
@@ -34,6 +35,7 @@ export const UserReducer = (
                 username: action?.payload?.username || state.username || "",
                 phone_number:
                     action?.payload?.phone_number || state.phone_number || "",
+                workspaces: [],
             };
         case UserActionTypes.USER_LOGGED_OUT:
             return {
@@ -46,7 +48,14 @@ export const UserReducer = (
                 user_id: 0,
                 username: "",
                 phone_number: "",
+                workspaces: [],
             };
+        case UserActionTypes.GET_WORKSPACES:
+            return {
+                ...state,
+                workspaces: action?.payload?.workspaces || [],
+            };
+
         default:
             return state;
     }
