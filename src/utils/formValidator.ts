@@ -1,4 +1,6 @@
+import { ITasksRequest } from "@/types/api.types";
 import UserData from "@/types/userData.types";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 interface IValidationProps {
@@ -134,4 +136,30 @@ const isRegisterValid = (
         });
 };
 
-export { isEmailValid, isLoginValid, isPasswordValid, isRegisterValid };
+const isTaskFormValid = (taskData: ITasksRequest) => {
+    const isValidForm =
+        taskData.name ||
+        taskData.description ||
+        taskData.attachment ||
+        taskData.thumbnail;
+
+    if (!isValidForm) {
+        toast.error("لطفا فرم را به درستی پر کنید.");
+        return false;
+    } else if (taskData.name?.trim() === "" || !taskData.name) {
+        toast.error("لطفا نام تسک را پر کنید.");
+        return false;
+    } else if (!taskData.project) {
+        toast.error("لطفا پروژه تسک را وارد کنید");
+        return false;
+    }
+    return true;
+};
+
+export {
+    isEmailValid,
+    isLoginValid,
+    isPasswordValid,
+    isRegisterValid,
+    isTaskFormValid,
+};

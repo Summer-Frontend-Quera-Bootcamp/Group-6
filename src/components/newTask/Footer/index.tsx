@@ -29,7 +29,7 @@ const FooterIcons: React.FC<IFooterIconsProps> = ({
         alt: string;
         property: keyof IModalsStatus;
     }> = [
-        { src: TagIcon, alt: "Tag Icon", property: "tags" },
+        // { src: TagIcon, alt: "Tag Icon", property: "tags" },
         { src: CalendarIcon, alt: "Calendar Icon", property: "calendar" },
         { src: FlagIcon, alt: "Flag Icon", property: "flags" },
     ];

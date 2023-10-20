@@ -92,3 +92,11 @@ export function appendAccountFormData(
         }
     });
 }
+
+export const appendFormData = (
+    formData: FormData,
+    name: string,
+    value: string | Blob | any
+) => {
+    if (value !== "") formData.append(name, value);
+};
