@@ -55,3 +55,12 @@ export interface ITaskData {
     order: number;
     members: string;
 }
+
+export interface IBoardData {
+    id: number;
+    name: string;
+    order: number;
+    tasks: ITaskData[];
+    tasks_count: string;
+    is_archive: boolean;
+}
