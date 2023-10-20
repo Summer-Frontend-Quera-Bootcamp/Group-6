@@ -1,43 +1,43 @@
 import React, { ReactElement, useState } from "react";
 import { PiCaretCircleDownBold } from "react-icons/pi";
+import {IBoardData,ITaskData} from "@/context/types/context.type";
 
-interface ITask {
-    task?: {
-        status: {
-            title: string;
-            bg: string;
-        };
-        title: string;
-        members: string[];
-        deadline: string;
-        priority: number;
-        description: string;
-    }[];
-}
+// interface ITask {
+// attachment: string | null
+// deadline: string | null
+// description: string | null
+// id: number
+// members: []
+// name: string
+// order: number
+// priority:number
+// thumbnail: string|null
+//     };
 
-interface ITaskStatus {
-    status: string;
-    bg: string;
-    onClick: () => void;
-}
 
-const TaskStatus: React.FC<ITaskStatus> = ({
-    status,
-    bg,
-    onClick,
-}): ReactElement => {
-    return (
-        <span
-            className={`text-white text-right rounded py-1 px-1.5`}
-            onClick={onClick}
-            style={{ backgroundColor: bg }}
-        >
-            {status}
-        </span>
-    );
-};
+// interface ITaskStatus {
+//     status: string;
+//     bg: string;
+//     onClick: () => void;
+// }
 
-const Task: React.FC<ITask> = ({ task }): ReactElement => {
+// const TaskStatus: React.FC<ITaskStatus> = ({
+//     status,
+//     bg,
+//     onClick,
+// }): ReactElement => {
+//     return (
+//         <span
+//             className={`text-white text-right rounded py-1 px-1.5`}
+//             onClick={onClick}
+//             style={{ backgroundColor: bg }}
+//         >
+//             {status}
+//         </span>
+//     );
+// };
+
+const Task: React.FC = (): ReactElement => {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
@@ -45,23 +45,23 @@ const Task: React.FC<ITask> = ({ task }): ReactElement => {
 
     return (
         <div className="mb-[19px]">
-            <div className="w-[1011px] flex flex-row-reverse items-center justify-between">
+            {/* <div className="w-[1011px] flex flex-row-reverse items-center justify-between">
                 <div className="flex flex-row-reverse gap-xs">
                     {show && (
                         <span className="mt-1.5 ml-2" onClick={handleShow}>
                             <PiCaretCircleDownBold size={20} color={"grey"} />
                         </span>
                     )}
-                    {task && (
+                    {boards && (
                         <TaskStatus
-                            status={task[0].status.title}
-                            bg={task[0].status.bg}
+                            status={tasks[0].status.title}
+                            bg={tasks[0].status.bg}
                             onClick={handleShow}
                         />
                     )}
                     <span dir="rtl">
                         <span className="py-[5px] text-body-xs">
-                            {task?.length}
+                            {boards?.length}
                         </span>
                         <span className="py-[5px] text-body-xs"> تسك </span>
                     </span>
@@ -74,24 +74,24 @@ const Task: React.FC<ITask> = ({ task }): ReactElement => {
                 </div>
             </div>
             {show &&
-                task?.map((item, index) => (
+                boards.tasks?.map((item:ITaskData, index:any) => (
                     <div
                         key={index}
                         className="w-[1011px] flex flex-row-reverse py-[7px] items-center justify-between font-[200]"
                     >
                         <div className=" flex flex-row-reverse items-first ">
-                            {item.status.title === "pending" ? (
+                            {item.title === "pending" ? (
                                 <div className="w-4 h-4 bg-[#F92E8F] rounded-[3px] my-2 mr-6"></div>
                             ) : item.status.title === "inProgress" ? (
                                 <div className="w-4 h-4 bg-orange-primary rounded-[3px] my-2 mr-6"></div>
                             ) : (
                                 <div className="w-4 h-4 bg-green-primary rounded-[3px] my-2 mr-6"></div>
                             )}
-                            <p className="text-body-xs m-2"> {item.title}</p>
+                            <p className="text-body-xs m-2"> {item.name}</p>
                         </div>
                         <div className="w-[473px] flex flex-row-reverse justify-between">
                             <span className="w-[70px] text-center text-body-xs">
-                                {item.members.join("،  ")}
+                                {item.members}
                             </span>
                             <span className="w-[70px] text-center text-body-xs">
                                 {item.deadline}
@@ -104,7 +104,7 @@ const Task: React.FC<ITask> = ({ task }): ReactElement => {
                             </span>
                         </div>
                     </div>
-                ))}
+                ))} */}
         </div>
     );
 };
