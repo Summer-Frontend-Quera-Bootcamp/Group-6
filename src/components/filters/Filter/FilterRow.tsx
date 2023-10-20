@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import Dropdown, { IItem } from "../Dropdown";
 import { ITagTitle } from "../Tag";
-import { IFilterData } from ".";
+import { IFilterData } from "@/context/FilterContext";
 import DeleteIcon from "../assets/icons/DeleteIcon";
 
 const whereList = [
@@ -32,10 +32,11 @@ const FilterRow: FC<IFilterRowProps> = ({ filterData, onUpdate, onDelete }) => {
     const [rowData, setRowData] = useState<IFilterData>(filterData);
 
     const handleUpdate = (item: IItem, which: "where" | "tag" | "isOrNot") => {
-        rowData[which] = item.title;
-        setRowData({ ...rowData });
+        const updatedRowData = { ...rowData };
+        updatedRowData[which] = item.title;
+        setRowData(updatedRowData);
 
-        onUpdate(rowData);
+        onUpdate(updatedRowData);
     };
 
     return (
