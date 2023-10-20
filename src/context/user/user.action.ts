@@ -1,7 +1,7 @@
 import { ITokenData, IUpdateResponse } from "@/types/api.types";
 import { AXIOS } from "../../config/axios";
 import { initialState } from "../store";
-import { IUserState } from "../types/context.type";
+import { IUserState, WorkspacesData } from "../types/context.type";
 import { UserActionTypes } from "./user.actiontype";
 import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
@@ -17,10 +17,6 @@ export const LogoutUser = () => (dispatch: any) => {
 };
 
 export const AuthenticateUser = (payload: IUserState) => (dispatch: any) => {
-    dispatch({
-        type: UserActionTypes.USER_LOGGED_IN,
-        payload,
-    });
     Cookies.set("accessToken", payload.access);
     Cookies.set("refreshToken", payload.refresh);
     Cookies.set(
@@ -35,6 +31,10 @@ export const AuthenticateUser = (payload: IUserState) => (dispatch: any) => {
             username: payload.username,
         })
     );
+    dispatch({
+        type: UserActionTypes.USER_LOGGED_IN,
+        payload,
+    });
     AXIOS.defaults.headers.common.Authorization = `Bearer ${payload.access}`;
 };
 
@@ -50,6 +50,20 @@ export const UpdateUser = (payload: IUpdateResponse) => (dispatch: any) => {
         Cookies.set("user", JSON.stringify({ ...user, ...payload }));
     }
 };
+
+export const UpdateWorkspaces =
+    (payload: WorkspacesData) => (dispatch: any) => {
+        dispatch({
+            type: UserActionTypes.GET_WORKSPACES,
+            payload,
+        });
+
+        const userItem = Cookies.get("user");
+        if (userItem) {
+            const user = JSON.parse(userItem);
+            Cookies.set("user", JSON.stringify({ ...user, ...payload }));
+        }
+    };
 
 export const ReJoinUser = () => (dispatch: any) => {
     const accessToken = Cookies.get("accessToken");

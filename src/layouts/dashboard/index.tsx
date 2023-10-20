@@ -1,4 +1,10 @@
-import React, { ReactElement, ReactNode, useRef, useState } from "react";
+import React, {
+    ReactElement,
+    ReactNode,
+    useContext,
+    useRef,
+    useState,
+} from "react";
 import SideBar from "@components/dashboard/SideBar";
 import OptionBar from "@components/dashboard/OptionBar";
 import { useTheme } from "@/context/ThemeContext";
@@ -6,6 +12,7 @@ import { NewTask } from "@/pages";
 import Plus from "@assets/icons/Plus-white.svg";
 import useClickOutside from "@/hooks/useClickOutside";
 import ShareProject from "@/components/shareProject";
+import { AppContext } from "@/context/store";
 
 interface IDashboardLayoutProps {
     children?: ReactNode;
@@ -15,6 +22,7 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
     children,
 }): ReactElement => {
     const { theme }: any = useTheme();
+    const { state } = useContext(AppContext);
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [showShareModal, setShowShareModal] = useState(false);
 
@@ -62,11 +70,12 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
             )}
 
             <button
-                className="bg-brand-primary text-white text-[14px] px-[12px] py-[8px] rounded-[6px] absolute bottom-10 left-12 flex items-center"
+                className="text-white text-[14px] px-[12px] py-[8px] rounded-[6px] absolute bottom-10 left-12 flex items-center"
                 onClick={() => {
                     setShowTaskModal((pervState) => !pervState);
                 }}
                 ref={modal}
+                style={{ backgroundColor: state.theme }}
             >
                 <img src={Plus} alt="add" />
                 ساختن تسک

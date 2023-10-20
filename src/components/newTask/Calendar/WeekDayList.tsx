@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { Value } from "react-multi-date-picker";
+import { DateObject, Value } from "react-multi-date-picker";
 import { getDynamicDates } from "@/utils/getDates";
 
 interface WeekDayListProps {
-    changeDate: (date: Value) => void;
+    changeDate: React.Dispatch<React.SetStateAction<DateObject | undefined>>;
 }
 
 const WeekDayList: React.FC<WeekDayListProps> = ({ changeDate }) => {

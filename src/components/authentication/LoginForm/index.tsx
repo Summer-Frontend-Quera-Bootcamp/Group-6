@@ -1,7 +1,9 @@
 import { Input, SubmitBtn } from "@/components/common";
 import { AppContext } from "@/context/store";
-import { AuthenticateUser } from "@/context/user/user.action";
+import { WorkspacesData } from "@/context/types/context.type";
+import { AuthenticateUser, UpdateWorkspaces } from "@/context/user/user.action";
 import { UseLoginMutation } from "@/services/Authentication/mutations/useLoginMutation";
+import { fetchWorkspaces } from "@/services/Workspaces";
 import { isLoginValid } from "@/utils/formValidator";
 import React, { useContext, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -32,10 +34,13 @@ const LoginForm = () => {
             const { from } = location.state || { from: "/" };
             toast.loading("در حال بررسی اطلاعات...");
             loginMutation.mutate(creds, {
-                onSuccess: (payload) => {
+                onSuccess: async (payload) => {
                     dispatch(AuthenticateUser(payload));
                     toast.dismiss();
                     toast.success("با موفقیت وارد شدید.");
+
+                    const workspaces: WorkspacesData = await fetchWorkspaces();
+                    dispatch(UpdateWorkspaces(workspaces));
 
                     navigate(from);
                 },

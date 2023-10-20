@@ -1,6 +1,7 @@
 export interface IAppContextState {
     user: IUserState;
     theme: PaletteColorType;
+    tasks: ITaskData[];
 }
 
 export interface IContextAction<T, K> {
@@ -13,6 +14,19 @@ export interface IAppContext {
     dispatch: any;
 }
 
+export interface IProjects {
+    id: number;
+    name: string;
+}
+export interface IWorkspaces {
+    id: number;
+    name: string;
+    color: string;
+    projects?: IProjects[];
+}
+export interface WorkspacesData {
+    workspaces: IWorkspaces[];
+}
 export interface IUserState {
     refresh: string;
     access: string;
@@ -24,7 +38,20 @@ export interface IUserState {
     last_name: string;
     phone_number: any;
     thumbnail: string;
+    workspaces: IWorkspaces[];
 }
 export interface IThemeState {
     theme: PaletteColorType;
+}
+
+export interface ITaskData {
+    id: number;
+    name: string;
+    description: string;
+    deadline: string;
+    priority: number;
+    attachment: string;
+    thumbnail: string;
+    order: number;
+    members: string;
 }

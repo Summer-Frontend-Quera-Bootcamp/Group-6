@@ -1,25 +1,28 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 import { SubmitBtn } from "@/components/common";
 import { IModalsStatus } from "@/types/newTask.types";
 
-import type { Value } from "react-multi-date-picker";
 import { Calendar, DateObject } from "react-multi-date-picker";
 import persian_fa from "react-date-object/locales/persian_fa";
+import gregorian_en from "react-date-object/locales/gregorian_en";
 import persian from "react-date-object/calendars/persian";
+import gregorian from "react-date-object/calendars/gregorian";
 
 import "@assets/styles/calendar.css";
 import { CalendarHeader } from "./CalendarHeader";
 import { WeekDayList } from "./WeekDayList";
+import { ITasksRequest } from "@/types/api.types";
 
 interface ICalendarForm {
     setShowModal: React.Dispatch<React.SetStateAction<IModalsStatus>>;
+    setTaskData: React.Dispatch<React.SetStateAction<ITasksRequest>>;
 }
 
 const CalendarForm = forwardRef<HTMLDivElement, ICalendarForm>(
-    ({ setShowModal }, ref) => {
-        const [startDate, setStartDate] = useState<Value>("");
-        const [endDate, setEndDate] = useState<Value>("");
+    ({ setShowModal, setTaskData }, ref) => {
+        const [startDate, setStartDate] = useState<DateObject>();
+        const [endDate, setEndDate] = useState<DateObject>();
 
         const handleDateChange = (e: DateObject[]) => {
             //*  تاریخ شروع و پایان تسک در این تابع هندل میشود
@@ -36,13 +39,27 @@ const CalendarForm = forwardRef<HTMLDivElement, ICalendarForm>(
             });
         };
 
+        useEffect(() => {
+            const date = endDate;
+            if (date)
+                setTaskData((prev: any) => ({
+                    ...prev,
+                    deadline: date
+                        .convert(gregorian, gregorian_en)
+                        .format("YYYY-MM-DD"),
+                }));
+        }, [endDate]);
+
         return (
             <div
                 ref={ref}
                 className="modal bg-inherit rounded-[20px] z-10 shadow-newTask p-5"
             >
                 <div className="flex flex-col">
-                    <CalendarHeader startDate={startDate} endDate={endDate} />
+                    <CalendarHeader
+                        startDate={startDate || ""}
+                        endDate={endDate?.convert(persian, persian_fa) || ""}
+                    />
                     <hr className="bg-gray-300" />
                     <div className="w-full flex self-end justify-between gap-4">
                         <div className="px-8 pt-7 flex flex-col gap-2">

@@ -12,6 +12,7 @@ import {
 } from "./user/user.action";
 import { ThemeReducer } from "./theme/theme.reducer";
 import { LoadTheme } from "./theme/theme.action";
+import { TasksReducer } from "./tasks/tasks.reducer";
 
 const theme = localStorage.getItem("PALETTE") as PaletteColorType;
 export const initialState: IAppContextState = {
@@ -25,16 +26,19 @@ export const initialState: IAppContextState = {
         thumbnail: "",
         user_id: 0,
         phone_number: "",
+        workspaces: [],
     },
     theme: theme,
+    tasks: [],
 };
 
 const combineReducer = (
-    { user, theme }: IAppContextState,
+    { user, theme, tasks }: IAppContextState,
     action: IContextAction<any, any>
 ) => ({
     user: UserReducer(user, action),
     theme: ThemeReducer(theme, action),
+    tasks: TasksReducer(tasks, action),
 });
 
 export const AppContext = createContext<IAppContext>({

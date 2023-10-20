@@ -1,5 +1,6 @@
-import { Dispatch } from "react";
+import { Dispatch, ReactNode } from "react";
 import { DateObject } from "react-multi-date-picker";
+import { ITasksRequest } from "./api.types";
 
 interface IModalsStatus {
     tags: boolean;
@@ -46,14 +47,44 @@ interface ITagLabelProps {
 interface IOptionMenuProps {
     tag: TagTypes;
 }
+interface ITaskData {
+    id?: number;
+    name?: string;
+    description?: string;
+    deadline?: string;
+    priority?: number;
+    attachment?: string;
+    thumbnail?: string;
+    order?: number;
+    members?: string;
+}
+export type TaskData = {
+    name?: string;
+    description?: string;
+    attachment?: string | Object | File;
+    thumbnail?: string | Object | File;
+    priority?: number;
+    order?: number;
+    project?: {
+        idx: number;
+        id: number;
+        name: string;
+    };
+};
 
+export interface INewTaskProps {
+    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
+}
 interface IUserDetailProps {
-    spaceName: string;
+    taskData: ITasksRequest;
+    setTaskData: React.Dispatch<React.SetStateAction<TaskData>>;
+
+    children?: ReactNode;
 }
 
 interface IHeaderProps {
-    taskName: string;
     closeModal: React.Dispatch<React.SetStateAction<boolean>>;
+    children?: ReactNode;
 }
 
 interface IDynamicDateEntry {
@@ -73,4 +104,5 @@ export type {
     IOptionMenuProps,
     IDynamicDateEntry,
     ITagListProps,
+    ITaskData,
 };

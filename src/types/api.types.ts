@@ -72,3 +72,35 @@ export interface IResetPassword {
     password?: string;
     password1?: string;
 }
+
+export interface ITasksRequest {
+    name?: string;
+    description?: string;
+    attachment?: string | Object | File;
+    thumbnail?: string | Object | File;
+    priority?: number;
+    order?: number;
+    project?: {
+        idx: number;
+        id: number;
+        name: string;
+    };
+    board?: number;
+    params?: {
+        space_id: number;
+        project_id: number;
+        baord_id?: number;
+    };
+}
+
+export interface ITasksResponse {
+    id: number;
+    name: string;
+    description: string;
+    deadline: string;
+    priority: number;
+    attachment: string;
+    thumbnail: string;
+    order: number;
+    members: string;
+}
