@@ -53,7 +53,7 @@ export interface ITaskData {
     attachment: string;
     thumbnail: string;
     order: number;
-    members: string;
+    members: string[];
 }
 
 export interface IBoardData {
