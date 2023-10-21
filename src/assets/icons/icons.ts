@@ -23,6 +23,7 @@ import WhiteShare from "./WhiteShare.svg";
 import LinkCopy from "./LinkCopy.svg"
 import RedBin from "./RedBin.svg"
 import EditColor from "./EditColor.svg"
+import CarrotCircleDown from "./CarrotCircleDown.svg"
 export {
   Add,
   Archive,
@@ -49,7 +50,7 @@ export {
   LinkCopy,
   RedBin,
   EditColor,
-
+CarrotCircleDown,
 };
 
 // how to use:

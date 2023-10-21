@@ -3,8 +3,6 @@ import {IBoardData, ITaskData} from "@/context/types/context.type";
 
 
 export async function fetchBoards(space:string,project:string): Promise<any> {
-
-
             try {
                 const BoardsResponse = await AXIOS.get(`/workspaces/${space}/projects/${project}/boards/`);
                 const thisProject = await AXIOS.get(`/workspaces/${space}/projects/${project}/`);
