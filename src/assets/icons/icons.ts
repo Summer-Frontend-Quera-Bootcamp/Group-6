@@ -1,4 +1,5 @@
 import Add from "./Add.svg";
+import AddBrand from "./AddBrand.svg";
 import Archive from "./archive.svg";
 import Arrow from "./Arrow.svg";
 import Calendar from "./Calendar.svg";
@@ -20,12 +21,13 @@ import Share from "./Share.svg";
 import Tick from "./Tick.svg";
 import Description from "./Description.svg";
 import WhiteShare from "./WhiteShare.svg";
-import LinkCopy from "./LinkCopy.svg"
-import RedBin from "./RedBin.svg"
-import EditColor from "./EditColor.svg"
-import CarrotCircleDown from "./CarrotCircleDown.svg"
+import LinkCopy from "./LinkCopy.svg";
+import RedBin from "./RedBin.svg";
+import EditColor from "./EditColor.svg";
+import CarrotCircleDown from "./CarrotCircleDown.svg";
 export {
   Add,
+  AddBrand,
   Archive,
   Arrow,
   Calendar,
@@ -50,7 +52,7 @@ export {
   LinkCopy,
   RedBin,
   EditColor,
-CarrotCircleDown,
+  CarrotCircleDown,
 };
 
 // how to use:
