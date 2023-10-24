@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { PiCaretCircleDownBold } from "react-icons/pi";
-import {IBoardData,ITaskData} from "@/context/types/context.type";
+import { IBoardData, ITaskData } from "@/context/types/context.type";
 
 // interface ITask {
 // attachment: string | null
@@ -13,7 +13,6 @@ import {IBoardData,ITaskData} from "@/context/types/context.type";
 // priority:number
 // thumbnail: string|null
 //     };
-
 
 // interface ITaskStatus {
 //     status: string;

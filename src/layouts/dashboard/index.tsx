@@ -40,7 +40,7 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
             <div className="w-[100%] h-[100vh]">
                 <OptionBar openModals={handleModal} />
                 <div
-                    className="flex overflow-auto pl-[300px] min-h-[83vh]"
+                    className="flex overflow-auto pl-[300px] max-h-[83vh]"
                     style={{
                         width: "calc(100vw-350px)",
                     }}

@@ -80,6 +80,7 @@ export interface ITasksRequest {
     thumbnail?: string | Object | File;
     priority?: number;
     order?: number;
+    deadline?: string;
     project?: {
         idx: number;
         id: number;
