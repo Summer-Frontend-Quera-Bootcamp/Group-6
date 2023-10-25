@@ -12,14 +12,18 @@ import Search from "@assets/icons/search-loupe.svg";
 import Filter from "@assets/icons/Filter.svg";
 import FilterModal from "@/components/filters/Filter";
 import useClickOutside from "@/hooks/useClickOutside";
+import ShareModal from "@/components/shareModal";
 
-interface IOptionProps {
-    openModals: () => void;
-}
+// interface IOptionProps {
+//     openModals: () => void;
+// }
 
-const OptionBar: React.FC<IOptionProps> = ({ openModals }) => {
+const OptionBar: React.FC = ({}) => {
     let selected;
-
+    const [showModal, setShowModal] = useState(false);
+    const handleShowModal = (state: boolean) => {
+        setShowModal(state);
+    };
     //TODO add path to find selected tab
     // const path = useLocation().pathname;
     const [active, setActive] = useState(2);
@@ -108,8 +112,17 @@ const OptionBar: React.FC<IOptionProps> = ({ openModals }) => {
                 </div>
                 <div
                     className="flex items-center mr-auto px-2 cursor-pointer"
-                    onClick={openModals}
-                >
+                    onClick={() => {
+                        handleShowModal(true);
+                    }}>
+                {showModal && (
+                <ShareModal
+                    open={showModal}
+                    setOpen={setShowModal}
+                    title={"اشتراک گذاری ورک اسپیس"}
+                    workspace={true}
+                />
+                )}   
                     <img src={Share} alt="share icon" />
                     <span>اشتراک‌گذاری</span>
                 </div>

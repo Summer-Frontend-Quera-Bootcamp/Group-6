@@ -1,14 +1,32 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { GoLink } from "react-icons/go";
-import { PiCaretDownLight } from "react-icons/pi";
-import { AiOutlineClose } from "react-icons/ai";
+import React, { useContext } from "react";
+import { AppContext } from "@/context/store";
+import * as Icon from "../../assets/icons/icons";
+import { isEmailValid } from "@/utils/formValidator";
+import { toast } from "react-toastify";
 
-interface IShareProject {
+
+interface IShareModal {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    title:string;
+    workspace:boolean
 }
-const ShareProject: React.FC<IShareProject> = ({ open, setOpen }) => {
+const ShareModal: React.FC<IShareModal> = ({open, setOpen , title , workspace }) => {
+    const { state } = useContext(AppContext);
+    const thumbnail = state.user.thumbnail || "";
+    const [email,setEmail]=useState("")
+    const handleSubmit = async () => {
+        const validationResult = await isEmailValid(email);
+        console.log(validationResult)
+        if (validationResult && validationResult.isValid) {
+            toast.success("ایمیل برای کاربر مورد نظر ارسال شد");
+            setOpen(false)  
+        } else{
+            toast.error(validationResult.error?.message);
+        }
+    };
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog
@@ -27,7 +45,7 @@ const ShareProject: React.FC<IShareProject> = ({ open, setOpen }) => {
                 >
                     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                 </Transition.Child>
-                <div className="fixed inset-0 z-10 overflow-y-auto">
+                <div className="fixed inset-0 z-40 overflow-y-auto">
                     <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         <Transition.Child
                             as={Fragment}
@@ -44,11 +62,14 @@ const ShareProject: React.FC<IShareProject> = ({ open, setOpen }) => {
                                         className="w-6 m-0 p-0 cursor-pointer"
                                         onClick={() => setOpen(false)}
                                     >
-                                        <AiOutlineClose size={16} />
+                                    <img
+                                        src={Icon.Close}
+                                        alt="close icon"
+                                    />
                                     </span>
                                     <span className="pr-2 font-heading-xs m-0">
                                         {" "}
-                                        اشتراک گذاری ورک اسپيس
+                                        {title}
                                     </span>
                                     <span className="w-6"> </span>
                                 </div>
@@ -57,18 +78,21 @@ const ShareProject: React.FC<IShareProject> = ({ open, setOpen }) => {
                                         <input
                                             className="w-6 m-0 pr-3 grow bg-[#F0F1F3] border-0 text-right rounded-r-lg"
                                             placeholder="دعوت با ایمیل"
+                                            onChange={(e)=>setEmail(e.target.value)}
                                         />
-                                        <div className="font-body-xs bg-brand-primary w-[91px] rounded-l-lg text-center text-white pt-2">
+                                        <div className="font-body-xs bg-brand-primary w-[91px] rounded-l-lg text-center text-white pt-2"
+                                        onClick={()=>handleSubmit()}>
                                             {" "}
                                             ارسال
                                         </div>
                                     </div>
                                     <div className="flex flex-row-reverse my-5 justify-between">
                                         <div className="flex flex-row-reverse justify-start">
-                                            <span className="w-6 m-0 p-0">
-                                                <GoLink size={20} />
-                                            </span>
-                                            <span className="pr-2 font-body-s m-0">
+                                        <img className="h-4 mt-2"
+                                        src={Icon.LinkCopy}
+                                        alt="link copy icon"
+                                    />
+                                            <span className="pr-2 font-body-s mt-1">
                                                 لينک خصوصی
                                             </span>
                                         </div>
@@ -84,14 +108,19 @@ const ShareProject: React.FC<IShareProject> = ({ open, setOpen }) => {
                                     <div>
                                         <div className="flex flex-row-reverse justify-between ">
                                             <div className="flex flex-row-reverse">
-                                                <img
-                                                    className="w-6 h-6 rounded-full"
-                                                    alt="persons picture"
-                                                ></img>
-                                                <span className="px-1 font-body-s">
+                                           
+                                             {thumbnail ? (
+                                             <img
+                                             src={thumbnail}
+                                               className=" w-[36px] h-[36px] rounded-full"
+                                                  />
+                                                 ) : (
+                                               <span className="bg-red-primary w-[36px] h-[36px] rounded-full"></span>
+                                                  )}
+                                                <span className="px-2 pt-2 font-body-s">
                                                     من
                                                 </span>
-                                                <span className="bg-blue-secondary rounded-md font-body-xs text-blue-primary py-1 px-2">
+                                                <span className="bg-blue-secondary rounded-md font-body-xs text-blue-primary pt-2 px-2">
                                                     Workspace Owner
                                                 </span>
                                             </div>
@@ -111,62 +140,56 @@ const ShareProject: React.FC<IShareProject> = ({ open, setOpen }) => {
                                             </div>
                                             <div className="flex flex-row-reverse">
                                                 <div className="flex flex-row-reverse m-0 border pt-[3px] pb-[2px] border-inherit px-3 rounded">
-                                                    <span className="font-body-xs ml-3">
-                                                        دسترسی کامل
+                                                    <span className="font-body-xs">
+                                                        دسترسی‌کامل
                                                     </span>
-                                                    <span className="pt-1">
-                                                        <PiCaretDownLight
-                                                            size={16}
-                                                            color={"grey"}
-                                                        />{" "}
-                                                    </span>
+                                                    <img 
+                                                    src={Icon.Down}
+                                                    alt="down icon"
+                                                         />
                                                 </div>
+                                                {workspace &&
                                                 <div className="flex flex-row-reverse m-0 border pt-[3px] pb-[2px] border-inherit px-3 rounded">
                                                     <span className="font-body-xs ml-3">
-                                                        همه پروژه ها
+                                                        همه‌پروژه‌ها
                                                     </span>
-                                                    <span className="pt-1">
-                                                        <PiCaretDownLight
-                                                            size={16}
-                                                            color={"grey"}
-                                                        />{" "}
-                                                    </span>
-                                                </div>
+                                                    <img 
+                                                    src={Icon.Down}
+                                                    alt="down icon"
+                                                         />
+                                                </div>}
                                             </div>
                                         </div>
                                         <div className="flex flex-row-reverse justify-between my-3">
                                             <div className="flex flex-row-reverse">
                                                 <div className="w-8 h-8 rounded-full bg-[#F27474] font-body-xs text-center pt-1 ">
                                                     {" "}
-                                                    ZY{" "}
+                                                    MR{" "}
                                                 </div>
                                                 <span className="px-1 font-body-s pt-1 ">
-                                                    Z.yaserinejad@Gmail.Com
+                                                    Moriyn64@Yahoo.Com
                                                 </span>
                                             </div>
                                             <div className="flex flex-row-reverse">
                                                 <div className="flex flex-row-reverse m-0 border pt-[3px] pb-[2px] border-inherit px-3 rounded">
                                                     <span className="font-body-xs ml-3">
-                                                        دسترسی ادیت
+                                                        دسترسی‌ادیت
                                                     </span>
-                                                    <span className="pt-1">
-                                                        <PiCaretDownLight
-                                                            size={16}
-                                                            color={"grey"}
-                                                        />{" "}
-                                                    </span>
+                                                    <img 
+                                                    src={Icon.Down}
+                                                    alt="down icon"
+                                                         />
                                                 </div>
+                                                {workspace &&
                                                 <div className="flex flex-row-reverse m-0 border pt-[3px] pb-[2px] border-inherit px-3 rounded">
                                                     <span className="font-body-xs ml-3">
-                                                        پروژه اول
+                                                        پروژه‌اول
                                                     </span>
-                                                    <span className="pt-1">
-                                                        <PiCaretDownLight
-                                                            size={16}
-                                                            color={"grey"}
-                                                        />{" "}
-                                                    </span>
-                                                </div>
+                                                    <img 
+                                                    src={Icon.Down}
+                                                    alt="down icon"
+                                                         />
+                                                    </div>}
                                             </div>
                                         </div>
                                     </div>
@@ -180,4 +203,4 @@ const ShareProject: React.FC<IShareProject> = ({ open, setOpen }) => {
     );
 };
 
-export default ShareProject;
+export default ShareModal;

@@ -11,8 +11,8 @@ import { useTheme } from "@/context/ThemeContext";
 import { NewTask } from "@/pages";
 import Plus from "@assets/icons/Plus-white.svg";
 import useClickOutside from "@/hooks/useClickOutside";
-import ShareProject from "@/components/shareProject";
 import { AppContext } from "@/context/store";
+import ShareModal from "@/components/shareModal";
 
 interface IDashboardLayoutProps {
     children?: ReactNode;
@@ -24,13 +24,13 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
     const { theme }: any = useTheme();
     const { state } = useContext(AppContext);
     const [showTaskModal, setShowTaskModal] = useState(false);
-    const [showShareModal, setShowShareModal] = useState(false);
+    // const [showShareModal, setShowShareModal] = useState(false);
 
     const modal = useRef(null);
 
-    const handleModal = () => {
-        setShowShareModal(true);
-    };
+    // const handleModal = () => {
+    //     setShowShareModal(true);
+    // };
 
     useClickOutside([modal], () => setShowTaskModal(false));
 
@@ -38,7 +38,9 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
         <div className={`rtl h-[100vh] flex  ${theme} relative`}>
             <SideBar />
             <div className="w-[100%] h-[100vh]">
-                <OptionBar openModals={handleModal} />
+                <OptionBar 
+                // openModals={handleModal} 
+                />
                 <div
                     className="flex overflow-auto pl-[300px] max-h-[83vh]"
                     style={{
@@ -57,17 +59,17 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
                     <NewTask handleClose={setShowTaskModal} />
                 </div>
             )}
-            {showShareModal && (
+            {/* {showShareModal && (
                 <div
                     className="flex justify-center items-center  text-[#1E1E1E] modal"
                     dir="ltr"
                 >
-                    <ShareProject
+                    <ShareModal
                         open={showShareModal}
                         setOpen={setShowShareModal}
                     />
                 </div>
-            )}
+            )} */}
 
             <button
                 className="text-white text-[14px] px-[12px] py-[8px] rounded-[6px] absolute bottom-10 left-12 flex items-center"
