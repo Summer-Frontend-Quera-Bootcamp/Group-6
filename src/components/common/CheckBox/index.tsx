@@ -7,6 +7,7 @@ type ChangeHandler = (
 interface ICheckBoxProps {
     acceptedTerms?: boolean;
     onChange?: ChangeHandler;
+    onClick?: () => any;
     labelText?: string;
 }
 
@@ -14,10 +15,17 @@ const CheckBox: React.FC<ICheckBoxProps> = ({
     acceptedTerms,
     onChange,
     labelText = "",
+    onClick,
 }) => {
     return (
         <div className="flex gap-2 ml-auto">
-            <label htmlFor="acceptedTerms">{labelText}</label>
+            <label
+                // htmlFor="acceptedTerms"
+                className="cursor-pointer underline"
+                onClick={onClick}
+            >
+                {labelText}
+            </label>
             <div className="flex items-center justify-center">
                 <input
                     type="checkbox"

@@ -10,6 +10,10 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.9",
+        "@fullcalendar/daygrid": "^6.1.9",
+        "@fullcalendar/interaction": "^6.1.9",
+        "@fullcalendar/react": "^6.1.9",
         "@headlessui/react": "^1.7.17",
         "@types/uuid": "^9.0.4",
         "axios": "^1.5.1",
@@ -17,6 +21,8 @@
         "jalali-moment": "^3.3.11",
         "js-cookie": "^3.0.5",
         "jwt-decode": "^3.1.2",
+        "moment-jalaali": "^0.10.0",
+        "moment-timezone": "^0.5.43",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-hot-toast": "^2.4.1",
@@ -30,6 +36,7 @@
     },
     "devDependencies": {
         "@types/js-cookie": "^3.0.4",
+        "@types/moment-jalaali": "^0.7.8",
         "@types/node": "^20.7.0",
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",

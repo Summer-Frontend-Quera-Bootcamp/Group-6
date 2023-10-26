@@ -2,29 +2,22 @@ import { AXIOS } from "@/config/axios";
 import { useMutation } from "react-query";
 import { ReactQueryKeys } from "../keys";
 import { ITasksRequest, ITasksResponse } from "@/types/api.types";
-import { getLatestOrder } from "@services/Tasks";
 
 const fetcher = async (data: ITasksRequest): Promise<ITasksResponse> => {
-    const { project, board, ...taskData } = { ...data };
+    const { project, board, task_id, ...taskData } = { ...data };
 
-    if (!project) {
-        return Promise.reject("Project is undefined");
+    if (!project || !project.id || !project.idx || !task_id) {
+        return Promise.reject("Project or task is undefined");
     }
 
     const space_id = project.idx;
     const project_id = project.id;
-    const board_id = board || 21;
+    const board_id = board;
 
     try {
-        const latestOrder = await getLatestOrder(
-            Number(space_id),
-            Number(project_id)
-        );
-        taskData.order = latestOrder + 1;
+        const API_PATH = `/workspaces/${space_id}/projects/${project_id}/boards/${board_id}/tasks/${task_id}/`;
 
-        const API_PATH = `/workspaces/${space_id}/projects/${project_id}/boards/${board_id}/tasks/`;
-
-        const taskResponse = await AXIOS.post(API_PATH, taskData, {
+        const taskResponse = await AXIOS.patch(API_PATH, taskData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
@@ -34,7 +27,7 @@ const fetcher = async (data: ITasksRequest): Promise<ITasksResponse> => {
     }
 };
 
-export const useTasksMutation = () => {
+export const useUpdateTasksMutation = () => {
     return useMutation<ITasksResponse, any, ITasksRequest, any>(fetcher, {
         mutationKey: ReactQueryKeys.Tasks,
     });

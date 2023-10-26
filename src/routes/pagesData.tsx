@@ -17,6 +17,7 @@ import {
     ResetPassword,
 } from "@pages/index";
 import { Navigate } from "react-router-dom";
+import Calendar from "@/pages/dashboard/calView/Calendar";
 
 const AuthPagesData: routerType[] = [
     {
@@ -94,7 +95,7 @@ const DashboardPagesData: routerType[] = [
     {
         path: "/dashboard/cal",
         title: "dashboard calender view",
-        element: <DashBoardLayout children={<FullCalendar />} />,
+        element: <DashBoardLayout children={<Calendar />} />,
         isProtected: true,
     },
     {
@@ -106,14 +107,19 @@ const DashboardPagesData: routerType[] = [
 ];
 
 const WorkSpaceData: routerType[] = [
-  {
-    path: "/workspace",
-    title: "workspace",
-    element: <WorkspaceLayout children={<WorkSpace />} />,
-     isProtected: true,
-  },
+    {
+        path: "/workspace",
+        title: "workspace",
+        element: <WorkspaceLayout children={<WorkSpace />} />,
+        isProtected: true,
+    },
 ];
 
-const pagesData = [AuthPagesData, ProfilePagesData, DashboardPagesData, WorkSpaceData];
+const pagesData = [
+    AuthPagesData,
+    ProfilePagesData,
+    DashboardPagesData,
+    WorkSpaceData,
+];
 
 export default pagesData;

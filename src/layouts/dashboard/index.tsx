@@ -12,7 +12,6 @@ import { NewTask } from "@/pages";
 import Plus from "@assets/icons/Plus-white.svg";
 import useClickOutside from "@/hooks/useClickOutside";
 import { AppContext } from "@/context/store";
-import ShareModal from "@/components/shareModal";
 
 interface IDashboardLayoutProps {
     children?: ReactNode;
@@ -21,16 +20,10 @@ interface IDashboardLayoutProps {
 const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
     children,
 }): ReactElement => {
+    const [showTaskModal, setShowTaskModal] = useState(false);
+    const modal = useRef(null);
     const { theme }: any = useTheme();
     const { state } = useContext(AppContext);
-    const [showTaskModal, setShowTaskModal] = useState(false);
-    // const [showShareModal, setShowShareModal] = useState(false);
-
-    const modal = useRef(null);
-
-    // const handleModal = () => {
-    //     setShowShareModal(true);
-    // };
 
     useClickOutside([modal], () => setShowTaskModal(false));
 
@@ -38,9 +31,7 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
         <div className={`rtl h-[100vh] flex  ${theme} relative`}>
             <SideBar />
             <div className="w-[100%] h-[100vh]">
-                <OptionBar 
-                // openModals={handleModal} 
-                />
+                <OptionBar />
                 <div
                     className="flex overflow-auto pl-[300px] max-h-[83vh]"
                     style={{
@@ -59,17 +50,6 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
                     <NewTask handleClose={setShowTaskModal} />
                 </div>
             )}
-            {/* {showShareModal && (
-                <div
-                    className="flex justify-center items-center  text-[#1E1E1E] modal"
-                    dir="ltr"
-                >
-                    <ShareModal
-                        open={showShareModal}
-                        setOpen={setShowShareModal}
-                    />
-                </div>
-            )} */}
 
             <button
                 className="text-white text-[14px] px-[12px] py-[8px] rounded-[6px] absolute bottom-10 left-12 flex items-center"

@@ -17,7 +17,6 @@ const SubmitBtn: React.FC<ISubmitBtnProps> = ({
     enablePalette = true,
     onSubmit,
     type = "submit",
-    theme,
 }) => {
     const { state } = useContext(AppContext);
 
@@ -28,7 +27,7 @@ const SubmitBtn: React.FC<ISubmitBtnProps> = ({
             value={value}
             aria-label={ariaLabel}
             style={{
-                backgroundColor: enablePalette ? theme || state.theme : "",
+                backgroundColor: enablePalette ? state.theme : "#208d8e",
             }}
             onClick={onSubmit}
         />

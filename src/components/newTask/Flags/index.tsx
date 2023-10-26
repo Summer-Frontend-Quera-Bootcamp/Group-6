@@ -1,23 +1,25 @@
 import { CloseIcon } from "@/assets/pages/newTask";
 import FlagIcon from "./FlagIcon";
 import { ITasksRequest } from "@/types/api.types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IFlagsProps {
+    taskData: ITasksRequest;
     setTaskData: React.Dispatch<React.SetStateAction<ITasksRequest>>;
 }
 interface FlagItem {
     label: string;
     value: number;
+    color: string;
 }
-export const Flags: React.FC<IFlagsProps> = ({ setTaskData }) => {
+export const Flags: React.FC<IFlagsProps> = ({ taskData, setTaskData }) => {
     const [selectedFlag, setSelectedFlag] = useState<FlagItem>();
 
     const priorities: FlagItem[] = [
-        { label: "فوری", value: 1 },
-        { label: "بالا", value: 2 },
-        { label: "متوسط", value: 3 },
-        { label: "پایین", value: 4 },
+        { label: "فوری", value: 1, color: "#FB0606" },
+        { label: "بالا", value: 2, color: "#FFE605" },
+        { label: "متوسط", value: 3, color: "#09DBCE" },
+        { label: "پایین", value: 4, color: "#B2ACAC" },
     ];
 
     const handleFlagClick = (flag: FlagItem) => {
@@ -36,20 +38,21 @@ export const Flags: React.FC<IFlagsProps> = ({ setTaskData }) => {
         setSelectedFlag(undefined);
     };
 
+    useEffect(() => {
+        if (taskData.priority) {
+            setTaskData((prev: any) => ({
+                ...prev,
+                priority: taskData.priority,
+            }));
+            const flag = priorities.find(
+                (flag) => flag.value === taskData.priority
+            );
+            setSelectedFlag(flag);
+        }
+    }, []);
+
     return (
         <div className="inline-flex flex-col p-xs items-end gap-s rounded-[8px] shadow-newTag z-1000 absolute bg-inherit bottom-[61px] right-[-15px]">
-            {selectedFlag && (
-                <>
-                    <div
-                        className="flex justify-end items-center gap-xs w-[142px] cursor-pointer"
-                        onClick={() => handleFlagRemoval()}
-                    >
-                        <p className="text-body-s">{selectedFlag.label}</p>
-                        <FlagIcon priority={selectedFlag.value} />
-                    </div>
-                    <hr className="w-full bg-black" />
-                </>
-            )}
             <div className="flex flex-col items-start gap-xs">
                 {priorities.map((priority) => {
                     return (
@@ -58,7 +61,21 @@ export const Flags: React.FC<IFlagsProps> = ({ setTaskData }) => {
                             className="flex justify-end items-center gap-xs w-[142px] cursor-pointer"
                             onClick={() => handleFlagClick(priority)}
                         >
-                            <p className="text-body-s">{priority.label}</p>
+                            <p
+                                className={`text-body-s w-full text-right p-[2px] rounded-sm ${
+                                    priority === selectedFlag
+                                        ? "text-white"
+                                        : ""
+                                }`}
+                                style={{
+                                    backgroundColor:
+                                        priority.value === selectedFlag?.value
+                                            ? priority.color
+                                            : "",
+                                }}
+                            >
+                                {priority.label}
+                            </p>
                             <FlagIcon priority={priority.value} />
                         </div>
                     );

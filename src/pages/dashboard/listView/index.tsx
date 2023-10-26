@@ -19,9 +19,9 @@ const List: React.FC = (): ReactElement => {
             toast.loading("در حال دریافت تسک ها...");
             const data = await fetchBoardsData(state, project, space);
             toast.dismiss();
+
             if (data) {
                 const { boards, projectName } = data;
-
                 setBoards(boards);
                 setProjectTitle(projectName);
                 setLoading(false);
@@ -30,7 +30,7 @@ const List: React.FC = (): ReactElement => {
                 toast.error("هنگام دریافت اطلاعات مشکلی پیش آمده.");
             }
         };
-        getData();
+        if (space && project) getData();
     }, [space, project, state]);
 
     return (
@@ -39,7 +39,9 @@ const List: React.FC = (): ReactElement => {
                 className="flex flex-col mx-3 h-[100vh] overflow-auto"
                 dir="ltr"
             >
-                {loading ? (
+                {!space || !project ? (
+                    <p>لطفا یک پروژه انتخاب کنید</p>
+                ) : loading ? (
                     <p>در حال دریافت</p>
                 ) : space && project ? (
                     <>

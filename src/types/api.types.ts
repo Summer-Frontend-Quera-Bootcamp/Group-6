@@ -87,6 +87,7 @@ export interface ITasksRequest {
         name: string;
     };
     board?: number;
+    task_id?: number;
     params?: {
         space_id: number;
         project_id: number;
@@ -104,4 +105,5 @@ export interface ITasksResponse {
     thumbnail: string;
     order: number;
     members: string;
+    created_at: string;
 }

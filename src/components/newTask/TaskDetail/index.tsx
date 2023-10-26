@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from "react";
-import { IUserDetailProps } from "@/types/newTask.types";
-import { UserIcon } from "@/assets/pages/newTask";
-import { onInputChange } from "@/utils/newTaskFunctions";
-import useQueryParams from "@/utils/useQueryParams";
 import { AppContext } from "@/context/store";
 import { IProjects } from "@/context/types/context.type";
+import { IUserDetailProps } from "@/types/newTask.types";
+import { onInputChange } from "@/utils/newTaskFunctions";
+import useQueryParams from "@/utils/useQueryParams";
+import React, { useContext, useEffect } from "react";
 
 const TaskDetail: React.FC<IUserDetailProps> = ({ taskData, setTaskData }) => {
     const { space, project } = useQueryParams();
@@ -45,9 +44,9 @@ const TaskDetail: React.FC<IUserDetailProps> = ({ taskData, setTaskData }) => {
         <>
             <div className="flex justify-end items-center gap-xs self-stretch">
                 <img
-                    src={UserIcon}
+                    src={state.user.thumbnail}
                     alt="userIcon"
-                    className="cursor-pointer border-[1px] border-dashed border-[#C1C1C1] rounded-full p-[7px]"
+                    className="cursor-pointer border-[1px] w-[34px] h-[34px] border-dashed border-[#C1C1C1] rounded-full "
                 />
                 <p className="text-body-m">برای</p>
                 <div className="flex w-[158px] py-[4px] px-xs justify-end items-center gap-[10px] rounded-[6px] ">
@@ -81,6 +80,7 @@ const TaskDetail: React.FC<IUserDetailProps> = ({ taskData, setTaskData }) => {
                 placeholder={"توضیحاتی برای این تسک بنویسید"}
                 dir="rtl"
                 name="description"
+                value={taskData.description}
                 onChange={(e) => onInputChange(e, setTaskData)}
             />
         </>

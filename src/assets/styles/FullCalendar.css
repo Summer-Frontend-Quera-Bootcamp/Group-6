@@ -1,0 +1,124 @@
+.calendar-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important; /* Hide the scroll bar */
+}
+
+table {
+    overflow: hidden !important;
+}
+
+.CalView {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.fc-daygrid-day-number {
+    position: absolute !important;
+    top: 110px !important;
+    margin-left: 10px !important;
+}
+
+.fc-day-today {
+    outline: 1px solid #208d8e !important;
+    border: none !important;
+    background: #fff !important;
+    background-color: transparent !important;
+}
+
+.fc-col-header {
+    position: static;
+    background-color: red;
+    visibility: hidden;
+    border: none;
+    display: none;
+    outline: none;
+}
+
+.fc-col-header-cell {
+    visibility: hidden;
+    border: none;
+    display: none;
+    outline: none;
+}
+
+.fc-header-toolbar {
+    font-size: 12px;
+    margin-bottom: 5px !important;
+}
+
+.fc-header-toolbar h2 {
+    font-size: 12px !important;
+}
+
+.fc-next-button,
+.fc-prev-button,
+.fc-prev-button:focus,
+button:focus {
+    background-color: transparent !important;
+    outline: none !important;
+    border: none !important;
+}
+
+.fc-icon {
+    display: flex;
+    width: 14px;
+    height: 14px;
+    justify-content: center;
+    align-items: center;
+    color: #7d828c;
+    outline: none !important;
+    border: none !important;
+}
+
+.newtaskModal {
+    display: flex;
+    flex-direction: column;
+    width: 463px;
+    padding: 20px;
+    z-index: 100;
+    align-items: flex-end;
+    gap: var(--L, 32px);
+    border-radius: var(--XS, 8px);
+    border: 1px solid #208d8e;
+    background: var(--White, #fff);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.calendarBtn {
+    display: flex;
+    width: 125px;
+    height: var(--L, 32px);
+    padding: 4px 7px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+}
+
+.fc-daygrid-day {
+    width: 50px !important;
+    height: 50px !important;
+    position: relative;
+}
+
+.fc-daygrid-day-events {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.event {
+    width: 90%;
+    height: 20px;
+    background-color: #208d8e;
+    border: 1px solid #208d8e;
+    cursor: pointer;
+}
+
+.event i {
+    color: #fff;
+    font-size: 12px;
+}

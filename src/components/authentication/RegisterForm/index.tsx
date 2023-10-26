@@ -42,10 +42,20 @@ const RegisterForm = () => {
                     toast.success("اکانت شما با موفقیت ساخته شد.");
                 },
                 onError: (error) => {
-                    console.error(error);
-
                     toast.dismiss();
-                    toast.error(error);
+                    if (error.response) {
+                        if (error.response.data.email) {
+                            toast.error(`${error.response.data.email}`);
+                        } else if (error.response.data.password) {
+                            toast.error(`${error.response.data.password}`);
+                        } else if (error.response.data.username) {
+                            toast.error(`${error.response.data.username}`);
+                        } else {
+                            toast.error("هنگام ثبت نام مشکلی پیش آمده");
+                        }
+                    } else {
+                        toast.error("هنگام ثبت نام مشکلی پیش آمده");
+                    }
                 },
             });
         } else {
