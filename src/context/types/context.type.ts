@@ -17,6 +17,7 @@ export interface IAppContext {
 export interface IProjects {
     id: number;
     name: string;
+    boards?: IBoardData[];
 }
 export interface IWorkspaces {
     id: number;
@@ -53,7 +54,7 @@ export interface ITaskData {
     attachment: string;
     thumbnail: string;
     order: number;
-    members: string[];
+    members: string[] | string;
 }
 
 export interface IBoardData {

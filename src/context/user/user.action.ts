@@ -69,6 +69,7 @@ export const ReJoinUser = () => (dispatch: any) => {
     const accessToken = Cookies.get("accessToken");
     const refreshToken = Cookies.get("refreshToken");
     const user = Cookies.get("user");
+    console.log("rejoining", refreshToken);
 
     if (accessToken && refreshToken && user) {
         const userPayload = JSON.parse(user);
@@ -82,6 +83,15 @@ export const ReJoinUser = () => (dispatch: any) => {
         });
 
         AXIOS.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        AXIOS.interceptors.response.use(
+            (response) => response,
+            (error: any) => {
+                if (error.response.status === 401) {
+                    LogoutUser();
+                }
+                return Promise.reject(error);
+            }
+        );
     } else {
         LogoutUser();
     }

@@ -17,7 +17,6 @@ const MenuItem: React.FC<IMenuItemProps> = ({
     const currentPath = useLocation().pathname;
     const { theme }: IThemeContext = useTheme();
 
-    // Determine the active class based on the current path
     const isActive =
         currentPath === path
             ? "bg-brand-secondary  font-[800] text-heading-xs text-black"
@@ -29,7 +28,6 @@ const MenuItem: React.FC<IMenuItemProps> = ({
             className={`flex py-[4px] px-xs justify-end items-center gap-[11px] self-stretch text-body-l rounded-[4px] ${isActive} ${className}`}
         >
             <p>{text}</p>
-            {/* SVG theme colors are applied here. TODO: FIX SVG THEME COLORS */}
             <img
                 src={icon}
                 title="menu-icon"

@@ -1,5 +1,6 @@
 import { Input, SubmitBtn } from "@/components/common";
 import { AppContext } from "@/context/store";
+import { LoadTheme } from "@/context/theme/theme.action";
 import { WorkspacesData } from "@/context/types/context.type";
 import { AuthenticateUser, UpdateWorkspaces } from "@/context/user/user.action";
 import { UseLoginMutation } from "@/services/Authentication/mutations/useLoginMutation";
@@ -40,13 +41,13 @@ const LoginForm = () => {
                     toast.success("با موفقیت وارد شدید.");
 
                     const workspaces: WorkspacesData = await fetchWorkspaces();
+
                     dispatch(UpdateWorkspaces(workspaces));
+                    dispatch(LoadTheme());
 
                     navigate(from);
                 },
-                onError: (error) => {
-                    console.error(error);
-
+                onError: () => {
                     toast.dismiss();
                     toast.error("نام کاربری و یا رمز عبور صحیح نمی باشد.");
                 },

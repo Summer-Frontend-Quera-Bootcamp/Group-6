@@ -1,38 +1,68 @@
-import React, { useRef } from "react";
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import List from "@assets/icons/List.svg";
-import ListActive from "@assets/icons/List-Active.svg";
-import Column from "@assets/icons/column.svg";
-import ColumnActive from "@assets/icons/column-Active.svg";
-import calendar from "@assets/icons/Calendar.svg";
-import calendaractive from "@assets/icons/Calendar-Active.svg";
-import Share from "@assets/icons/Share.svg";
-import Search from "@assets/icons/search-loupe.svg";
-import Filter from "@assets/icons/Filter.svg";
+import { LinkWithQuery } from "@/components/common/LinkWithQuery";
 import FilterModal from "@/components/filters/Filter";
-import useClickOutside from "@/hooks/useClickOutside";
 import ShareModal from "@/components/shareModal";
+import useClickOutside from "@/hooks/useClickOutside";
+import calendar from "@assets/icons/Calendar.svg";
+import Filter from "@assets/icons/Filter.svg";
+import List from "@assets/icons/List.svg";
+import Share from "@assets/icons/Share.svg";
+import Column from "@assets/icons/column.svg";
+import Search from "@assets/icons/search-loupe.svg";
+import React, { useRef, useState } from "react";
 
-// interface IOptionProps {
-//     openModals: () => void;
-// }
+interface OptionBarItemProps {
+    active: boolean;
+    setActive: (arg: boolean) => void;
+    label: string;
+    icon: string;
+    link: string;
+}
+const OptionBarItem: React.FC<OptionBarItemProps> = ({
+    active,
+    setActive,
+    label,
+    icon,
+    link,
+}) => (
+    <div
+        className={`border-l-2  px-2 relative cursor-pointer ${
+            active ? "text-brand-primary" : ""
+        }`}
+        onClick={() => setActive(true)}
+    >
+        <LinkWithQuery to={link} className="flex items-center gap-1">
+            <img src={icon} alt={label} />
+            <p className="font-bold">{label}</p>
+        </LinkWithQuery>
+        {active && (
+            <hr className="absolute border-[1px] border-brand-primary w-[87%] top-[39px]" />
+        )}
+    </div>
+);
 
 const OptionBar: React.FC = ({}) => {
-    let selected;
     const [showModal, setShowModal] = useState(false);
-    const handleShowModal = (state: boolean) => {
-        setShowModal(state);
-    };
-    //TODO add path to find selected tab
-    // const path = useLocation().pathname;
-    const [active, setActive] = useState(2);
-    const handleActive = (idx: number) => {
-        setActive(idx);
-    };
     const [showFilters, setShowFilters] = useState(false);
     const filterModal = useRef(null);
     const filterText = useRef(null);
+
+    const getActiveTab = () => {
+        switch (location.pathname) {
+            case "/dashboard/list":
+                return 1;
+            case "/dashboard/col":
+                return 2;
+            case "/dashboard/cal":
+                return 3;
+            default:
+                return 2;
+        }
+    };
+
+    const [activeTab, setActiveTab] = useState(getActiveTab());
+    const handleShowModal = (state: boolean) => {
+        setShowModal(state);
+    };
 
     useClickOutside([filterModal, filterText], () => setShowFilters(false));
     return (
@@ -44,85 +74,41 @@ const OptionBar: React.FC = ({}) => {
                 <span className="font-extrabold border-l-2 pl-2 text-[20px]">
                     پروژه اول
                 </span>
-                <div
-                    className={`border-l-2  px-2 relative cursor-pointer ${
-                        selected === 1 ? "text-brand-primary" : ""
-                    }${active === 1 ? "text-brand-primary" : ""}`}
-                    onClick={() => {
-                        handleActive(1);
-                    }}
-                >
-                    <Link
-                        to="/dashboard/list"
-                        className="flex items-center gap-1"
-                    >
-                        <img
-                            src={active === 1 ? ListActive : List}
-                            alt="list view"
-                        />
-                        <p className="font-bold">نمایش لیستی</p>
-                    </Link>
-                    {active === 1 && (
-                        <hr className="absolute border-[1px] border-brand-primary w-[87%] top-[39px]" />
-                    )}
-                </div>
-                <div
-                    className={`border-l-2  px-2 relative cursor-pointer ${
-                        selected === 2 ? "text-brand-primary" : ""
-                    }${active === 2 ? "text-brand-primary" : ""}`}
-                    onClick={() => {
-                        handleActive(2);
-                    }}
-                >
-                    <Link
-                        to="/dashboard/col"
-                        className="flex items-center gap-1"
-                    >
-                        <img
-                            src={active === 2 ? ColumnActive : Column}
-                            alt="column view"
-                        />
-                        <p className="font-bold">نمایش ستونی</p>
-                    </Link>
-                    {active === 2 && (
-                        <hr className="absolute border-[1px] border-brand-primary w-[87%] top-[39px]" />
-                    )}
-                </div>
-                <div
-                    className={`border-l-2  px-2 relative cursor-pointer ${
-                        selected === 3 ? "text-brand-primary" : ""
-                    }${active === 3 ? "text-brand-primary" : ""}`}
-                    onClick={() => {
-                        handleActive(3);
-                    }}
-                >
-                    <Link
-                        to="/dashboard/cal"
-                        className="flex items-center gap-1"
-                    >
-                        <img
-                            src={active === 3 ? calendaractive : calendar}
-                            alt="calendar view"
-                        />
-                        <p className="font-bold">تقویم</p>
-                    </Link>
-                    {active === 3 && (
-                        <hr className="absolute border-[1px] border-brand-primary w-[87%] top-[39px]" />
-                    )}
-                </div>
+                <OptionBarItem
+                    active={activeTab === 1}
+                    setActive={() => setActiveTab(1)}
+                    label="نمایش لیستی"
+                    icon={List}
+                    link="/dashboard/list"
+                />
+                <OptionBarItem
+                    active={activeTab === 2}
+                    setActive={() => setActiveTab(2)}
+                    label="نمایش ستونی"
+                    icon={Column}
+                    link="/dashboard/col"
+                />
+                <OptionBarItem
+                    active={activeTab === 3}
+                    setActive={() => setActiveTab(3)}
+                    label="تقویم"
+                    icon={calendar}
+                    link="/dashboard/cal"
+                />
                 <div
                     className="flex items-center mr-auto px-2 cursor-pointer"
                     onClick={() => {
                         handleShowModal(true);
-                    }}>
-                {showModal && (
-                <ShareModal
-                    open={showModal}
-                    setOpen={setShowModal}
-                    title={"اشتراک گذاری ورک اسپیس"}
-                    workspace={true}
-                />
-                )}   
+                    }}
+                >
+                    {showModal && (
+                        <ShareModal
+                            open={showModal}
+                            setOpen={setShowModal}
+                            title={"اشتراک گذاری ورک اسپیس"}
+                            workspace={true}
+                        />
+                    )}
                     <img src={Share} alt="share icon" />
                     <span>اشتراک‌گذاری</span>
                 </div>
@@ -156,7 +142,7 @@ const OptionBar: React.FC = ({}) => {
                     <span className="font-bold text-[12px] text-blue-primary">
                         دسته‌بندی‌شده با: وضعیت
                     </span>
-                </div>{" "}
+                </div>
             </div>
             {showFilters && (
                 <div

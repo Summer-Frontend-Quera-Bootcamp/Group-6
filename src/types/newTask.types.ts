@@ -56,7 +56,7 @@ interface ITaskData {
     attachment?: string;
     thumbnail?: string;
     order?: number;
-    members?: string;
+    members?: string[];
 }
 export type TaskData = {
     name?: string;
@@ -92,6 +92,15 @@ interface IDynamicDateEntry {
     date: DateObject;
 }
 
+interface INewTaskContext {
+    showTaskModal: boolean;
+    setShowTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface INewTaskContextProps {
+    children: React.ReactNode;
+}
+
 export type {
     IHeaderProps,
     IUserDetailProps,
@@ -104,5 +113,7 @@ export type {
     IOptionMenuProps,
     IDynamicDateEntry,
     ITagListProps,
+    INewTaskContext,
     ITaskData,
+    INewTaskContextProps,
 };

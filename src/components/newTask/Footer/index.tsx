@@ -1,4 +1,4 @@
-import { TagIcon, CalendarIcon, FlagIcon } from "@/assets/pages/newTask";
+import { CalendarIcon, FlagIcon } from "@/assets/pages/newTask";
 import { SubmitBtn } from "@/components/common";
 import {
     IFooterIconsProps,
@@ -7,12 +7,15 @@ import {
 } from "@/types/newTask.types";
 import { ReactNode } from "react";
 
-const Footer: React.FC<{ children: ReactNode }> = ({ children }) => {
+const Footer: React.FC<{ mode: string; children: ReactNode }> = ({
+    mode,
+    children,
+}) => {
     return (
         <div className="flex justify-between items-center self-stretch">
             <SubmitBtn
-                value="ساختن تسک"
-                ariaLabel="ساختن تسک"
+                value={mode === "edit" ? "ویرایش تسک" : "ساختن تسک"}
+                ariaLabel={mode === "edit" ? "ویرایش تسک" : "ساختن تسک"}
                 className="w-[125px] h-l py-[4px] px-[7px] text-body-xs"
             />
             {children}
@@ -29,7 +32,6 @@ const FooterIcons: React.FC<IFooterIconsProps> = ({
         alt: string;
         property: keyof IModalsStatus;
     }> = [
-        // { src: TagIcon, alt: "Tag Icon", property: "tags" },
         { src: CalendarIcon, alt: "Calendar Icon", property: "calendar" },
         { src: FlagIcon, alt: "Flag Icon", property: "flags" },
     ];

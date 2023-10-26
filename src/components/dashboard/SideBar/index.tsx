@@ -6,7 +6,7 @@ import useClickOutside from "@/hooks/useClickOutside";
 import ModalSm from "@/components/common/ModalSm/index.tsx";
 import React, { useContext } from "react";
 import { AppContext } from "@/context/store";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { LogoutUser } from "@/context/user/user.action";
 import { IProjects, IWorkspaces } from "@/context/types/context.type";
 
@@ -44,18 +44,28 @@ const SpaceProject: React.FC<IProjectItem> = ({
         { icon: Icon.Plus, text: "ساختن تسک جدید" },
         { icon: Icon.Edit, text: "ویرایش نام پروژه" },
         { icon: Icon.LinkCopy, text: "کپی لینک" },
-        { icon: Icon.RedBin, text: "حذف", color: "red"  },
+        { icon: Icon.RedBin, text: "حذف", color: "red" },
     ];
+
+    const [, setSearchParams] = useSearchParams();
+
+    const handleSelection = () => {
+        setSearchParams({
+            space: String(space.id),
+            project: String(project.id),
+        });
+    };
+    const handleClick = () => {
+        setSelectedItem(project.id);
+        handleSelection();
+    };
     return (
         <>
-            <Link
-                to={{
-                    search: `?space=${space.id}&project=${project.id}`,
-                }}
+            <span
                 className={`flex justify-between mr-[28px] mb-4  cursor-pointer p-[6px] ${
                     selectedItem === project.id && " rounded-[4px] bg-cyan-100"
                 }`}
-                onClick={() => setSelectedItem(project.id)}
+                onClick={handleClick}
             >
                 <p>{project.name}</p>
                 {selectedItem === project.id && (
@@ -68,14 +78,14 @@ const SpaceProject: React.FC<IProjectItem> = ({
                         }}
                     />
                 )}
-            </Link>
-            {showModal && (
-                <ModalSm
-                    rows={rows}
-                    ref={modalRef}
-                    className="bottom-[100px] right-[300px]"
-                />
-            )}
+                {showModal && (
+                    <ModalSm
+                        rows={rows}
+                        ref={modalRef}
+                        className="right-[300px]"
+                    />
+                )}
+            </span>
         </>
     );
 };
@@ -92,7 +102,7 @@ const SpaceItem: React.FC<ISpaceItem> = ({ space, selected, setSelected }) => {
         { icon: Icon.Edit, text: "ویرایش نام ورک‌اسپیس" },
         { icon: Icon.EditColor, text: "ویرایش رنگ" },
         { icon: Icon.LinkCopy, text: "کپی لینک" },
-        { icon: Icon.RedBin, text: "حذف", color: "red", isSpace:true },
+        { icon: Icon.RedBin, text: "حذف", color: "red", isSpace: true },
     ];
 
     useClickOutside([modalRef], () => {
@@ -120,8 +130,7 @@ const SpaceItem: React.FC<ISpaceItem> = ({ space, selected, setSelected }) => {
                         {space.name}
                     </span>
                 </div>
-
-                {selected === space.id ? (
+                {selected === space.id && (
                     <img
                         src={Icon.More}
                         alt="menu icon"
@@ -130,29 +139,27 @@ const SpaceItem: React.FC<ISpaceItem> = ({ space, selected, setSelected }) => {
                             handleShowModal(true);
                         }}
                     />
-                ) : (
-                    " "
+                )}
+                {showModal && (
+                    <ModalSm
+                        rows={rows}
+                        ref={modalRef}
+                        className="right-[300px]"
+                    />
                 )}
             </div>
-            {showModal && (
-                <ModalSm
-                    rows={rows}
-                    ref={modalRef}
-                    className="bottom-[110px] right-[300px]"
-                />
-            )}
+
             {showProject && (
                 <ul className="self-stretch ">
-                    {space.projects &&
-                        space.projects.map((project) => (
-                            <SpaceProject
-                                project={project}
-                                space={space}
-                                selectedItem={selected}
-                                setSelectedItem={setSelected}
-                                key={project.id}
-                            />
-                        ))}
+                    {space.projects?.map((project) => (
+                        <SpaceProject
+                            project={project}
+                            space={space}
+                            selectedItem={selected}
+                            setSelectedItem={setSelected}
+                            key={project.id}
+                        />
+                    ))}
                 </ul>
             )}
         </>

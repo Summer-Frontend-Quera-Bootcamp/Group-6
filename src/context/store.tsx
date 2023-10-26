@@ -14,7 +14,6 @@ import { ThemeReducer } from "./theme/theme.reducer";
 import { LoadTheme } from "./theme/theme.action";
 import { TasksReducer } from "./tasks/tasks.reducer";
 
-const theme = localStorage.getItem("PALETTE") as PaletteColorType;
 export const initialState: IAppContextState = {
     user: {
         username: "",
@@ -28,7 +27,7 @@ export const initialState: IAppContextState = {
         phone_number: "",
         workspaces: [],
     },
-    theme: theme,
+    theme: "#208d8e" as PaletteColorType,
     tasks: [],
 };
 

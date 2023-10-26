@@ -3,14 +3,14 @@ import CheckBox from "@/components/common/CheckBox";
 import { IHeaderProps } from "@/types/newTask.types";
 
 const Header: React.FC<IHeaderProps> = ({ closeModal, children }) => (
-    <div className="flex justify-between items-center self-stretch">
+    <div className="flex justify-between items-center self-stretch w-full ">
         <img
             src={CloseIcon}
             alt="close"
             className="cursor-pointer"
             onClick={() => closeModal(false)}
         />
-        <div className="flex items-center gap-[13px]">
+        <div className="flex items-center gap-[13px] w-auto ">
             {children}
             <CheckBox />
         </div>
