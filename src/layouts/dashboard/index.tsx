@@ -43,7 +43,7 @@ const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
             </div>
             {showTaskModal && (
                 <div
-                    className="flex justify-center items-center  text-[#1E1E1E] modal"
+                    className="flex justify-center items-center  text-[#1E1E1E] modal  z-[999]"
                     dir="ltr"
                     ref={modal}
                 >
