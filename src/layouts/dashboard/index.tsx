@@ -12,6 +12,7 @@ import { NewTask } from "@/pages";
 import Plus from "@assets/icons/Plus-white.svg";
 import useClickOutside from "@/hooks/useClickOutside";
 import { AppContext } from "@/context/store";
+import { useNewTask } from "@/context/NewTaskContext";
 
 interface IDashboardLayoutProps {
     children?: ReactNode;
@@ -20,7 +21,7 @@ interface IDashboardLayoutProps {
 const DashBoardLayout: React.FC<IDashboardLayoutProps> = ({
     children,
 }): ReactElement => {
-    const [showTaskModal, setShowTaskModal] = useState(false);
+    const { showTaskModal, setShowTaskModal } = useNewTask();
     const modal = useRef(null);
     const { theme }: any = useTheme();
     const { state } = useContext(AppContext);
