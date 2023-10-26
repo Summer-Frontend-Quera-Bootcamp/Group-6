@@ -68,7 +68,7 @@ html {
 
 .fade-out {
     animation: fadeOut 0.5s forwards;
-    animation-delay: 5s; /* Adjust the delay as needed */
+    animation-delay: 5s;
 }
 
 @keyframes fadeOut {
@@ -78,4 +78,38 @@ html {
     to {
         opacity: 0;
     }
+}
+
+.mainDiv {
+    width: 500px;
+}
+
+.titleDiv {
+    width: 452px;
+}
+
+.inputName {
+    height: 75px;
+}
+
+.myInput {
+    border: 1px solid #aaa;
+}
+
+.myWidth {
+    width: 415px;
+}
+
+.ColorBox {
+    padding: 17px 11.5px 21px 11.5px;
+    background: #7d828c;
+}
+
+.MyStyle {
+    display: flex;
+    height: 34px;
+    width: 429px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
 }
