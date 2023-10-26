@@ -44,7 +44,7 @@ const SpaceProject: React.FC<IProjectItem> = ({
         { icon: Icon.Plus, text: "ساختن تسک جدید" },
         { icon: Icon.Edit, text: "ویرایش نام پروژه" },
         { icon: Icon.LinkCopy, text: "کپی لینک" },
-        { icon: Icon.RedBin, text: "حذف", color: "red" },
+        { icon: Icon.RedBin, text: "حذف", color: "red"  },
     ];
     return (
         <>
@@ -73,7 +73,7 @@ const SpaceProject: React.FC<IProjectItem> = ({
                 <ModalSm
                     rows={rows}
                     ref={modalRef}
-                    className="bottom-20 right-20"
+                    className="bottom-[100px] right-[300px]"
                 />
             )}
         </>
@@ -92,7 +92,7 @@ const SpaceItem: React.FC<ISpaceItem> = ({ space, selected, setSelected }) => {
         { icon: Icon.Edit, text: "ویرایش نام ورک‌اسپیس" },
         { icon: Icon.EditColor, text: "ویرایش رنگ" },
         { icon: Icon.LinkCopy, text: "کپی لینک" },
-        { icon: Icon.RedBin, text: "حذف", color: "red" },
+        { icon: Icon.RedBin, text: "حذف", color: "red", isSpace:true },
     ];
 
     useClickOutside([modalRef], () => {
@@ -138,7 +138,7 @@ const SpaceItem: React.FC<ISpaceItem> = ({ space, selected, setSelected }) => {
                 <ModalSm
                     rows={rows}
                     ref={modalRef}
-                    className="bottom-20 right-20"
+                    className="bottom-[110px] right-[300px]"
                 />
             )}
             {showProject && (

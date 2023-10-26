@@ -63,4 +63,5 @@ export interface IBoardData {
     tasks: ITaskData[];
     tasks_count: string;
     is_archive: boolean;
+    color: string;
 }

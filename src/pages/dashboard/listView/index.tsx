@@ -36,14 +36,14 @@ const List: React.FC = (): ReactElement => {
     return (
         <div>
             <div
-                className="flex flex-col mx-[50px] h-[100vh] overflow-auto"
+                className="flex flex-col mx-3 h-[100vh] overflow-auto"
                 dir="ltr"
             >
                 {loading ? (
                     <p>در حال دریافت</p>
                 ) : space && project ? (
                     <>
-                        <div className="flex flex-row-reverse justify-first">
+                        <div className="flex flex-row-reverse justify-first my-5">
                             <img
                                 src={Icon.CarrotCircleDown}
                                 alt="circleDown icon"

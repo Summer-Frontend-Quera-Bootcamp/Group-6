@@ -2,8 +2,9 @@ import { useState } from "react";
 import * as Icon from "../../../assets/icons/icons";
 import TaskList from "./TaskList";
 import { IBoardData } from "@/context/types/context.type";
+import {ReactElement} from "react";
 
-const Board = ({ boards }: { boards: IBoardData[] }) => {
+const Board = ({ boards }: { boards: IBoardData[] }):ReactElement => { 
     const [boardStates, setBoardStates] = useState(
         Array(boards.length).fill(false)
     );
@@ -17,12 +18,12 @@ const Board = ({ boards }: { boards: IBoardData[] }) => {
     };
 
     return (
-        <div>
+        <div >
             {boards.length > 0 ? (
                 boards?.map((item: IBoardData, index: number) => (
                     <div key={item.id}>
-                        <div className="flex flex-row-reverse py-[7px] items-center justify-between font-[200]">
-                            <div className="flex flex-row-reverse gap-xs">
+                        <div className="flex flex-row-reverse py-[7px] items-center justify-between font-[200] mx-5">
+                            <div className="W-[200PX] flex flex-row-reverse gap-xs">
                                 <span
                                     className="mt-1.5 ml-2"
                                     onClick={() => toggleBoard(index)}
@@ -37,7 +38,8 @@ const Board = ({ boards }: { boards: IBoardData[] }) => {
                                         }}
                                     />
                                 </span>
-                                <span className="bg-green-primary rounded p-1 text-white">
+                                <span className=" rounded p-1 text-white"
+                                style={{backgroundColor:`${item.color}`}}>
                                     {item.name}
                                 </span>
                                 <span dir="rtl">
@@ -66,9 +68,9 @@ const Board = ({ boards }: { boards: IBoardData[] }) => {
                         </div>
                         {boardStates[index] &&
                             (item.tasks.length > 0 ? (
-                                <TaskList tasks={item.tasks} />
+                                <TaskList tasks={item.tasks} color={item.color} />
                             ) : (
-                                <div className="flex flex-row-reverse gap-xs">
+                                <div className="flex flex-row-reverse gap-xs mx-16  my-3 text-red-primary">
                                     <p>تسکی وجود ندارد</p>
                                 </div>
                             ))}

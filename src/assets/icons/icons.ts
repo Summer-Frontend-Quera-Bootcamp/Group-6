@@ -24,6 +24,7 @@ import LinkCopy from "./LinkCopy.svg"
 import RedBin from "./RedBin.svg"
 import EditColor from "./EditColor.svg"
 import CarrotCircleDown from "./CarrotCircleDown.svg"
+import Down from "./Down.svg"
 export {
   Add,
   Archive,
@@ -51,6 +52,7 @@ export {
   RedBin,
   EditColor,
 CarrotCircleDown,
+Down,
 };
 
 // how to use:

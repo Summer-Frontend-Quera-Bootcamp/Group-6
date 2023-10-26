@@ -1,10 +1,12 @@
 import { ForwardedRef, forwardRef, useState } from "react";
 import * as Icon from "../../../assets/icons/icons";
+import ShareModal from "@/components/shareModal";
 
 interface Row {
     icon: string;
     text: string;
     color?: string;
+    isSpace?:boolean
 }
 
 interface IModalSmProps {
@@ -16,10 +18,15 @@ interface IModalSmProps {
 const ModalSm = forwardRef<HTMLDivElement, IModalSmProps>(
     ({ rows, className }, ref: ForwardedRef<HTMLDivElement>) => {
         const [hoveredIndex, setHoveredIndex] = useState(-1);
+        const [showModal, setShowModal] = useState(false);
+       
+        const handleShowModal = (state: boolean) => {
+            setShowModal(state);
+        };
 
         return (
             <div
-                className={`bg-white shadow-md p-2 rounded-lg absolute z-50 ${className}`}
+                className={`bg-white shadow-md p-2 rounded-lg absolute z-10 ${className}`}
                 ref={ref}
             >
                 {rows.map((row, index) => (
@@ -48,13 +55,30 @@ const ModalSm = forwardRef<HTMLDivElement, IModalSmProps>(
                             )}
                         </div>
                         {row.color != undefined && (
-                            <div className="flex items-center py-2 px-5 cursor-pointer rounded-md my-3 w-[160px] h-[36px] bg-brand-primary text-sm font-semibold text-white shadow-sm  ">
+                            <div className="flex items-center py-2 px-5 cursor-pointer rounded-md my-3 w-[160px] h-[36px] bg-brand-primary text-sm font-semibold text-white shadow-sm "
+                            onClick={() => {
+                                handleShowModal(true);
+                            }}>
                                 <img src={Icon.WhiteShare} alt="icon" />
                                 <span className="pr-2 font-body-xs">
                                     اشتراک گذاری
                                 </span>
                             </div>
                         )}
+                         {showModal==true  && ( row.isSpace!= undefined ?
+                        <ShareModal 
+                        open={showModal}
+                          setOpen={setShowModal}
+                           title={"اشتراک گذاری ورک اسپیس"}
+                          workspace={true}
+                        />: 
+                       <ShareModal 
+                       open={showModal}
+                         setOpen={setShowModal}
+                          title={"اشتراک گذاری پروژه"}
+                         workspace={false}
+                       />
+                )} 
                     </div>
                 ))}
             </div>
