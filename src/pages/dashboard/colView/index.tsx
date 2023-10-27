@@ -7,6 +7,7 @@ import { AppContext } from "@/context/store";
 import useQueryParams from "@/utils/useQueryParams";
 import NewBoard from "@/components/newBoard/NewBoard";
 import BoardColumn from "@/components/dashboard/BoardColumn";
+import LoadingMsg from "../../../components/dashboard/LoadingMsg/LoadingMsg";
 
 const ColView: React.FC = () => {
     const { state } = useContext(AppContext);
@@ -50,46 +51,32 @@ const ColView: React.FC = () => {
         <>
             {showModal && <NewBoard handleClose={setShowModal} />}
             {!space || !project ? (
-                <p className="mx-4 py-3 px-5 text-sm bg-brand-secondary text-brand-primary rounded-full ">
-                    لطفا یک پروژه انتخاب کنید
-                </p>
+                <LoadingMsg title="لطفا یک پروژه انتخاب کنید" />
             ) : loading ? (
-                <p className="mx-4 py-3 px-5 text-sm bg-brand-secondary text-brand-primary rounded-full ">
-                    در حال دریافت اطلاعات
-                </p>
+                <LoadingMsg title="در حال دریافت اطلاعات" />
             ) : boardsList?.length === 0 ? (
-                <>
-                    <p className="mx-4 py-3 px-5 text-sm bg-brand-secondary text-brand-primary rounded-full ">
-                        هیچ بوردی برای این پروژه ساخته نشده است. ساخت بورد جدید؟
-                    </p>
-                    <button
-                        className="min-w-[258px] flex items-center gap-2 self-start border-t-1 rounded-[16px] shadow-md shadow-gray-200 py-2 px-3 m-2"
-                        onClick={handleCreateBoard}
-                    >
-                        <img src={Icon.Plus} alt="icon" />
-                        ساختن برد جدید
-                    </button>
-                </>
+                <LoadingMsg title="هیچ بوردی برای این پروژه ساخته نشده است. ساخت بورد جدید؟" />
             ) : (
-                <>
-                    <div className="flex h-screen">
-                        {boardsList &&
-                            boardsList.map((board) => (
-                                <BoardColumn
-                                    key={board.id}
-                                    board={board}
-                                    projectTitle={projectTitle || ""}
-                                />
-                            ))}
-                    </div>
-                    <button
-                        className="min-w-[258px] flex items-center gap-2 self-start border-t-1 rounded-[16px] shadow-md  py-2 px-3 m-2"
-                        onClick={handleCreateBoard}
-                    >
-                        <img src={Icon.Plus} alt="icon" />
-                        ساختن برد جدید
-                    </button>
-                </>
+                <div className="flex h-screen">
+                    {boardsList &&
+                        boardsList.map((board) => (
+                            <BoardColumn
+                                key={board.id}
+                                board={board}
+                                projectTitle={projectTitle || ""}
+                            />
+                        ))}
+                </div>
+            )}
+
+            {space && project && !loading && (
+                <button
+                    className="min-w-[258px] flex items-center gap-2 self-start border-t-1 rounded-[16px] shadow-md  py-2 px-3 m-2"
+                    onClick={handleCreateBoard}
+                >
+                    <img src={Icon.Plus} alt="icon" />
+                    ساختن برد جدید
+                </button>
             )}
         </>
     );

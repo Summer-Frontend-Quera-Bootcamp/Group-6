@@ -19,11 +19,7 @@ const CheckBox: React.FC<ICheckBoxProps> = ({
 }) => {
     return (
         <div className="flex gap-2 ml-auto">
-            <label
-                // htmlFor="acceptedTerms"
-                className="cursor-pointer underline"
-                onClick={onClick}
-            >
+            <label className="cursor-pointer underline" onClick={onClick}>
                 {labelText}
             </label>
             <div className="flex items-center justify-center">

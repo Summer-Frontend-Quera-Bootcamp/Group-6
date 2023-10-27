@@ -1,4 +1,4 @@
-import { NewTask } from "@/components/dashboard/newTask";
+import { NewTask } from "@/components/dashboard/NewTask";
 import Forgot from "./authentication/forgot";
 import Login from "./authentication/login";
 import Register from "./authentication/register";

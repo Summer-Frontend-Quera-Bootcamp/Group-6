@@ -3,22 +3,28 @@ import { LinkWithQuery } from "@/components/common/LinkWithQuery";
 import FilterModal from "@/components/filters/Filter";
 import ShareModal from "@/components/shareModal";
 import useClickOutside from "@/hooks/useClickOutside";
-import calendar from "@assets/icons/Calendar.svg";
-import Filter from "@assets/icons/Filter.svg";
-import List from "@assets/icons/List.svg";
-import Share from "@assets/icons/Share.svg";
-import Column from "@assets/icons/column.svg";
-import Search from "@assets/icons/search-loupe.svg";
-import React, { useRef, useState } from "react";
+import calendar from "@/assets/icons/Calendar.svg";
+import calendarActive from "@/assets/icons/Calendar-Active.svg";
+import Filter from "@/assets/icons/Filter.svg";
+import List from "@/assets/icons/List.svg";
+import ListActive from "@/assets/icons/List-Active.svg";
+import Share from "@/assets/icons/Share.svg";
+import Column from "@/assets/icons/column.svg";
+import ColumnActive from "@/assets/icons/column-Active.svg";
+import Search from "@/assets/icons/search-loupe.svg";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import * as Icon from "@/assets/icons/icons";
 import useArchive from "@/services/Tasks/mutations/useArchiveMutation";
 import useQueryParams from "@/utils/useQueryParams";
 import { toast } from "react-toastify";
+import { AppContext } from "@/context/store";
+import { fetchBoardsData } from "@/services/boards";
+
 interface OptionBarItemProps {
     active: boolean;
     setActive: (arg: boolean) => void;
     label: string;
-    icon: string;
+    icon: string[];
     link: string;
 }
 const OptionBarItem: React.FC<OptionBarItemProps> = ({
@@ -35,7 +41,7 @@ const OptionBarItem: React.FC<OptionBarItemProps> = ({
         onClick={() => setActive(true)}
     >
         <LinkWithQuery to={link} className="flex items-center gap-1">
-            <img src={icon} alt={label} />
+            <img src={active ? icon[0] : icon[1]} alt={label} />
             <p className="font-bold">{label}</p>
         </LinkWithQuery>
         {active && (
@@ -50,6 +56,19 @@ const OptionBar: React.FC = () => {
     const { space, project } = useQueryParams();
     const filterModal = useRef(null);
     const filterText = useRef(null);
+    const { state } = useContext(AppContext);
+    const [projectTitle, setProjectTitle] = useState<string>();
+
+    useEffect(() => {
+        const getData = async () => {
+            const data = await fetchBoardsData(state, project, space);
+            if (data) {
+                const { projectName } = data;
+                setProjectTitle(projectName);
+            }
+        };
+        getData();
+    }, [space, project, state]);
 
     const getActiveTab = () => {
         switch (location.pathname) {
@@ -97,27 +116,27 @@ const OptionBar: React.FC = () => {
                 style={{ width: "calc(100vw - 300px)" }}
             >
                 <span className="font-extrabold border-l-2 pl-2 text-[20px]">
-                    پروژه اول
+                    {projectTitle}
                 </span>
                 <OptionBarItem
                     active={activeTab === 1}
                     setActive={() => setActiveTab(1)}
                     label="نمایش لیستی"
-                    icon={List}
+                    icon={[ListActive, List]}
                     link="/dashboard/list"
                 />
                 <OptionBarItem
                     active={activeTab === 2}
                     setActive={() => setActiveTab(2)}
                     label="نمایش ستونی"
-                    icon={Column}
+                    icon={[ColumnActive, Column]}
                     link="/dashboard/col"
                 />
                 <OptionBarItem
                     active={activeTab === 3}
                     setActive={() => setActiveTab(3)}
                     label="تقویم"
-                    icon={calendar}
+                    icon={[calendarActive, calendar]}
                     link="/dashboard/cal"
                 />
                 <div

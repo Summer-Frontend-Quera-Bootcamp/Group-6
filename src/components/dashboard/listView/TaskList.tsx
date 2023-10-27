@@ -2,6 +2,7 @@ import { ITaskData } from "@/context/types/context.type";
 import * as Icon from "../../../assets/icons/icons";
 import { AppContext } from "@/context/store";
 import { useContext } from "react";
+import FlagIcon from "@/components/newTask/Flags/FlagIcon";
 
 const TaskList = ({ tasks, color }: { tasks: ITaskData[]; color: string }) => {
     const { state } = useContext(AppContext);
@@ -17,9 +18,9 @@ const TaskList = ({ tasks, color }: { tasks: ITaskData[]; color: string }) => {
                         className="w-4 h-4 rounded-[3px] my-2 mr-6"
                         style={{ backgroundColor: color }}
                     ></span>
-                    <p className="text-body-xs m-2"> {item.name}</p>
+                    <p className="text-body-xs m-2">{item.name}</p>
                 </div>
-                <div className="w-[473px] flex flex-row-reverse justify-between align-middle">
+                <div className="w-[473px] flex flex-row-reverse justify-between align-middle items-center">
                     <span className="w-[70px] text-center text-body-xs">
                         {thumbnail ? (
                             <img
@@ -31,10 +32,12 @@ const TaskList = ({ tasks, color }: { tasks: ITaskData[]; color: string }) => {
                         )}
                     </span>
                     <span className="w-[70px] text-center text-body-xs align-middle">
-                        {item.deadline}
+                        {new Intl.DateTimeFormat("fa-IR").format(
+                            new Date(item.deadline)
+                        )}
                     </span>
                     <span className="w-[70px] text-center text-body-xs align-middle">
-                        {item.priority}
+                        <FlagIcon priority={item.priority} />
                     </span>
                     <span className="w-[70px]  text-center text-body-xs align-middle ">
                         <img

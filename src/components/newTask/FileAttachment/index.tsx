@@ -23,6 +23,6 @@ export const FileAttachment: React.FC<{
             </label>
             <img src={FileIcon} alt="FileIcon" className="noFilter" />
         </div>
-        <p className="text-body-m"> {`${title} افزودن`}</p>
+        <p className="text-body-m"> {`افزودن ${title}`}</p>
     </div>
 );
