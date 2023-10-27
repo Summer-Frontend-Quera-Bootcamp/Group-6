@@ -108,7 +108,7 @@ const Card: React.FC<CardProps> = ({ data, board_id, projectTitle }) => {
                     <img
                         src={`https://quera.iran.liara.run/${thumbnail}`}
                         alt="task attachment"
-                        className={` mb-s rounded-[4px]`}
+                        className={` mb-s rounded-[4px] noFilter`}
                     />
                 )}
                 <div className="flex items-center justify-between text-[12px] text-[#534D60] mb-s">
