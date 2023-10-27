@@ -5,6 +5,7 @@ import { IUserState, WorkspacesData } from "../types/context.type";
 import { UserActionTypes } from "./user.actiontype";
 import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
+import { fetchWorkspaces } from "@/services/Workspaces";
 
 export const LogoutUser = () => (dispatch: any) => {
     Cookies.remove("accessToken");
@@ -52,16 +53,38 @@ export const UpdateUser = (payload: IUpdateResponse) => (dispatch: any) => {
 };
 
 export const UpdateWorkspaces =
-    (payload: WorkspacesData) => (dispatch: any) => {
-        dispatch({
-            type: UserActionTypes.GET_WORKSPACES,
-            payload,
-        });
-
-        const userItem = Cookies.get("user");
-        if (userItem) {
-            const user = JSON.parse(userItem);
-            Cookies.set("user", JSON.stringify({ ...user, ...payload }));
+    (payload?: WorkspacesData) => async (dispatch: any) => {
+        if (payload) {
+            dispatch({
+                type: UserActionTypes.GET_WORKSPACES,
+                payload,
+            });
+            try {
+                localStorage.setItem("workspaces", JSON.stringify(payload));
+            } catch (error) {
+                console.error(
+                    "Error storing workspaces in local storage: ",
+                    error
+                );
+            }
+        } else {
+            try {
+                const res = await fetchWorkspaces();
+                dispatch({
+                    type: UserActionTypes.GET_WORKSPACES,
+                    payload: res,
+                });
+                try {
+                    localStorage.setItem("workspaces", JSON.stringify(res));
+                } catch (error) {
+                    console.error(
+                        "Error storing workspaces in local storage: ",
+                        error
+                    );
+                }
+            } catch (error) {
+                console.error("Error refreshing workspaces: ", error);
+            }
         }
     };
 
@@ -69,7 +92,6 @@ export const ReJoinUser = () => (dispatch: any) => {
     const accessToken = Cookies.get("accessToken");
     const refreshToken = Cookies.get("refreshToken");
     const user = Cookies.get("user");
-    console.log("rejoining", refreshToken);
 
     if (accessToken && refreshToken && user) {
         const userPayload = JSON.parse(user);
@@ -81,7 +103,7 @@ export const ReJoinUser = () => (dispatch: any) => {
                 ...userPayload,
             },
         });
-
+        UpdateWorkspaces();
         AXIOS.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
         AXIOS.interceptors.response.use(
             (response) => response,

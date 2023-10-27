@@ -20,39 +20,43 @@ import Share from "./Share.svg";
 import Tick from "./Tick.svg";
 import Description from "./Description.svg";
 import WhiteShare from "./WhiteShare.svg";
-import LinkCopy from "./LinkCopy.svg"
-import RedBin from "./RedBin.svg"
-import EditColor from "./EditColor.svg"
-import CarrotCircleDown from "./CarrotCircleDown.svg"
-import Down from "./Down.svg"
+import LinkCopy from "./LinkCopy.svg";
+import RedBin from "./RedBin.svg";
+import EditColor from "./EditColor.svg";
+import CarrotCircleDown from "./CarrotCircleDown.svg";
+import Down from "./Down.svg";
+import AddBrand from "./AddBrand.svg";
+import Refresh from "./refresh.svg";
 export {
-  Add,
-  Archive,
-  Arrow,
-  Calendar,
-  CalendarActive,
-  Close,
-  Column,
-  ColumnActive,
-  Delete,
-  Edit,
-  Exit,
-  Filter,
-  List,
-  ListActive,
-  More,
-  Plus,
-  PlusWhite,
-  Search,
-  Share,
-  Tick,
-  Description,
-  WhiteShare,
-  LinkCopy,
-  RedBin,
-  EditColor,
-CarrotCircleDown,
-Down,
+    Add,
+    Archive,
+    Refresh,
+    Arrow,
+    Calendar,
+    CalendarActive,
+    AddBrand,
+    Close,
+    Column,
+    ColumnActive,
+    Delete,
+    Edit,
+    Exit,
+    Filter,
+    List,
+    ListActive,
+    More,
+    Plus,
+    PlusWhite,
+    Search,
+    Share,
+    Tick,
+    Description,
+    WhiteShare,
+    LinkCopy,
+    RedBin,
+    EditColor,
+    CarrotCircleDown,
+    Down,
 };
 
 // how to use:

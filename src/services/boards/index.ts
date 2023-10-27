@@ -20,6 +20,22 @@ export async function fetchBoards(
         throw error;
     }
 }
+export async function fetchBoard(
+    space: number | string,
+    project: number | string,
+    board: number | string
+): Promise<IBoardData> {
+    try {
+        const response = await AXIOS.get(
+            `/workspaces/${space}/projects/${project}/boards/${board}/`
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching board:", error);
+        throw error;
+    }
+}
 
 export const fetchBoardsData = async (
     state: IAppContextState,
@@ -47,5 +63,24 @@ export const fetchBoardsData = async (
         } else {
             console.error("Error while getting project:");
         }
+    }
+};
+
+export const getLastBoard = async (space: number, project: number) => {
+    try {
+        const { boards } = await fetchBoards(space, project);
+        if (Array.isArray(boards) && boards.length > 0) {
+            const lastBoard = boards.reduce((prevBoard, currentBoard) => {
+                return prevBoard.id > currentBoard.id
+                    ? prevBoard
+                    : currentBoard;
+            });
+
+            return lastBoard;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error(error);
     }
 };

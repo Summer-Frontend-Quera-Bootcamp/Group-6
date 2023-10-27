@@ -1,7 +1,6 @@
 import DashBoardLayout from "@/layouts/dashboard";
 import WorkspaceLayout from "@/layouts/space";
 import WorkSpace from "@/pages/workspace";
-import FullCalendar from "@/pages/dashboard/calView/Calendar";
 import ColView from "@/pages/dashboard/colView";
 import List from "@/pages/dashboard/listView";
 import { routerType } from "@/types/router.types";
@@ -104,11 +103,17 @@ const DashboardPagesData: routerType[] = [
         element: <DashBoardLayout children={<List />} />,
         isProtected: true,
     },
+    {
+        path: "/dashboard/list",
+        title: "dashboard list view",
+        element: <DashBoardLayout children={<List />} />,
+        isProtected: true,
+    },
 ];
 
 const WorkSpaceData: routerType[] = [
     {
-        path: "/workspace",
+        path: "/workspaces",
         title: "workspace",
         element: <WorkspaceLayout children={<WorkSpace />} />,
         isProtected: true,

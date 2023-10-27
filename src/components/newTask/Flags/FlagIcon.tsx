@@ -8,15 +8,15 @@ const getStrokeColor = (priority: number): string => {
     //* رنگ فلگ بر اساس اولویت آن انتخاب میشود
     switch (priority) {
         case 1:
-            return "#FB0606";
+            return "#FA5252";
         case 2:
-            return "#FFE605";
+            return "#FAB005";
         case 3:
-            return "#09DBCE";
+            return "#15AABF";
         case 4:
-            return "#B2ACAC";
+            return "#82C91E";
         default:
-            return "#0000";
+            return "#C1C1C1";
     }
 };
 

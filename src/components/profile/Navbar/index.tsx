@@ -13,7 +13,7 @@ const Navbar = () => {
 
     return (
         <div className="flex flex-col self-start w-[340px] items-end">
-            <img src={logo} alt="logo" className="mt-[40px]" />
+            <img src={logo} alt="logo" className="mt-[40px] noFilter" />
             <div className="flex flex-col items-end gap-[40px]">
                 <LinkWithQuery to="/">
                     <Button

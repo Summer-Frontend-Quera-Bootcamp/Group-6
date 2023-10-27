@@ -1,3 +1,4 @@
+import { useTheme } from "@/context/ThemeContext";
 import { AppContext } from "@/context/store";
 import { IProjects } from "@/context/types/context.type";
 import { IUserDetailProps } from "@/types/newTask.types";
@@ -8,6 +9,7 @@ import React, { useContext, useEffect } from "react";
 const TaskDetail: React.FC<IUserDetailProps> = ({ taskData, setTaskData }) => {
     const { space, project } = useQueryParams();
     const { state } = useContext(AppContext);
+    const { theme } = useTheme();
 
     const projects: IProjects[] = state.user.workspaces
         .filter(({ id }) => space === undefined || id === Number(space))
@@ -42,19 +44,19 @@ const TaskDetail: React.FC<IUserDetailProps> = ({ taskData, setTaskData }) => {
 
     return (
         <>
-            <div className="flex justify-end items-center gap-xs self-stretch">
+            <div className="flex justify-end items-center gap-xs self-stretch w-full">
                 <img
                     src={state.user.thumbnail}
                     alt="userIcon"
-                    className="cursor-pointer border-[1px] w-[34px] h-[34px] border-dashed border-[#C1C1C1] rounded-full "
+                    className="cursor-pointer border-[1px] w-[34px] h-[34px] border-dashed border-[#C1C1C1] rounded-full noFilter "
                 />
                 <p className="text-body-m">برای</p>
-                <div className="flex w-[158px] py-[4px] px-xs justify-end items-center gap-[10px] rounded-[6px] ">
+                <div className="flex w-[158px] py-[4px] px-xs justify-end items-center gap-[10px] rounded-[6px] ml-2 ">
                     <select
                         id="projectDropdown"
                         value={taskData?.project?.id}
                         onChange={handleProjectChange}
-                        className="flex w-[158px] py-[4px] px-xs justify-end items-center gap-[10px] rounded-[6px] border-[1px] border-[#E9EBF0] text-body-m"
+                        className={`flex w-[158px] py-[4px] px-xs justify-end items-center gap-[10px] rounded-[6px] border-[1px] border-[#E9EBF0] text-body-m ${theme}`}
                         dir="rtl"
                     >
                         <option value="">انتخاب کنید</option>

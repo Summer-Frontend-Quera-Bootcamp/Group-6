@@ -8,6 +8,7 @@ import { UserReducer } from "./user/user.reducer";
 import {
     LogoutUser,
     ReJoinUser,
+    UpdateWorkspaces,
     isRefreshTokenExpired,
 } from "./user/user.action";
 import { ThemeReducer } from "./theme/theme.reducer";
@@ -60,11 +61,13 @@ export const AppContextProvider: React.FC<IAppContextProviderProps> = ({
     const dispatchWithMiddleware = thunkMiddleware(dispatch);
 
     useEffect(() => {
-        dispatchWithMiddleware(ReJoinUser());
-
-        dispatchWithMiddleware(LoadTheme());
-
-        if (isRefreshTokenExpired()) dispatchWithMiddleware(LogoutUser());
+        if (!isRefreshTokenExpired()) {
+            dispatchWithMiddleware(ReJoinUser());
+            dispatchWithMiddleware(LoadTheme());
+            dispatchWithMiddleware(UpdateWorkspaces());
+        } else {
+            dispatchWithMiddleware(LogoutUser());
+        }
     }, []);
 
     return (

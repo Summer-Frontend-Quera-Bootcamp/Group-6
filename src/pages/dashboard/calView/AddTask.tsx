@@ -5,6 +5,7 @@ import { ITasksRequest } from "@/types/api.types";
 import useQueryParams from "@/utils/useQueryParams";
 import { AppContext } from "@/context/store";
 import { Input, SubmitBtn } from "@/components/common";
+import { useTheme } from "@/context/ThemeContext";
 
 const PersianMonthNames: { [monthNumber: number]: string } = {
     1: "فروردین",
@@ -77,10 +78,10 @@ const AddTask: React.FC<{ x: number; y: number; date: any }> = ({
     const monthNumber = date.jMonth() + 1;
     const persianMonthName = PersianMonthNames[monthNumber];
     const dateFormatted = `${date.jDate()} ${persianMonthName}`;
-
+    const { theme } = useTheme();
     return (
         <div
-            className="newtaskModal w-full"
+            className={`newtaskModal w-full ${theme}`}
             style={{ position: "fixed", top: y, left: x }}
         >
             <Input

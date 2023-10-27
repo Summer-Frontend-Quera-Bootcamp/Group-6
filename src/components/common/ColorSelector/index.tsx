@@ -1,8 +1,8 @@
 import React from "react";
 
 interface IColorSelectorProps {
-    colorPalette: string;
-    setColorPalette: React.Dispatch<PaletteColorType>;
+    colorPalette?: string;
+    setColorPalette?: React.Dispatch<PaletteColorType>;
     classNames?: string;
     handleChange?: (arg1: any) => any;
 }
@@ -30,7 +30,7 @@ const ColorSelector: React.FC<IColorSelectorProps> = ({
     ];
 
     const handleColorClick = (colorHex: PaletteColorType) => {
-        setColorPalette(colorHex);
+        setColorPalette && setColorPalette(colorHex);
         handleChange && handleChange(colorHex);
     };
 
