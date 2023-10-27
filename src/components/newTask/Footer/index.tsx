@@ -1,4 +1,4 @@
-import { CalendarIcon, FlagIcon } from "@/assets/pages/newTask";
+import { CalendarIcon, FlagIcon, TagIcon } from "@/assets/pages/newTask";
 import { SubmitBtn } from "@/components/common";
 import { useTheme } from "@/context/ThemeContext";
 import {
@@ -35,6 +35,7 @@ const FooterIcons: React.FC<IFooterIconsProps> = ({
     }> = [
         { src: CalendarIcon, alt: "Calendar Icon", property: "calendar" },
         { src: FlagIcon, alt: "Flag Icon", property: "flags" },
+        { src: TagIcon, alt: "Tag Icon", property: "tags" },
     ];
 
     const { theme } = useTheme();
