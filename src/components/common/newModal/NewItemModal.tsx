@@ -16,10 +16,9 @@ const NewItemModal = (props: any) => {
     const { theme } = useTheme();
     return (
         <div
-            className={`modal shadow-newTask rounded-xl backdrop-blur-sm flex items-center justify-center z-[999] ${theme}`}
-            dir="ltr"
+            className={`modal w-screen h-screen bg-gray-400 flex items-center justify-center ${theme}`}
         >
-            <div className="flex flex-col mainDiv p-7 items-center gap-10 rounded-lg ">
+            <div className="flex flex-col mainDiv p-7 items-center gap-10 rounded-lg bg-white">
                 <div className="flex flex-col items-center gap-10">
                     <div className="flex items-center justify-between titleDiv">
                         {props.page !== 1 && (

@@ -1,9 +1,9 @@
 import ColorSelector from "@components/common/ColorSelector/index";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+
 const MemoizedColorSelector = React.memo(ColorSelector);
 const ColorSelectionView = (props: any) => {
-    const [ColorPalette, setColorPalette] = useState(props.data.color);
+    const [ColorPalette, setColorPalette] = useState("");
 
     const handleChange = (color: string) => {
         props.setData((prevData: any) => ({
@@ -12,6 +12,7 @@ const ColorSelectionView = (props: any) => {
         }));
         setColorPalette(color);
     };
+
     return (
         <div>
             <div className="flex justify-end items-start titleDiv gap-4">

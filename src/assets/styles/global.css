@@ -26,16 +26,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: IRANSans;
-    font-style: normal;
-    src: url("../fonts/iransans.ttf");
-}
-
-.farsi-numbers {
-    font-family: "IranSans", sans-serif !important;
-}
-
 * {
     font-family: "IRANYekan" !important;
 }
