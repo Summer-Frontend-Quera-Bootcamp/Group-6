@@ -23,7 +23,7 @@ const SummaryView = (props: any) => {
             </div>
             <div className="MyStyle">
                 <p className="text-sm font-extrabold capitalize"> اعضا </p>
-                <img
+               <img
                     src={state.user.thumbnail}
                     alt="userIcon"
                     className="cursor-pointer border-[1px] w-[34px] h-[34px] border-dashed border-[#C1C1C1] rounded-full noFilter"

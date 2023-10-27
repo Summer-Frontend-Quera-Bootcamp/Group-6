@@ -16,7 +16,7 @@ const NewWorkSpace = ({
 }) => {
     const [Page, setPage] = useState(1);
     const [Data, setData] = useState({ name: "", color: "" });
-    const { dispatch } = useContext(AppContext);
+   const { dispatch } = useContext(AppContext);
 
     let handler = () => {
         if (Page !== 3) {
@@ -28,7 +28,7 @@ const NewWorkSpace = ({
         setPage((page) => page - 1);
     };
 
-    const workspaceMutation = UseWorkSpaceMutation();
+  const workspaceMutation = UseWorkSpaceMutation();
     const handleSubmitForm = () => {
         const creds: IWorkspaceData = {
             name: Data.name,
@@ -58,7 +58,7 @@ const NewWorkSpace = ({
             prev={prev}
             handleClose={() => handleClose(false)}
         >
-            {Page === 1 && (
+    {Page === 1 && (
                 <Inputs name="نام ورک اسپیس" setData={setData} data={Data} />
             )}
             {Page === 2 && <ColorSelectionView setData={setData} data={Data} />}

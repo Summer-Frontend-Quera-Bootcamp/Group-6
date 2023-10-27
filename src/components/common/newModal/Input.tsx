@@ -1,5 +1,4 @@
 import { useTheme } from "@/context/ThemeContext";
-
 const Inputs = (props: any) => {
     const handleChange = (e: any) => {
         props.setData((prevData: any) => ({
@@ -7,7 +6,7 @@ const Inputs = (props: any) => {
             name: e.target?.value,
         }));
     };
-    const { theme } = useTheme();
+const { theme } = useTheme();
     return (
         <div
             className={`flex inputName flex-col items-end myWidth justify-between ${theme}`}

@@ -13,7 +13,7 @@ const NewItemModal = (props: any) => {
             toast.error("لطفا نام ورک اسپیس را وارد کنید");
         }
     };
-    const { theme } = useTheme();
+   const { theme } = useTheme();
     return (
         <div
             className={`modal w-screen h-screen bg-gray-400 flex items-center justify-center ${theme}`}

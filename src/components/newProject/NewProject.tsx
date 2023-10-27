@@ -30,7 +30,7 @@ const NewProject = ({
         setPage((page) => page - 1);
     };
 
-    const projectMutation = UseProjectTheme();
+   const projectMutation = UseProjectTheme();
     const boardsMutation = useCreateDefaultBoards();
     const handleSubmitForm = () => {
         const creds: IProjectData = {
