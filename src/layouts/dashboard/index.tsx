@@ -1,4 +1,10 @@
-import React, { ReactElement, ReactNode, useContext, useRef } from "react";
+import React, {
+    ReactElement,
+    ReactNode,
+    useContext,
+    useRef,
+    useState,
+} from "react";
 import SideBar from "@components/dashboard/SideBar";
 import OptionBar from "@components/dashboard/OptionBar";
 import { useTheme } from "@/context/ThemeContext";
