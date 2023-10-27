@@ -86,6 +86,7 @@ const Card: React.FC<CardProps> = ({ data, board_id, projectTitle }) => {
         { icon: Icon.Archive, text: "آرشیو تسک" },
         { icon: Icon.Delete, text: "حذف تسک", onSubmit: handleRemoveTask },
     ];
+
     const month = new Intl.DateTimeFormat("fa-IR", {
         month: "short",
     }).format(new Date(deadline));

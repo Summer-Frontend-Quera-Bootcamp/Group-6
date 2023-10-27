@@ -1,8 +1,5 @@
-import { FC, useContext, useState } from "react";
+import { FC, useState } from "react";
 import ArrowDownIcon from "@/assets/icons/ArrowDownIcon";
-import { IProjects } from "@/context/types/context.type";
-import { useEffect } from "react";
-import { AppContext } from "@/context/store";
 
 interface IDropdownProps {
     list: any[] | undefined;
@@ -26,7 +23,7 @@ const Dropdown: FC<IDropdownProps> = ({ list, onClick }) => {
         >
             <button
                 onClick={(e) => {
-                    e.stopPropagation(); // Prevent event propagation
+                    e.stopPropagation();
                     setIsOpen((prevState) => !prevState);
                 }}
                 className="bg-white px-2 py-1 w-full flex items-center justify-between rounded-md border border-[#E9EBF0]"
@@ -63,38 +60,4 @@ const Dropdown: FC<IDropdownProps> = ({ list, onClick }) => {
     );
 };
 
-const DropdownSelect: React.FC<IDropdownProps> = ({ list, onClick }) => {
-    const [selectedProject, setSelectedProject] = useState<any>();
-
-    const handleProjectChange = (event: any) => {
-        const selectedId: number = Number(event.target.value);
-        const project = list?.find((p) => p?.id === selectedId);
-
-        setSelectedProject(project);
-        onClick(project);
-    };
-
-    return (
-        <div className="relative">
-            <select
-                id="projectDropdown"
-                value={selectedProject?.id} // Set the value to the selected project's ID
-                onChange={onClick}
-                className="flex w-[158px] py-[4px] px-xs justify-end items-center gap-[10px] rounded-[6px] border-[1px] border-[#E9EBF0] text-body-m"
-                dir="rtl"
-            >
-                {list?.map((project) => (
-                    <option
-                        key={project?.id}
-                        value={project?.id}
-                        className="outline-none border-none"
-                    >
-                        {project?.name}
-                    </option>
-                ))}
-            </select>
-        </div>
-    );
-};
-
-export { Dropdown, DropdownSelect };
+export { Dropdown };

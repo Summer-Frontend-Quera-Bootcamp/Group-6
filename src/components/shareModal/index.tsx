@@ -144,13 +144,13 @@ const ShareModal: React.FC<IShareModal> = ({
                                             <div className="flex flex-row-reverse">
                                                 <div className="w-8 h-8 rounded-full bg-[#F27474] font-body-xs text-center pt-1 ">
                                                     {" "}
-                                                    ZY{" "}
+                                                    ZY
                                                 </div>
                                                 <span className="px-1 font-body-s pt-1 ">
                                                     Z.yaserinejad@Gmail.Com
                                                 </span>
                                             </div>
-                                            <div className="flex flex-row-reverse">
+                                            <div className="flex flex-row-reverse  gap-[8px]">
                                                 <div className="flex flex-row-reverse m-0 border pt-[3px] pb-[2px] border-inherit px-3 rounded">
                                                     <span className="font-body-xs">
                                                         دسترسی‌کامل
@@ -183,7 +183,7 @@ const ShareModal: React.FC<IShareModal> = ({
                                                     Moriyn64@Yahoo.Com
                                                 </span>
                                             </div>
-                                            <div className="flex flex-row-reverse">
+                                            <div className="flex flex-row-reverse gap-[8px]">
                                                 <div className="flex flex-row-reverse m-0 border pt-[3px] pb-[2px] border-inherit px-3 rounded">
                                                     <span className="font-body-xs ml-3">
                                                         دسترسی‌ادیت

@@ -1,7 +1,7 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import useQueryParams from "@/utils/useQueryParams";
 import * as Icon from "../../../assets/icons/icons";
-import Board from "./Board";
+import Board from "../../../components/dashboard/listView/Board";
 import { IBoardData } from "@/context/types/context.type";
 import { fetchBoardsData } from "@/services/boards";
 import { toast } from "react-toastify";

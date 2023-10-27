@@ -2,9 +2,9 @@ import { useState } from "react";
 import * as Icon from "../../../assets/icons/icons";
 import TaskList from "./TaskList";
 import { IBoardData } from "@/context/types/context.type";
-import {ReactElement} from "react";
+import { ReactElement } from "react";
 
-const Board = ({ boards }: { boards: IBoardData[] }):ReactElement => { 
+const Board = ({ boards }: { boards: IBoardData[] }): ReactElement => {
     const [boardStates, setBoardStates] = useState(
         Array(boards.length).fill(false)
     );
@@ -18,7 +18,7 @@ const Board = ({ boards }: { boards: IBoardData[] }):ReactElement => {
     };
 
     return (
-        <div >
+        <div>
             {boards.length > 0 ? (
                 boards?.map((item: IBoardData, index: number) => (
                     <div key={item.id}>
@@ -38,8 +38,10 @@ const Board = ({ boards }: { boards: IBoardData[] }):ReactElement => {
                                         }}
                                     />
                                 </span>
-                                <span className=" rounded p-1 text-white"
-                                style={{backgroundColor:`${item.color}`}}>
+                                <span
+                                    className=" rounded p-1 text-white"
+                                    style={{ backgroundColor: `${item.color}` }}
+                                >
                                     {item.name}
                                 </span>
                                 <span dir="rtl">
@@ -68,7 +70,10 @@ const Board = ({ boards }: { boards: IBoardData[] }):ReactElement => {
                         </div>
                         {boardStates[index] &&
                             (item.tasks.length > 0 ? (
-                                <TaskList tasks={item.tasks} color={item.color} />
+                                <TaskList
+                                    tasks={item.tasks}
+                                    color={item.color}
+                                />
                             ) : (
                                 <div className="flex flex-row-reverse gap-xs mx-16  my-3 text-red-primary">
                                     <p>تسکی وجود ندارد</p>

@@ -1,5 +1,5 @@
-import { ThemeActionTypes } from "./tasks.actiontype";
 import { AXIOS } from "@/config/axios";
+import { ThemeActionTypes } from "../theme/theme.actiontype";
 
 export const UpdateTheme = (payload: PaletteColorType) => (dispatch: any) => {
     dispatch({

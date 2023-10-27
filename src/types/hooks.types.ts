@@ -1,18 +1,3 @@
-import {
-    isValidEmail,
-    isValidPassword,
-    isValidName,
-    isValidTerm,
-    isValidLogin,
-} from "@/utils/formValidator";
-
-export type ValidatorFunctionType =
-    | typeof isValidEmail
-    | typeof isValidPassword
-    | typeof isValidName
-    | typeof isValidTerm
-    | typeof isValidLogin;
-
 export type FieldType =
     | "emailError"
     | "passError"

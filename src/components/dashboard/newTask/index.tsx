@@ -1,8 +1,14 @@
 import { useTheme } from "@/context/ThemeContext";
+import { AppContext } from "@/context/store";
+import { IProjects } from "@/context/types/context.type";
+import { getTask } from "@/services/Tasks";
 import { useTasksMutation } from "@/services/Tasks/mutations/useTasksMutation";
+import { useUpdateTasksMutation } from "@/services/Tasks/mutations/useUpdateTaskMutation";
+import { getLastBoard } from "@/services/boards";
 import { ITasksRequest } from "@/types/api.types";
 import { IModalsStatus, INewTaskProps } from "@/types/newTask.types";
 import { isTaskFormValid } from "@/utils/formValidator";
+import useQueryParams from "@/utils/useQueryParams";
 import React, {
     FormEvent,
     useContext,
@@ -10,16 +16,9 @@ import React, {
     useRef,
     useState,
 } from "react";
-import { toast } from "react-toastify";
-
-import { AppContext } from "@/context/store";
-import { IProjects } from "@/context/types/context.type";
-import { getTask } from "@/services/Tasks";
-import { useUpdateTasksMutation } from "@/services/Tasks/mutations/useUpdateTaskMutation";
-import useQueryParams from "@/utils/useQueryParams";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { NewTaskForm } from "./newTaskForm";
-import { getLastBoard } from "@/services/boards";
 
 export const NewTask: React.FC<INewTaskProps> = ({ handleClose }) => {
     const [showModals, setShowModals] = useState<IModalsStatus>({

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { DateObject, Value } from "react-multi-date-picker";
+import { DateObject } from "react-multi-date-picker";
 import { getDynamicDates } from "@/utils/getDates";
 
 interface WeekDayListProps {
