@@ -26,15 +26,16 @@ const ProfileImage: React.FC<IProfileImgProps> = ({
                     .این تصویر برای عموم قابل نمایش است
                 </p>
             </div>
-            {imageSrc ? (
-                <img
-                    src={imageSrc}
-                    alt="Profile Image"
-                    className="w-[100px] h-[100px] rounded-full"
-                />
-            ) : (
-                <p>در حال بارگیری</p>
-            )}
+            <div className="flex items-center justify-center w-[100px] h-[100px] rounded-full bg-blue-300 text-blue-700">
+                {imageSrc !== "https://quera.iran.liara.run" ? (
+                    <img
+                        src={imageSrc}
+                        className="w-[100px] h-[100px] rounded-full noFilter"
+                    />
+                ) : (
+                    <p>تصویری ندارید</p>
+                )}
+            </div>
         </div>
     );
 };

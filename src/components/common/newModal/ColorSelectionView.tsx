@@ -1,16 +1,17 @@
 import ColorSelector from "@components/common/ColorSelector/index";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 
+const MemoizedColorSelector = React.memo(ColorSelector);
 const ColorSelectionView = (props: any) => {
     const [ColorPalette, setColorPalette] = useState("");
 
-    useEffect(() => {
+    const handleChange = (color: string) => {
         props.setData((prevData: any) => ({
             ...prevData,
-            color: ColorPalette,
+            color: color,
         }));
-        if (ColorPalette === "") setColorPalette("#208D8E");
-    }, [ColorPalette]);
+        setColorPalette(color);
+    };
 
     return (
         <div>
@@ -20,9 +21,9 @@ const ColorSelectionView = (props: any) => {
                         رنگ ورک اسپیس
                     </p>
                     <div className="flex flex-row items-center justify-center flex-wrap w-[293px]">
-                        <ColorSelector
+                        <MemoizedColorSelector
                             colorPalette={ColorPalette}
-                            setColorPalette={setColorPalette}
+                            handleChange={handleChange}
                             classNames="flex-wrap flex-row-reverse"
                         />
                     </div>

@@ -3,20 +3,20 @@ import SideBar from "@components/dashboard/SideBar";
 import { useTheme } from "@/context/ThemeContext";
 
 interface ISpaceLayoutProps {
-  children?: ReactNode;
+    children?: ReactNode;
 }
 
 const WorkspaceLayout: React.FC<ISpaceLayoutProps> = ({
-  children,
+    children,
 }): ReactElement => {
-  const { theme }: any = useTheme();
+    const { theme }: any = useTheme();
 
-  return (
-    <div className={`rtl h-[100vh] flex  ${theme} relative`}>
-      <SideBar />
-      {children}
-    </div>
-  );
+    return (
+        <div className={`rtl h-[100vh] flex  ${theme} relative`}>
+            <SideBar />
+            {children}
+        </div>
+    );
 };
 
 export default WorkspaceLayout;

@@ -45,7 +45,16 @@ export interface IUpdateResponse {
     phone_number: string;
     thumbnail: string;
 }
+export interface IBoardArchieRes {}
 
+export interface IBoardArchie {
+    space_id?: string;
+    project_id?: string;
+    id?: number;
+    name?: string;
+    is_archive?: boolean;
+    board?: IBoardData;
+}
 export interface ITokenData {
     token_type: string;
     exp: number;
@@ -72,7 +81,46 @@ export interface IResetPassword {
     password?: string;
     password1?: string;
 }
+export interface IProjectData {
+    space_id?: number;
+    name: string;
+    id?: number;
+}
+export interface IBoardData {
+    id?: number;
+    space_id?: string | number;
+    project_id?: string | number;
+    board_id?: string | number;
+    name?: string;
+    is_archive?: boolean;
+    color?: string;
+}
+export interface IProjectDataResponse {
+    name: string;
+    id: number;
+}
+export interface IBoardDataItem {
+    name: string;
+    order: number;
+    is_archive: boolean;
+    color: string;
+}
+export interface IDefaultBoardData {
+    space_id: number | string;
+    project_id: number;
+}
+export interface IProjectRemoveData {
+    space_id?: number;
+    project_id?: number;
+}
+export interface IWorkspaceRemoveData {
+    space_id?: number;
+}
 
+export interface IWorkspaceData {
+    name: string;
+    color: string;
+}
 export interface ITasksRequest {
     name?: string;
     description?: string;
@@ -88,6 +136,9 @@ export interface ITasksRequest {
     };
     board?: number;
     task_id?: number;
+    space_id?: number | string;
+    project_id?: number | string;
+    board_id?: number | string;
     params?: {
         space_id: number;
         project_id: number;

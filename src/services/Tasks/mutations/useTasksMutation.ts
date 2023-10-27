@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import { ReactQueryKeys } from "../keys";
 import { ITasksRequest, ITasksResponse } from "@/types/api.types";
 import { getLatestOrder } from "@services/Tasks";
+import { getLastBoard } from "@/services/boards";
 
 const fetcher = async (data: ITasksRequest): Promise<ITasksResponse> => {
     const { project, board, ...taskData } = { ...data };
@@ -13,22 +14,32 @@ const fetcher = async (data: ITasksRequest): Promise<ITasksResponse> => {
 
     const space_id = project.idx;
     const project_id = project.id;
-    const board_id = board || 21;
-
+    let board_id = board;
+    if (!board) {
+        const last_board = await getLastBoard(space_id, project_id);
+        board_id = last_board?.id;
+    }
     try {
-        const latestOrder = await getLatestOrder(
-            Number(space_id),
-            Number(project_id)
-        );
-        taskData.order = latestOrder + 1;
+        if (board_id) {
+            const latestOrder = await getLatestOrder(
+                Number(space_id),
+                Number(project_id),
+                board_id
+            );
 
-        const API_PATH = `/workspaces/${space_id}/projects/${project_id}/boards/${board_id}/tasks/`;
+            taskData.order = latestOrder + 1;
 
-        const taskResponse = await AXIOS.post(API_PATH, taskData, {
-            headers: { "Content-Type": "multipart/form-data" },
-        });
+            const API_PATH = `/workspaces/${space_id}/projects/${project_id}/boards/${board_id}/tasks/`;
+            console.log("task daataa api,", taskData);
 
-        return taskResponse.data;
+            const taskResponse = await AXIOS.post(API_PATH, taskData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            return taskResponse.data;
+        } else {
+            return Promise.reject("بورد پیدا نشد");
+        }
     } catch (error) {
         return Promise.reject(error);
     }

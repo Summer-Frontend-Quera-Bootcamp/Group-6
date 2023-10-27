@@ -9,14 +9,13 @@ import {
     DetailsInputFields,
     isFormDataEmpty,
 } from "@/utils/profile";
-import ProfileImg from "@assets/images/profile.png";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import ProfileImage from "./ProfileImage";
 import { UserInputFields } from "./UserInputFields";
 
 const DetailsForm = () => {
-    const [imageSrc, setImageSrc] = useState<string>(ProfileImg);
+    const [imageSrc, setImageSrc] = useState<string>("");
     const [userData, setUserData] = useState<IUserState>();
     const { state, dispatch } = useContext(AppContext);
     const formRef = useRef<HTMLFormElement>(null);
@@ -78,7 +77,7 @@ const DetailsForm = () => {
             }
 
             setUserData(state.user);
-            setImageSrc(state.user.thumbnail || ProfileImg);
+            setImageSrc(state.user.thumbnail);
         };
 
         loadData();

@@ -1,20 +1,25 @@
 import { AXIOS } from "@/config/axios";
-import { fetchBoards } from "../boards";
-import { AxiosResponse } from "axios";
+import { getLastBoard } from "../boards";
 
 export const getLatestOrder = async (
     space_id: number,
     project_id: number,
-    board_id: number = 21
+    board_id: number
 ) => {
     try {
-        const tasksResponse = await AXIOS.get(
+        const response = await AXIOS.get(
             `/workspaces/${space_id}/projects/${project_id}/boards/${board_id}/tasks/`
         );
-        const lastTask = tasksResponse.data[tasksResponse.data.length - 1];
-        const lastTaskOrder = lastTask.order;
 
-        return lastTaskOrder;
+        const tasks = response.data;
+
+        if (tasks.length > 0) {
+            const lastTask = tasks[tasks.length - 1];
+            const lastTaskOrder = lastTask.order;
+            return lastTaskOrder;
+        } else {
+            return 0;
+        }
     } catch (error) {
         console.error("Error fetching latest task order:", error);
         throw error;
@@ -27,24 +32,37 @@ export const getTasks = async (
     board_id?: number
 ) => {
     try {
-        if (!board_id) {
-            const { boards } = await fetchBoards(space_id, project_id);
-            board_id = boards[boards.length - 1]?.id;
-        }
-        if (board_id) {
-            const tasksResponse: AxiosResponse<any> = await AXIOS.get(
-                `/workspaces/${space_id}/projects/${project_id}/boards/${board_id}/tasks/`
-            );
-            const taskData = tasksResponse.data;
+        const lastBoardId =
+            board_id || (await getLastBoard(space_id, project_id))?.id;
 
-            return { board_id, taskData };
-        } else {
-            throw new Error("no board found");
+        if (!lastBoardId) {
+            throw new Error("No board_id or valid last_board found.");
         }
+
+        const tasksResponse = await fetchTasks(
+            space_id,
+            project_id,
+            lastBoardId
+        );
+        const taskData = tasksResponse.data;
+
+        return { board_id: lastBoardId, taskData };
     } catch (error) {
         console.error("Error fetching tasks:", error);
         throw error;
     }
+};
+
+const fetchTasks = async (
+    space_id: number,
+    project_id: number,
+    board_id: number
+) => {
+    const URL = `/workspaces/${space_id}/projects/${project_id}/boards/${board_id}/tasks/`;
+    console.log("sending", URL);
+
+    const tasksResponse = await AXIOS.get(URL);
+    return tasksResponse;
 };
 
 export const getTask = async (

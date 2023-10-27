@@ -113,3 +113,13 @@ html {
     align-items: center;
     flex-direction: row-reverse;
 }
+
+.dark img:not(.noFilter) {
+    filter: invert(100%);
+}
+.dark .filtered {
+    filter: invert(100%);
+}
+.dark > *.filtered {
+    filter: invert(100%);
+}

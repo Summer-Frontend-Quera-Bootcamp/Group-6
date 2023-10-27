@@ -21,7 +21,7 @@ export const FileAttachment: React.FC<{
             >
                 آپلود فایل
             </label>
-            <img src={FileIcon} alt="FileIcon" />
+            <img src={FileIcon} alt="FileIcon" className="noFilter" />
         </div>
         <p className="text-body-m"> {`${title} افزودن`}</p>
     </div>

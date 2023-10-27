@@ -62,7 +62,11 @@ function Calendar() {
                     Number(space),
                     Number(project)
                 );
-
+                if (taskData.length === 0) {
+                    toast.dismiss();
+                    toast.info("تسکی در این بورد وجود ندارد");
+                    return;
+                }
                 const latestTasks: Record<string, ITasksResponse[]> = {};
                 taskData.forEach((task: ITasksResponse) => {
                     const taskDate = task.deadline;
@@ -96,6 +100,8 @@ function Calendar() {
                     }));
                 });
                 toast.dismiss();
+                console.log(taskData);
+
                 toast.success("تسک ها دریافت شدند.");
                 setEvents(formattedEvents);
             } catch (error) {
