@@ -50,7 +50,7 @@ export const NewTask: React.FC<INewTaskProps> = ({ handleClose }) => {
                         toast.success("تسک با موفقیت ویرایش شد.");
                         setTaskData({});
                         formRef.current?.reset();
-                        handleClose(false);
+                        handleModalClose();
                         searchParams.delete("mode");
                         searchParams.delete("task");
                         searchParams.delete("board");
@@ -87,7 +87,13 @@ export const NewTask: React.FC<INewTaskProps> = ({ handleClose }) => {
             }
         }
     };
-
+    const handleModalClose = () => {
+        handleClose(false);
+        searchParams.delete("mode");
+        searchParams.delete("task");
+        searchParams.delete("board");
+        setSearchParams(searchParams);
+    };
     useEffect(() => {
         const getTaskData = async (
             task: number,
@@ -157,7 +163,7 @@ export const NewTask: React.FC<INewTaskProps> = ({ handleClose }) => {
             showModals={showModals}
             handleFormSubmit={handleFormSubmit}
             formRef={formRef}
-            handleClose={handleClose}
+            handleClose={handleModalClose}
             theme={theme || "#208d8e"}
         />
     );
